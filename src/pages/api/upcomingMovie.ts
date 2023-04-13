@@ -7,8 +7,8 @@ export const getUpcomingMovies = async (page: number) => {
     method: "GET",
     url: "https://moviesdatabase.p.rapidapi.com/titles/x/upcoming",
     headers: {
-      "X-RapidAPI-Key": "bcf62e5e45msh2eee34009386b14p199dc3jsn52392703a308",
-      "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com",
+      "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
+      "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
     },
     transformResponse: (r: ServerResponse) => r,
   };

@@ -18,9 +18,6 @@ function Box({
   width: number;
   height: number;
 }) {
-  const [isImageHover, setIsImageHover] = useState(false);
-
-  const EmptyImg = "/loader.svg";
   const PlaceholderVertical = "/placeholderVertical.svg";
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
 
@@ -74,26 +71,19 @@ function Box({
   return (
     <div className={styles.box}>
       <div style={boxSizeStyle} className={styles["box-container"]}>
-        <LazyLoadImage
-          placeholderSrc={
-            width > height ? PlaceholderHorizontal : PlaceholderVertical
-          }
-          className={`${styles["inner-img"]} ${
-            isImageHover ? styles["inner-img-hover"] : null
-          }`}
-          src={img == null ? EmptyImg : img.url}
-        />
+        {img != null && (
+          <LazyLoadImage
+            threshold={0}
+            effect="blur"
+            placeholderSrc={
+              width > height ? PlaceholderHorizontal : PlaceholderVertical
+            }
+            src={img.url}
+          />
+        )}
         {title != "" && (
           <div
             style={boxAbsoluteStyle()}
-            onMouseEnter={(e: React.MouseEvent) => {
-              e.preventDefault();
-              setIsImageHover(true);
-            }}
-            onMouseLeave={(e: React.MouseEvent) => {
-              e.preventDefault();
-              setIsImageHover(false);
-            }}
             className={styles["box-container-absolute"]}
           >
             <h2>{title}</h2> <h4>{releaseYear}</h4>
