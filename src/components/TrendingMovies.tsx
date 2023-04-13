@@ -8,17 +8,19 @@ import styles from "@/styles/list_movies/ListMovies.module.scss";
 
 function TrendingMovies() {
   const EmptyImg = "";
-  const defaultMovie = {
-    id: "1",
-    primaryImage: {
-      url: EmptyImg,
-      width: 0,
-      height: 0,
-      caption: { plainText: "" },
-    },
+
+  const defaultMovie: Movie = {
+    id: "",
+    primaryImage: { url: "", width: 0, height: 0, caption: { plainText: "" } },
     releaseDate: { day: 0, month: 0, year: 0 },
     titleText: { text: "" },
-    titleType: { isEpisode: false, isSeries: false },
+    titleType: {
+      isSeries: false,
+      isEpisode: false,
+    },
+    rating: "",
+    description: "",
+    cast: "",
   };
 
   const width = 600;
@@ -50,7 +52,8 @@ function TrendingMovies() {
     setIsFetching(true);
     const data = await getTrendingMovies(page);
     setIsFetching(false);
-    setMovies(data);
+    console.log(data);
+    setMovies(data!);
   };
 
   useEffect(() => {
@@ -72,14 +75,7 @@ function TrendingMovies() {
           >
             {movies.length > 0 &&
               movies.map((movie, index) => (
-                <Box
-                  key={index}
-                  title={movie.titleText.text}
-                  releaseYear={movie.releaseDate.year}
-                  img={movie.primaryImage}
-                  width={width}
-                  height={400}
-                ></Box>
+                <Box key={index} movie={movie} width={width} height={400}></Box>
               ))}
           </div>
         </div>

@@ -19,4 +19,7 @@ export interface Movie {
     isSeries: boolean;
     isEpisode: boolean;
   };
+  rating: string;
+  description: string;
+  cast: string;
 }

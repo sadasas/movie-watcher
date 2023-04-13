@@ -24,6 +24,7 @@ function Navbar() {
   return (
     <section id="navbar" className={styles.container}>
       <div
+        id="navbar-container"
         className={`${styles["navbar-container"]} ${
           isSticky ? styles["navbar-fixed"] : null
         }`}

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-import { ServerData, ServerResponse } from "@/models/server";
+import { ResponseDataMovie, ServerData, ServerResponse } from "@/models/server";
+import { Movie } from "@/models/movie";
 
 export const getTrendingMovies = async (page: number) => {
   const options = {
@@ -21,8 +22,10 @@ export const getTrendingMovies = async (page: number) => {
     });
 
   if (res == undefined) return null;
-
   const { data } = res as ServerData;
-  const { results } = JSON.parse(data);
-  return results;
+
+  const result = JSON.parse(data) as ResponseDataMovie;
+  const movies = result.results as Movie[];
+
+  return movies;
 };

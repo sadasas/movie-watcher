@@ -1,26 +1,41 @@
 import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Link from "next/link";
 
 import styles from "@/styles/list_movies/Box.module.scss";
-import { Image } from "@/models/movie";
+import { Image, Movie } from "@/models/movie";
+import { ParsedUrlQueryMovie } from "@/models/route";
 
 function Box({
-  title,
-  img,
-  releaseYear,
+  movie,
   width,
   height,
 }: {
-  title: string;
-  img: Image;
-  releaseYear: number;
+  movie: Movie;
   width: number;
   height: number;
 }) {
   const PlaceholderVertical = "/placeholderVertical.svg";
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
 
+  const parseMovie = () => {
+    const queryMovie: ParsedUrlQueryMovie = {
+      id: movie.id,
+      imgUrl: movie.primaryImage?.url,
+      releaseDate: `${movie.releaseDate.day} ${movie.releaseDate.month} ${movie.releaseDate.year}`,
+      titleText: movie.titleText.text,
+      rating: movie.rating,
+      description: movie.description,
+      cast: movie.cast,
+    };
+    return queryMovie;
+  };
+
+  const navigateTMovieHandler = () => {
+    document.getElementById("navbar-container")!.style.backgroundColor =
+      "transparent";
+  };
   const boxSizeStyle = {
     width,
     height,
@@ -71,24 +86,33 @@ function Box({
   return (
     <div className={styles.box}>
       <div style={boxSizeStyle} className={styles["box-container"]}>
-        {img != null && (
+        {movie.primaryImage != null && (
           <LazyLoadImage
             threshold={0}
             effect="blur"
             placeholderSrc={
               width > height ? PlaceholderHorizontal : PlaceholderVertical
             }
-            src={img.url}
+            src={movie.primaryImage.url}
           />
         )}
-        {title != "" && (
+        {movie.titleText.text != "" && (
           <div
             style={boxAbsoluteStyle()}
             className={styles["box-container-absolute"]}
           >
-            <h2>{title}</h2> <h4>{releaseYear}</h4>
+            <h2>{movie.titleText.text}</h2> <h4>{movie.releaseDate.year}</h4>
             <div style={btnsLayoutStyle()} className={styles.btns}>
-              <h4 className={styles["btn-see"]}>See detail</h4>
+              <Link
+                onClick={() => navigateTMovieHandler()}
+                href={{
+                  pathname: "/movie/params",
+                  query: parseMovie(),
+                }}
+                className={styles["btn-see"]}
+              >
+                See detail
+              </Link>
               <IoMdAddCircle
                 style={btnsSeeStyle()}
                 className={styles["btn-watchlist"]}
