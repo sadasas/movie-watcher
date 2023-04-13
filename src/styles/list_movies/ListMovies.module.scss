@@ -1,0 +1,48 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.upcomingMovies-container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.btns-scroll {
+  position: absolute;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  opacity: 0.7;
+  z-index: 10;
+  font-size: 4rem;
+
+  > * :hover {
+    cursor: pointer;
+  }
+}
+
+.slider-container {
+  width: 100%;
+  display: flex;
+}
+
+.slider-content-container {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  position: relative;
+  padding: 1rem 0.6rem;
+}
+
+.slider-content-container::-webkit-scrollbar {
+  display: none;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
