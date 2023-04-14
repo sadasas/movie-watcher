@@ -17,6 +17,13 @@ function Navbar() {
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<MenuNav>(MenuNav.MOVIES);
 
+  const checkIsMoviePage = () => {
+    let isMoviePage = false;
+    if (router.pathname.includes("/film/[...params")) isMoviePage = true;
+    else if (router.pathname.includes("/series/[...params")) isMoviePage = true;
+
+    return isMoviePage;
+  };
   const handleScroll = () => {
     if (window.scrollY > 10) {
       setIsSticky(true);
@@ -34,9 +41,7 @@ function Navbar() {
       <section
         id="navbar"
         className={`${styles.container} ${
-          router.pathname.includes("/movie")
-            ? styles["container-transparent"]
-            : null
+          checkIsMoviePage() ? styles["container-transparent"] : null
         }`}
       >
         <div
