@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import { CgMenuGridR } from "react-icons/cg";
 import { FiSearch } from "react-icons/fi";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import styles from "@/styles/navbar/Navbar.module.scss";
 import Menu from "./Menu";
 
+enum MenuNav {
+  MOVIES = 1,
+  SERIES,
+}
 function Navbar() {
+  const router = useRouter();
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuActive, setIsMenuActive] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState<MenuNav>(MenuNav.MOVIES);
 
   const handleScroll = () => {
     if (window.scrollY > 10) {
@@ -22,31 +30,57 @@ function Navbar() {
   }, []);
 
   return (
-    <section id="navbar" className={styles.container}>
-      <div
-        id="navbar-container"
-        className={`${styles["navbar-container"]} ${
-          isSticky ? styles["navbar-fixed"] : null
+    <>
+      <section
+        id="navbar"
+        className={`${styles.container} ${
+          router.pathname.includes("/movie")
+            ? styles["container-transparent"]
+            : null
         }`}
       >
-        <div className={styles["categories-container"]}>
-          <a>
-            <h2>Movies</h2>
-          </a>
-          <a>
-            <h2>Series</h2>
-          </a>
+        <div
+          id="navbar-container"
+          className={`${styles["navbar-container"]} ${
+            isSticky ? styles["navbar-fixed"] : null
+          }`}
+        >
+          <div className={styles["categories-container"]}>
+            <Link
+              onClick={() => {
+                setSelectedMenu(MenuNav.MOVIES);
+              }}
+              className={
+                selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : ""
+              }
+              href="/"
+            >
+              <h2>Movies</h2>
+            </Link>
+
+            <Link
+              onClick={() => {
+                setSelectedMenu(MenuNav.SERIES);
+              }}
+              className={
+                selectedMenu == MenuNav.SERIES ? styles["menu-selected"] : ""
+              }
+              href="/series"
+            >
+              <h2>Series</h2>
+            </Link>
+          </div>
+          <div className={styles["categories-container"]}>
+            <FiSearch className={styles.btn} />
+            <CgMenuGridR
+              className={styles.btn}
+              onClick={() => setIsMenuActive(true)}
+            />
+          </div>
         </div>
-        <div className={styles["categories-container"]}>
-          <FiSearch className={styles.btn} />
-          <CgMenuGridR
-            className={styles.btn}
-            onClick={() => setIsMenuActive(true)}
-          />
-        </div>
-      </div>
+      </section>
       <Menu isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
-    </section>
+    </>
   );
 }
 

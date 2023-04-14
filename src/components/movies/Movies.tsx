@@ -1,12 +1,25 @@
 import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-import Box from "./Box";
-import { getTrendingMovies } from "@/pages/api/trendingMovie";
+import Box from "@/components/movies/Box";
 import { Movie } from "@/models/movie";
-import styles from "@/styles/list_movies/ListMovies.module.scss";
+import styles from "@/styles/list_movies/Movies.module.scss";
 
-function TrendingMovies() {
+function Movies({
+  type,
+  title,
+  getDataF,
+  getdataFParams,
+  widthBox,
+  heightBox,
+}: {
+  type: string;
+  title: string;
+  getDataF: Function;
+  widthBox: number;
+  heightBox: number;
+  getdataFParams: string[];
+}) {
   const EmptyImg = "";
 
   const defaultMovie: Movie = {
@@ -23,7 +36,6 @@ function TrendingMovies() {
     cast: "",
   };
 
-  const width = 600;
   const [IsFetching, setIsFetching] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([
     defaultMovie,
@@ -39,21 +51,25 @@ function TrendingMovies() {
   ]);
 
   const slideLeft = () => {
-    let slider = document.getElementById("slider-trending");
-    slider!.scrollLeft = slider!.scrollLeft - width - 10;
+    let slider = document.getElementById(`slider-${type}`);
+    slider!.scrollLeft = slider!.scrollLeft - widthBox - 10;
   };
 
   const slideRight = () => {
-    let slider = document.getElementById("slider-trending");
-    slider!.scrollLeft = slider!.scrollLeft + width + 10;
+    let slider = document.getElementById(`slider-${type}`);
+    slider!.scrollLeft = slider!.scrollLeft + widthBox + 10;
   };
 
   const getDataHndler = async (page: number) => {
     setIsFetching(true);
-    const data = await getTrendingMovies(page);
+    if (getdataFParams != null) {
+      const data = await getDataF(page, ...getdataFParams);
+      setMovies(data!);
+    } else {
+      const data = await getDataF(page);
+      setMovies(data!);
+    }
     setIsFetching(false);
-    console.log(data);
-    setMovies(data!);
   };
 
   useEffect(() => {
@@ -62,8 +78,8 @@ function TrendingMovies() {
 
   return (
     <div className={styles.container}>
-      <div className={styles["upcomingMovies-container"]}>
-        <h2 className={styles.title}>Trending movies</h2>
+      <div className={styles["list-movies-container "]}>
+        <h2 className={styles.title}>{title}</h2>
         <div className={styles["slider-container"]}>
           <div className={styles["btns-scroll"]}>
             <IoIosArrowBack onClick={slideLeft} />
@@ -71,11 +87,17 @@ function TrendingMovies() {
           </div>
           <div
             className={styles["slider-content-container"]}
-            id="slider-trending"
+            id={`slider-${type}`}
           >
             {movies.length > 0 &&
               movies.map((movie, index) => (
-                <Box key={index} movie={movie} width={width} height={400}></Box>
+                <Box
+                  type={type}
+                  key={index}
+                  movie={movie}
+                  width={widthBox}
+                  height={heightBox}
+                ></Box>
               ))}
           </div>
         </div>
@@ -84,4 +106,4 @@ function TrendingMovies() {
   );
 }
 
-export default TrendingMovies;
+export default Movies;

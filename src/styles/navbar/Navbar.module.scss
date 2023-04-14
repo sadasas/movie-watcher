@@ -1,23 +1,26 @@
-@use "@/styles/variables" as *;
+@use "@/styles/variables.module" as *;
 
 .container {
   width: 100%;
-  height: 100px;
-}
-.navbar-container {
+  position: fixed;
   background-color: $primary-background-color;
   color: $primary-color;
+  z-index: 999;
+}
+
+.container-transparent {
+  backdrop-filter: blur(4px);
+  background: rgba(000, 000, 000, 0.5);
+}
+
+.navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 80%;
   height: 75px;
   margin: 0 auto;
-  left: 0;
-  right: 0;
   transition: height 200ms;
-  z-index: 999;
-  position: fixed;
 
   a {
     &:hover {
@@ -52,11 +55,22 @@
   gap: 30px;
   align-items: center;
 
+  a {
+    color: $secondary-color;
+    text-decoration: none;
+  }
+
   .btn {
     font-size: 2.3rem;
 
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+.menu-selected {
+  h2 {
+    color: $primary-color;
   }
 }

@@ -1,11 +1,11 @@
-@use "@/styles/variables" as *;
+@use "@/styles/variables.module" as *;
 
 .movie-container {
   display: flex;
   position: relative;
   flex-direction: column;
   gap: 50px;
-  padding-top: 300px;
+  padding-top: 400px;
   z-index: 10;
   h1 {
     font-size: 3rem;

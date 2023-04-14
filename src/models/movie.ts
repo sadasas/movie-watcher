@@ -23,3 +23,9 @@ export interface Movie {
   description: string;
   cast: string;
 }
+
+export enum Genre {
+  Comedy,
+  Romance,
+  Action,
+}

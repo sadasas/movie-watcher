@@ -4,14 +4,16 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 
 import styles from "@/styles/list_movies/Box.module.scss";
-import { Image, Movie } from "@/models/movie";
+import { Movie } from "@/models/movie";
 import { ParsedUrlQueryMovie } from "@/models/route";
 
 function Box({
+  type,
   movie,
   width,
   height,
 }: {
+  type: string;
   movie: Movie;
   width: number;
   height: number;
@@ -32,10 +34,6 @@ function Box({
     return queryMovie;
   };
 
-  const navigateTMovieHandler = () => {
-    document.getElementById("navbar-container")!.style.backgroundColor =
-      "transparent";
-  };
   const boxSizeStyle = {
     width,
     height,
@@ -104,9 +102,8 @@ function Box({
             <h2>{movie.titleText.text}</h2> <h4>{movie.releaseDate.year}</h4>
             <div style={btnsLayoutStyle()} className={styles.btns}>
               <Link
-                onClick={() => navigateTMovieHandler()}
                 href={{
-                  pathname: "/movie/params",
+                  pathname: `/${type}/params`,
                   query: parseMovie(),
                 }}
                 className={styles["btn-see"]}

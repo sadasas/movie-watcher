@@ -3,11 +3,11 @@ import axios from "axios";
 import { ResponseDataMovie, ServerData, ServerResponse } from "@/models/server";
 import { Movie } from "@/models/movie";
 
-export const getTrendingMovies = async (page: number) => {
+export const getTrendingSeries = async (page: number) => {
   const options = {
     method: "GET",
     url: "https://moviesdatabase.p.rapidapi.com/titles",
-    params: { limit: "10", list: "most_pop_movies" },
+    params: { limit: "10", list: "most_pop_series" },
     headers: {
       "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
       "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
