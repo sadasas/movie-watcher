@@ -51,12 +51,12 @@ function Movies({
   ]);
 
   const slideLeft = () => {
-    let slider = document.getElementById(`slider-${type}`);
+    let slider = document.getElementById(`slider-${title}`);
     slider!.scrollLeft = slider!.scrollLeft - widthBox - 10;
   };
 
   const slideRight = () => {
-    let slider = document.getElementById(`slider-${type}`);
+    let slider = document.getElementById(`slider-${title}`);
     slider!.scrollLeft = slider!.scrollLeft + widthBox + 10;
   };
 
@@ -87,7 +87,7 @@ function Movies({
           </div>
           <div
             className={styles["slider-content-container"]}
-            id={`slider-${type}`}
+            id={`slider-${title}`}
           >
             {movies.length > 0 &&
               movies.map((movie, index) => (
