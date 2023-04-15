@@ -1,13 +1,23 @@
 import axios from "axios";
 
 import { IResponseDataMovie } from "@/models/server";
-import { Genre } from "@/models/movie";
+import { Genre, IMovie } from "@/models/movie";
 
-export const getGenreFilms = async (page: number, genre: string) => {
+async function getData(index: number, genre: Genre) {
   const options = {
     method: "GET",
     url: "https://moviesdatabase.p.rapidapi.com/titles",
-    params: { page: "1", endYear: "2022", sort: "year.decr", genre: genre },
+    params: {
+      genre: Genre[genre],
+
+      limit: "50",
+      startYear: "2022",
+      info: "base_info",
+      endYear: "2023",
+      sort: "year.decr",
+      titleType: "movie",
+      page: index,
+    },
     headers: {
       "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
       "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
@@ -23,5 +33,31 @@ export const getGenreFilms = async (page: number, genre: string) => {
   if (res == undefined) return null;
   const { data } = res;
 
-  return data.results;
+  return data;
+}
+
+export const getGenreFilms = async (index: number, genre: Genre) => {
+  let validData: IMovie[] = [];
+  let nextPage = index;
+  let isNext = true;
+
+  while (validData.length < 10 && isNext) {
+    const data = await getData(nextPage, genre);
+
+    validData = validData.concat(
+      data!.results.filter(
+        (movie) =>
+          movie.primaryImage != null &&
+          movie.plot != null &&
+          movie.plot.plotText != null
+      )
+    );
+    isNext =
+      data?.next != null || data?.next != "" || data.next != undefined
+        ? true
+        : false;
+    nextPage++;
+  }
+
+  return validData;
 };

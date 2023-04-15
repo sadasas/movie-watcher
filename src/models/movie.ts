@@ -10,6 +10,28 @@ export interface IReleaseDate {
   year: number;
   __typename: string;
 }
+export interface ICast {
+  node: {
+    name: {
+      id: string;
+      nameText: {
+        text: string;
+        __typename: string;
+      };
+      primaryImage: {
+        url: string;
+        width: number;
+        height: number;
+        __typename: string;
+      };
+      __typename: string;
+    };
+    characters: [{ name: string; __typename: string }];
+    episodeCredits: { total: number; __typename: string };
+    __typename: string;
+  };
+  __typename: string;
+}
 
 export interface IImage {
   id: string;
@@ -67,9 +89,34 @@ export interface IMovie {
 }
 
 export enum Genre {
+  Action = 0,
+  Adult,
+  Adventure,
+  Animation,
+  Biography,
   Comedy,
+  Crime,
+  Documentary,
+  Drama,
+  Family,
+  Fantasy,
+  History,
+  Horror,
+  Music,
+  Musical,
+  Mystery,
+  News,
   Romance,
-  Action,
+  Short,
+  Sport,
+  Thriller,
+  War,
+  Western,
+}
+
+export enum MovieType {
+  Film = 0,
+  Series,
 }
 
 export const defaultValueMovie: IMovie = {

@@ -1,13 +1,22 @@
 import axios from "axios";
 
 import { IResponseDataMovie } from "@/models/server";
-import { IMovie } from "@/models/movie";
+import { Genre, IMovie } from "@/models/movie";
 
-async function getData(index: number) {
+async function getData(index: number, genre: Genre) {
   const options = {
     method: "GET",
     url: "https://moviesdatabase.p.rapidapi.com/titles",
-    params: { info: "base_info", limit: "50", list: "most_pop_movies" },
+    params: {
+      genre: Genre[genre],
+      limit: "50",
+      startYear: "2022",
+      info: "base_info",
+      endYear: "2023",
+      sort: "year.decr",
+      titleType: "tvSeries",
+      page: index,
+    },
     headers: {
       "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
       "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
@@ -26,19 +35,23 @@ async function getData(index: number) {
   return data;
 }
 
-export const getTrendingFilms = async (page: number) => {
+export const getGenreSeries = async (index: number, genre: Genre) => {
   let validData: IMovie[] = [];
-  let nextPage = page;
+  let nextPage = index;
   let isNext = true;
+
   while (validData.length < 10 && isNext) {
-    const data = await getData(nextPage);
+    const data = await getData(nextPage, genre);
 
     validData = validData.concat(
       data!.results.filter(
         (movie) =>
           movie.primaryImage != null &&
           movie.plot != null &&
-          movie.plot.plotText != null
+          movie.plot.plotText != null &&
+          movie.releaseDate != null &&
+          movie.releaseDate.day != null &&
+          movie.releaseDate.month != null
       )
     );
     isNext =

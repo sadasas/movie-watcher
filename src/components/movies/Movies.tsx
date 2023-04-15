@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import Box from "@/components/movies/Box";
-import { IMovie, defaultValueMovie } from "@/models/movie";
+import { IMovie, MovieType, defaultValueMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
 
 function Movies({
@@ -13,12 +13,12 @@ function Movies({
   widthBox,
   heightBox,
 }: {
-  type: string;
+  type: MovieType;
   title: string;
   getDataF: Function;
   widthBox: number;
   heightBox: number;
-  getdataFParams: string[];
+  getdataFParams: any[];
 }) {
   const EmptyImg = "";
 
@@ -40,11 +40,13 @@ function Movies({
   const getDataHndler = async (page: number) => {
     setIsFetching(true);
     if (getdataFParams != null && getdataFParams.length > 0) {
-      const data = (await getDataF(page, ...getdataFParams)) as IMovie[];
+      let data = (await getDataF(page, ...getdataFParams)) as IMovie[];
+      if (data.length > 10) data = data.slice(0, 10);
 
       setMovies(data);
     } else {
-      const data = await getDataF(page);
+      let data = await getDataF(page);
+      if (data.length > 10) data = data.slice(0, 10);
 
       setMovies(data);
     }
@@ -57,7 +59,7 @@ function Movies({
 
   return (
     <div className={styles.container}>
-      <div className={styles["list-movies-container "]}>
+      <div className={styles["list-movies-container"]}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles["slider-container"]}>
           <div className={styles["btns-scroll"]}>

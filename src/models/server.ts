@@ -1,4 +1,4 @@
-import { IMovie, IRating } from "./movie";
+import { ICast, IMovie, IRating } from "./movie";
 
 interface IDataRating {
   results: IRating;
@@ -15,8 +15,20 @@ export interface IResponseDataMovie {
   status: number;
   statusText: string;
 }
+
+export interface IResponseDataCast {
+  data: IDataCast;
+  status: number;
+  statusText: string;
+}
+
+interface IDataCast {
+  entries: number;
+  results: [{ id: string; cast: { edges: ICast[]; __typename: string } }];
+}
+
 interface IDataMovies {
   entries: number;
-  next: string;
+  next: number;
   results: IMovie[];
 }

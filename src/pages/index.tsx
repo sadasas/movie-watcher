@@ -3,8 +3,9 @@ import dynamic from "next/dynamic";
 
 import styles from "@/styles/Home.module.scss";
 import { getTrendingFilms } from "@/pages/api/film/getTrendingFilms";
-import { getUpcomingFilms } from "@/pages/api/film/getUpcomingFilms";
+import { getUpcomingFilms } from "@/pages/api/film/getLatesFilms";
 import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
+import { Genre, MovieType } from "@/models/movie";
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
@@ -15,15 +16,15 @@ function Home() {
       <Suspense fallback={<div>Loading...</div>}>
         <Movies
           title="Trending film"
-          type="film"
+          type={MovieType.Film}
           getDataF={getTrendingFilms}
           widthBox={600}
           heightBox={400}
           getdataFParams={[]}
         />
         <Movies
-          title="Upcoming film"
-          type="film"
+          title="Latest film"
+          type={MovieType.Film}
           getDataF={getUpcomingFilms}
           widthBox={200}
           heightBox={250}
@@ -31,19 +32,19 @@ function Home() {
         />
         <Movies
           title="Comedy"
-          type="film"
+          type={MovieType.Film}
           getDataF={getGenreFilms}
           widthBox={200}
           heightBox={250}
-          getdataFParams={["Comedy"]}
+          getdataFParams={[Genre.Comedy]}
         />
         <Movies
           title="Romance"
-          type="film"
+          type={MovieType.Film}
           getDataF={getGenreFilms}
           widthBox={200}
           heightBox={250}
-          getdataFParams={["Romance"]}
+          getdataFParams={[Genre.Romance]}
         />
       </Suspense>
     </div>

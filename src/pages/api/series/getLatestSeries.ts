@@ -7,10 +7,18 @@ async function getData(index: number) {
   const options = {
     method: "GET",
     url: "https://moviesdatabase.p.rapidapi.com/titles",
-    params: { info: "base_info", limit: "50", list: "most_pop_movies" },
     headers: {
       "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
       "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
+    },
+    params: {
+      startYear: "2022",
+      page: "1",
+      info: "base_info",
+      endYear: "2023",
+      limit: "50",
+      sort: "year.decr",
+      titleType: "tvSeries",
     },
   };
 
@@ -26,10 +34,11 @@ async function getData(index: number) {
   return data;
 }
 
-export const getTrendingFilms = async (page: number) => {
+export const getLatestSeries = async (page: number) => {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
+
   while (validData.length < 10 && isNext) {
     const data = await getData(nextPage);
 

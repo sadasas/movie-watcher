@@ -3,7 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 
 import styles from "@/styles/list_movies/Box.module.scss";
-import { IMovie } from "@/models/movie";
+import { IMovie, MovieType } from "@/models/movie";
 import { IParsedUrlQueryMovie } from "@/models/route";
 
 function Box({
@@ -12,7 +12,7 @@ function Box({
   width,
   height,
 }: {
-  type: string;
+  type: MovieType;
   movie: IMovie;
   width: number;
   height: number;
@@ -28,14 +28,14 @@ function Box({
   const boxAbsoluteStyle = () => {
     if (width >= 600)
       return {
-        padding: "40px 28px",
+        padding: "20px 28px",
         fontSize: "1.2rem",
         width,
         height,
       };
     else
       return {
-        padding: "25px 9px",
+        padding: "15px 9px",
         fontSize: "0.8rem",
         width,
         height,
@@ -89,7 +89,7 @@ function Box({
             <div style={btnsLayoutStyle()} className={styles.btns}>
               <Link
                 href={{
-                  pathname: `/${type}/params`,
+                  pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
                   query: { movie: JSON.stringify(movie) },
                 }}
                 className={styles["btn-see"]}
