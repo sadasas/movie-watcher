@@ -1,19 +1,22 @@
-import { Movie } from "./movie";
+import { IMovie, IRating } from "./movie";
 
-export interface ServerResponse {
-  data: string;
+interface IDataRating {
+  results: IRating;
+}
+
+export interface IResponseDataRating {
+  data: IDataRating;
   status: number;
   statusText: string;
 }
 
-export interface ServerData {
-  data: string;
+export interface IResponseDataMovie {
+  data: IDataMovies;
   status: number;
   statusText: string;
 }
-
-export interface ResponseDataMovie {
+interface IDataMovies {
   entries: number;
   next: string;
-  results: Movie[];
+  results: IMovie[];
 }

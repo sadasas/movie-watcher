@@ -1,7 +1,6 @@
 import axios from "axios";
 
-import { ResponseDataMovie, ServerData, ServerResponse } from "@/models/server";
-import { Movie } from "@/models/movie";
+import { IResponseDataMovie } from "@/models/server";
 
 export const getTrendingFilms = async (page: number) => {
   const options = {
@@ -12,20 +11,16 @@ export const getTrendingFilms = async (page: number) => {
       "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
       "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
     },
-    transformResponse: (r: ServerResponse) => r,
   };
 
   const res = await axios
-    .request<void, ServerData>(options)
+    .request<void, IResponseDataMovie>(options)
     .catch(function (error) {
       console.error(error);
     });
 
   if (res == undefined) return null;
-  const { data } = res as ServerData;
+  const { data } = res;
 
-  const result = JSON.parse(data) as ResponseDataMovie;
-  const movies = result.results as Movie[];
-
-  return movies;
+  return data.results;
 };

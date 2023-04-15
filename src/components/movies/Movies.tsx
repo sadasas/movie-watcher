@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import Box from "@/components/movies/Box";
-import { Movie } from "@/models/movie";
+import { IMovie, defaultValueMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
 
 function Movies({
@@ -22,33 +22,10 @@ function Movies({
 }) {
   const EmptyImg = "";
 
-  const defaultMovie: Movie = {
-    id: "",
-    primaryImage: { url: "", width: 0, height: 0, caption: { plainText: "" } },
-    releaseDate: { day: 0, month: 0, year: 0 },
-    titleText: { text: "" },
-    titleType: {
-      isSeries: false,
-      isEpisode: false,
-    },
-    rating: "",
-    description: "",
-    cast: "",
-  };
-
   const [IsFetching, setIsFetching] = useState(false);
-  const [movies, setMovies] = useState<Movie[]>([
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-    defaultMovie,
-  ]);
+  const [movies, setMovies] = useState<IMovie[]>(
+    Array(10).fill(defaultValueMovie)
+  );
 
   const slideLeft = () => {
     let slider = document.getElementById(`slider-${title}`);
@@ -62,12 +39,14 @@ function Movies({
 
   const getDataHndler = async (page: number) => {
     setIsFetching(true);
-    if (getdataFParams != null) {
-      const data = await getDataF(page, ...getdataFParams);
-      setMovies(data!);
+    if (getdataFParams != null && getdataFParams.length > 0) {
+      const data = (await getDataF(page, ...getdataFParams)) as IMovie[];
+
+      setMovies(data);
     } else {
       const data = await getDataF(page);
-      setMovies(data!);
+
+      setMovies(data);
     }
     setIsFetching(false);
   };

@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 
 import styles from "@/styles/list_movies/Box.module.scss";
-import { Movie } from "@/models/movie";
-import { ParsedUrlQueryMovie } from "@/models/route";
+import { IMovie } from "@/models/movie";
+import { IParsedUrlQueryMovie } from "@/models/route";
 
 function Box({
   type,
@@ -14,25 +13,12 @@ function Box({
   height,
 }: {
   type: string;
-  movie: Movie;
+  movie: IMovie;
   width: number;
   height: number;
 }) {
   const PlaceholderVertical = "/placeholderVertical.svg";
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
-
-  const parseMovie = () => {
-    const queryMovie: ParsedUrlQueryMovie = {
-      id: movie.id,
-      imgUrl: movie.primaryImage?.url,
-      releaseDate: `${movie.releaseDate.day} ${movie.releaseDate.month} ${movie.releaseDate.year}`,
-      titleText: movie.titleText.text,
-      rating: movie.rating,
-      description: movie.description,
-      cast: movie.cast,
-    };
-    return queryMovie;
-  };
 
   const boxSizeStyle = {
     width,
@@ -104,7 +90,7 @@ function Box({
               <Link
                 href={{
                   pathname: `/${type}/params`,
-                  query: parseMovie(),
+                  query: { movie: JSON.stringify(movie) },
                 }}
                 className={styles["btn-see"]}
               >
