@@ -1,16 +1,11 @@
 import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 import styles from "@/styles/Movie.module.scss";
 import { IParsedUrlQueryMovie } from "@/models/route";
-import {
-  Genre,
-  ICast,
-  ICreator,
-  IMovie,
-  defaultValueMovie,
-} from "@/models/movie";
+import { ICast, ICreator, IMovie, defaultValueMovie } from "@/models/movie";
 import { getMainActors } from "@/pages/api/getMainActor";
 import { getCreators } from "@/pages/api/getCreator";
 
@@ -21,6 +16,7 @@ function Film() {
   const [cast, setCast] = useState<ICast[]>();
   const [creators, setCreator] = useState<ICreator[]>();
 
+  const placeholderList = "/placeholderList.svg";
   const dataCastHandler = async (m: IMovie) => {
     const data = await getMainActors(m.id);
     setCast(data!);
@@ -80,8 +76,7 @@ function Film() {
         </div>
         <div className={styles["content-container"]}>
           <h3 className={styles.title}>Director</h3>
-          {creators &&
-            creators.length > 0 &&
+          {creators && creators.length > 0 ? (
             creators.map((creator, i) => (
               <div className={styles["creator-container"]} key={i}>
                 {creator.directors &&
@@ -98,12 +93,14 @@ function Film() {
                     </div>
                   ))}
               </div>
-            ))}
+            ))
+          ) : (
+            <Image width={230} height={105} alt="" src={placeholderList} />
+          )}
         </div>
         <div className={styles["content-container"]}>
           <h3 className={styles.title}>Writer</h3>
-          {creators &&
-            creators.length > 0 &&
+          {creators && creators.length > 0 ? (
             creators.map((creator, i) => (
               <div className={styles["creator-container"]} key={i}>
                 {creator.writers &&
@@ -120,12 +117,15 @@ function Film() {
                     </div>
                   ))}
               </div>
-            ))}
+            ))
+          ) : (
+            <Image width={230} height={105} src={placeholderList} alt="" />
+          )}
         </div>
         <div className={styles["content-container"]}>
           <h3 className={styles.title}>Cast</h3>
           <div className={styles["cast-container"]}>
-            {cast &&
+            {cast ? (
               cast.map((cast, i) => (
                 <div className={styles["cast-content-container"]} key={i}>
                   <p>{cast.node.name.nameText.text}</p>
@@ -138,7 +138,10 @@ function Film() {
                     )}
                   </div>
                 </div>
-              ))}
+              ))
+            ) : (
+              <Image width={230} height={105} src={placeholderList} alt="" />
+            )}
           </div>
         </div>
       </div>
