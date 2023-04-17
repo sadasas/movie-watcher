@@ -233,7 +233,10 @@ export const defaultValueMovie: IMovie = {
     isEpisode: false,
     __typename: "",
   },
-  genres: [{ text: "", id: "", __typename: "" }],
+  genres: {
+    genres: [{ text: "", id: "", __typename: "" }],
+    __typename: "",
+  },
   titleText: { text: "", __typename: "" },
   releaseYear: { year: 0, endYear: 0, __typename: "" },
   releaseDate: {

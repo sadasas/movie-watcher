@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-import { IMovie, MovieType, defaultValueMovie } from "@/models/movie";
+import { IMovie, defaultValueMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
 import BannerBox from "@/components/movies/BannerBox";
 
