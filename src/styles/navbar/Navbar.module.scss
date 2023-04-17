@@ -70,6 +70,12 @@
 }
 
 .menu-selected {
+  h3 {
+    color: $primary-color;
+  }
+}
+
+.menu-title {
   h2 {
     color: $primary-color;
   }

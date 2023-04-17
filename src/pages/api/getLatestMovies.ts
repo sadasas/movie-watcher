@@ -6,10 +6,12 @@ async function getData(index: number) {
   try {
     const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
       params: {
-        page: index,
-        info: "base_info",
         limit: "50",
-        list: "most_pop_series",
+        startYear: "2022",
+        info: "base_info",
+        endYear: "2023",
+        sort: "year.decr",
+        page: index,
       },
     });
 
@@ -20,10 +22,11 @@ async function getData(index: number) {
   }
 }
 
-export async function getTrendingSeries(page: number) {
+export async function getLatestMovies(page: number) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
+
   while (validData.length < 10 && isNext) {
     const data = await getData(nextPage);
 

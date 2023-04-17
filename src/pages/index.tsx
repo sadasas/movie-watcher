@@ -2,52 +2,44 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 import styles from "@/styles/Home.module.scss";
-import { getTrendingFilms } from "@/pages/api/film/getTrendingFilms";
-import { getUpcomingFilms } from "@/pages/api/film/getLatesFilms";
-import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
-import { Genre, MovieType } from "@/models/movie";
-const Movies = dynamic(() => import("@/components/movies/Movies"), {
+import { getTopRatedFilms } from "./api/film/getTopRatedFilms";
+import Movies from "@/components/movies/Movies";
+import { getTopRatedSeries } from "./api/series/getTopRatedSeries";
+import { getLatestMovies } from "./api/getLatestMovies";
+import { getGenreMovies } from "./api/getGenreMovies";
+import { Genre } from "@/models/movie";
+const Banner = dynamic(() => import("@/components/movies/Banner"), {
   suspense: true,
 });
 
 function Home() {
   return (
-    <div className={styles["home-container"]}>
+    <section id="home" className={styles["home-container"]}>
       <Suspense fallback={<div>Loading...</div>}>
+        <Banner title="" getDataF={getTopRatedFilms} getdataFParams={[]} />
         <Movies
-          title="Trending film"
-          type={MovieType.Film}
-          getDataF={getTrendingFilms}
-          widthBox={600}
-          heightBox={400}
-          getdataFParams={[]}
-        />
-        <Movies
-          title="Latest film"
-          type={MovieType.Film}
-          getDataF={getUpcomingFilms}
-          widthBox={200}
+          title="Top rated series"
+          getDataF={getTopRatedSeries}
+          widthBox={300}
           heightBox={250}
           getdataFParams={[]}
         />
         <Movies
-          title="Comedy"
-          type={MovieType.Film}
-          getDataF={getGenreFilms}
-          widthBox={200}
+          title="Latest"
+          getDataF={getLatestMovies}
+          widthBox={300}
           heightBox={250}
-          getdataFParams={[Genre.Comedy]}
+          getdataFParams={[]}
         />
         <Movies
-          title="Romance"
-          type={MovieType.Film}
-          getDataF={getGenreFilms}
+          title="Action"
+          getDataF={getGenreMovies}
           widthBox={200}
-          heightBox={250}
-          getdataFParams={[Genre.Romance]}
+          heightBox={300}
+          getdataFParams={[Genre.Action]}
         />
       </Suspense>
-    </div>
+    </section>
   );
 }
 

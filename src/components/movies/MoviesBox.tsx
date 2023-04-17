@@ -2,38 +2,42 @@ import { IoMdAddCircle } from "react-icons/io";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
 
-import styles from "@/styles/list_movies/Box.module.scss";
+import styles from "@/styles/list_movies/MoviesBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
-import { IParsedUrlQueryMovie } from "@/models/route";
 
-function Box({
-  type,
+function MoviesBox({
   movie,
   width,
   height,
 }: {
-  type: MovieType;
   movie: IMovie;
   width: number;
   height: number;
 }) {
   const PlaceholderVertical = "/placeholderVertical.svg";
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
-
+  const type = movie.episodes ? MovieType.Series : MovieType.Film;
   const boxSizeStyle = {
     width,
     height,
   };
 
   const boxAbsoluteStyle = () => {
-    if (width >= 600)
+    if (width >= 800)
       return {
         padding: "20px 28px",
         fontSize: "1.2rem",
         width,
         height,
       };
-    else
+    if (width >= 600 && width < 800)
+      return {
+        padding: "20px 28px",
+        fontSize: "1.2rem",
+        width,
+        height,
+      };
+    else if (width < 600)
       return {
         padding: "15px 9px",
         fontSize: "0.8rem",
@@ -108,4 +112,4 @@ function Box({
   );
 }
 
-export default Box;
+export default MoviesBox;

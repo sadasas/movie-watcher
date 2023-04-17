@@ -1,41 +1,30 @@
-import axios from "axios";
-
 import { IResponseDataMovie } from "@/models/server";
 import { Genre, IMovie } from "@/models/movie";
+import { movieApi } from "@/pages/api/movieApi";
 
 async function getData(index: number, genre: Genre) {
-  const options = {
-    method: "GET",
-    url: "https://moviesdatabase.p.rapidapi.com/titles",
-    params: {
-      genre: Genre[genre],
-      limit: "50",
-      startYear: "2022",
-      info: "base_info",
-      endYear: "2023",
-      sort: "year.decr",
-      titleType: "tvSeries",
-      page: index,
-    },
-    headers: {
-      "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
-      "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
-    },
-  };
-
-  const res = await axios
-    .request<void, IResponseDataMovie>(options)
-    .catch(function (error) {
-      console.error(error);
+  try {
+    const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
+      params: {
+        genre: Genre[genre],
+        limit: "50",
+        startYear: "2022",
+        info: "base_info",
+        endYear: "2023",
+        sort: "year.decr",
+        titleType: "tvSeries",
+        page: index,
+      },
     });
 
-  if (res == undefined) return null;
-  const { data } = res;
-
-  return data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
-export const getGenreSeries = async (index: number, genre: Genre) => {
+export async function getGenreSeries(index: number, genre: Genre) {
   let validData: IMovie[] = [];
   let nextPage = index;
   let isNext = true;
@@ -62,4 +51,4 @@ export const getGenreSeries = async (index: number, genre: Genre) => {
   }
 
   return validData;
-};
+}

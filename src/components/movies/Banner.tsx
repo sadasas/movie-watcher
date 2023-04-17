@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-import MoviesBox from "@/components/movies/MoviesBox";
 import { IMovie, MovieType, defaultValueMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
+import BannerBox from "@/components/movies/BannerBox";
 
-function Movies({
+function Banner({
   title,
   getDataF,
   getdataFParams,
-  widthBox,
-  heightBox,
 }: {
   title: string;
   getDataF: Function;
-  widthBox: number;
-  heightBox: number;
   getdataFParams: any[];
 }) {
   const EmptyImg = "";
@@ -27,12 +23,12 @@ function Movies({
 
   const slideLeft = () => {
     let slider = document.getElementById(`slider-${title}`);
-    slider!.scrollLeft = slider!.scrollLeft - widthBox - 10;
+    slider!.scrollLeft = slider!.scrollLeft - 800 - 10;
   };
 
   const slideRight = () => {
     let slider = document.getElementById(`slider-${title}`);
-    slider!.scrollLeft = slider!.scrollLeft + widthBox + 10;
+    slider!.scrollLeft = slider!.scrollLeft + 800 + 10;
   };
 
   const getDataHndler = async (page: number) => {
@@ -70,12 +66,7 @@ function Movies({
           >
             {movies.length > 0 &&
               movies.map((movie, index) => (
-                <MoviesBox
-                  key={index}
-                  movie={movie}
-                  width={widthBox}
-                  height={heightBox}
-                ></MoviesBox>
+                <BannerBox key={index} movie={movie}></BannerBox>
               ))}
           </div>
         </div>
@@ -84,4 +75,4 @@ function Movies({
   );
 }
 
-export default Movies;
+export default Banner;

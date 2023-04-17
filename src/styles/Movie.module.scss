@@ -81,3 +81,12 @@
     object-fit: contain;
   }
 }
+
+.creator-container {
+  display: flex;
+  gap: 10px;
+}
+.creator-content-container {
+  display: flex;
+  gap: 20px;
+}

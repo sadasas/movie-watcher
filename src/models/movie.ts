@@ -76,7 +76,10 @@ export interface IMovie {
     isEpisode: boolean;
     __typename: string;
   };
-  genres: [{ text: string; id: string; __typename: string }];
+  genres: {
+    genres: [{ text: string; id: string; __typename: string }];
+    __typename: string;
+  };
   titleText: { text: string; __typename: string };
   releaseYear: { year: number; endYear: number; __typename: string };
   releaseDate: IReleaseDate;
@@ -86,6 +89,71 @@ export interface IMovie {
     language: { id: string; __typename: string };
     __typename: string;
   };
+}
+export interface ICreator {
+  id: string;
+  creators: Array<{
+    totalCredits: number;
+    category: {
+      text: string;
+      __typename: string;
+    };
+    credits: Array<{
+      name: {
+        id: string;
+        nameText: {
+          text: string;
+          __typename: string;
+        };
+        __typename: string;
+      };
+      attributes: any;
+      __typename: string;
+    }>;
+    __typename: string;
+  }>;
+  directors: [
+    {
+      totalCredits: number;
+      category: {
+        text: string;
+        __typename: string;
+      };
+      credits: Array<{
+        name: {
+          id: string;
+          nameText: {
+            text: string;
+            __typename: string;
+          };
+          __typename: string;
+        };
+        attributes: any;
+        __typename: string;
+      }>;
+      __typename: string;
+    }
+  ];
+  writers: Array<{
+    totalCredits: number;
+    category: {
+      text: string;
+      __typename: string;
+    };
+    credits: Array<{
+      name: {
+        id: string;
+        nameText: {
+          text: string;
+          __typename: string;
+        };
+        __typename: string;
+      };
+      attributes: any;
+      __typename: string;
+    }>;
+    __typename: string;
+  }>;
 }
 
 export enum Genre {

@@ -1,40 +1,29 @@
-import axios from "axios";
-
 import { IResponseDataMovie } from "@/models/server";
 import { IMovie } from "@/models/movie";
+import { movieApi } from "@/pages/api/movieApi";
 
 async function getData(index: number) {
-  const options = {
-    method: "GET",
-    url: "https://moviesdatabase.p.rapidapi.com/titles",
-    headers: {
-      "X-RapidAPI-Key": process.env.NEXT_PUBLIC_X_RAPIDAPI_KEY,
-      "X-RapidAPI-Host": process.env.NEXT_PUBLIC_X_RAPIDAPI_HOST,
-    },
-    params: {
-      limit: "50",
-      startYear: "2022",
-      info: "base_info",
-      endYear: "2023",
-      sort: "year.decr",
-      titleType: "movie",
-      page: index,
-    },
-  };
-
-  const res = await axios
-    .request<void, IResponseDataMovie>(options)
-    .catch(function (error) {
-      console.error(error);
+  try {
+    const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
+      params: {
+        limit: "50",
+        startYear: "2022",
+        info: "base_info",
+        endYear: "2023",
+        sort: "year.decr",
+        titleType: "movie",
+        page: index,
+      },
     });
 
-  if (res == undefined) return null;
-  const { data } = res;
-
-  return data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
-export const getUpcomingFilms = async (page: number) => {
+export async function getUpcomingFilms(page: number) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
@@ -47,7 +36,10 @@ export const getUpcomingFilms = async (page: number) => {
         (movie) =>
           movie.primaryImage != null &&
           movie.plot != null &&
-          movie.plot.plotText != null
+          movie.plot.plotText != null &&
+          movie.releaseDate != null &&
+          movie.releaseDate.day != null &&
+          movie.releaseDate.month != null
       )
     );
     isNext =
@@ -58,4 +50,4 @@ export const getUpcomingFilms = async (page: number) => {
   }
 
   return validData;
-};
+}

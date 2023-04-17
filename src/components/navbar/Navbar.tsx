@@ -10,12 +10,13 @@ import Menu from "./Menu";
 enum MenuNav {
   MOVIES = 1,
   SERIES,
+  NONE,
 }
 function Navbar() {
   const router = useRouter();
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuActive, setIsMenuActive] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState<MenuNav>(MenuNav.MOVIES);
+  const [selectedMenu, setSelectedMenu] = useState<MenuNav>(MenuNav.NONE);
 
   const checkIsMoviePage = () => {
     let isMoviePage = false;
@@ -53,14 +54,23 @@ function Navbar() {
           <div className={styles["categories-container"]}>
             <Link
               onClick={() => {
+                setSelectedMenu(MenuNav.NONE);
+              }}
+              className={styles["menu-title"]}
+              href="/"
+            >
+              <h2>JustSee</h2>
+            </Link>
+            <Link
+              onClick={() => {
                 setSelectedMenu(MenuNav.MOVIES);
               }}
               className={
                 selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : ""
               }
-              href="/"
+              href="/film"
             >
-              <h2>Movies</h2>
+              <h3>Movies</h3>
             </Link>
 
             <Link
@@ -72,7 +82,7 @@ function Navbar() {
               }
               href="/series"
             >
-              <h2>Series</h2>
+              <h3>Series</h3>
             </Link>
           </div>
           <div className={styles["categories-container"]}>

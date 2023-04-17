@@ -2,46 +2,45 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 import styles from "@/styles/Home.module.scss";
-import { getTrendingSeries } from "@/pages/api/series/getTrendingSeries";
-import { getLatestSeries } from "../api/series/getLatestSeries";
-import { getGenreSeries } from "../api/series/getGenreSeries";
+import { getTrendingFilms } from "@/pages/api/film/getTrendingFilms";
+import { getUpcomingFilms } from "@/pages/api/film/getLatesFilms";
+import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
 import { Genre, MovieType } from "@/models/movie";
-
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
 
 function Home() {
   return (
-    <section id="series" className={styles["home-container"]}>
+    <section id="films" className={styles["home-container"]}>
       <Suspense fallback={<div>Loading...</div>}>
         <Movies
-          title="Trending series"
-          getDataF={getTrendingSeries}
+          title="Trending film"
+          getDataF={getTrendingFilms}
           widthBox={600}
           heightBox={400}
           getdataFParams={[]}
         />
         <Movies
-          title="Lates series"
-          getDataF={getLatestSeries}
+          title="Latest film"
+          getDataF={getUpcomingFilms}
           widthBox={200}
           heightBox={300}
           getdataFParams={[]}
         />
         <Movies
-          title="Drama series"
-          getDataF={getGenreSeries}
+          title="Comedy"
+          getDataF={getGenreFilms}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[Genre.Drama]}
+          getdataFParams={[Genre.Comedy]}
         />
         <Movies
-          title="Family series"
-          getDataF={getGenreSeries}
+          title="Romance"
+          getDataF={getGenreFilms}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[Genre.Family]}
+          getdataFParams={[Genre.Romance]}
         />
       </Suspense>
     </section>

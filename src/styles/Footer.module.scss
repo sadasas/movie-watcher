@@ -1,0 +1,60 @@
+@use "variables.module" as *;
+
+.container {
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  padding: 50px 0;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary-background-color;
+}
+
+.footer-container {
+  margin: 0 auto;
+  width: $container-width;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+}
+.footer-left-container {
+  display: flex;
+
+  flex-direction: column;
+  gap: 30px;
+}
+
+.footer-right-container {
+  display: flex;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-content {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  gap: 40px;
+}
+
+.column-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  a {
+    text-decoration: none;
+    font-size: 0.8rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+.line {
+  justify-self: center;
+  width: 2px;
+  height: 100%;
+  background-color: white;
+}
