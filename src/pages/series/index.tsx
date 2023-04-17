@@ -5,43 +5,49 @@ import styles from "@/styles/Home.module.scss";
 import { getTrendingSeries } from "@/pages/api/series/getTrendingSeries";
 import { getLatestSeries } from "../api/series/getLatestSeries";
 import { getGenreSeries } from "../api/series/getGenreSeries";
-import { Genre, MovieType } from "@/models/movie";
+import { Genre, IMovie, MovieType } from "@/models/movie";
 
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
 
-function Home() {
+function Home({
+  trendingMoviesData,
+  latesMoviesData,
+  dramaMoviesData,
+  familyMoviesData,
+}: {
+  trendingMoviesData: IMovie[];
+  latesMoviesData: IMovie[];
+  dramaMoviesData: IMovie[];
+  familyMoviesData: IMovie[];
+}) {
   return (
     <section id="series" className={styles["home-container"]}>
       <Suspense fallback={<div>Loading...</div>}>
         <Movies
           title="Trending series"
-          getDataF={getTrendingSeries}
+          movies={trendingMoviesData}
           widthBox={600}
           heightBox={400}
-          getdataFParams={[]}
         />
         <Movies
           title="Lates series"
-          getDataF={getLatestSeries}
+          movies={latesMoviesData}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[]}
         />
         <Movies
           title="Drama series"
-          getDataF={getGenreSeries}
+          movies={dramaMoviesData}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[Genre.Drama]}
         />
         <Movies
           title="Family series"
-          getDataF={getGenreSeries}
+          movies={familyMoviesData}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[Genre.Family]}
         />
       </Suspense>
     </section>
@@ -49,3 +55,18 @@ function Home() {
 }
 
 export default Home;
+
+export async function getStaticProps() {
+  const trendingMoviesData = await getTrendingSeries(1, 10);
+  const latesMoviesData = await getLatestSeries(1, 10);
+  const dramaMoviesData = await getGenreSeries(1, Genre.Drama, 10);
+  const familyMoviesData = await getGenreSeries(1, Genre.Family, 10);
+  return {
+    props: {
+      trendingMoviesData,
+      latesMoviesData,
+      dramaMoviesData,
+      familyMoviesData,
+    },
+  };
+}

@@ -24,7 +24,11 @@ async function getData(index: number, genre: Genre) {
   }
 }
 
-export async function getGenreSeries(index: number, genre: Genre) {
+export async function getGenreSeries(
+  index: number,
+  genre: Genre,
+  length: number
+) {
   let validData: IMovie[] = [];
   let nextPage = index;
   let isNext = true;
@@ -49,6 +53,6 @@ export async function getGenreSeries(index: number, genre: Genre) {
         : false;
     nextPage++;
   }
-
+  if (validData.length > length) validData = validData.slice(0, length);
   return validData;
 }

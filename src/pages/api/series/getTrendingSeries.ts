@@ -20,7 +20,7 @@ async function getData(index: number) {
   }
 }
 
-export async function getTrendingSeries(page: number) {
+export async function getTrendingSeries(page: number, length: number) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
@@ -44,6 +44,6 @@ export async function getTrendingSeries(page: number) {
         : false;
     nextPage++;
   }
-
+  if (validData.length > length) validData = validData.slice(0, length);
   return validData;
 }

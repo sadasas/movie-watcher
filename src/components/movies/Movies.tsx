@@ -7,23 +7,16 @@ import styles from "@/styles/list_movies/Movies.module.scss";
 
 function Movies({
   title,
-  getDataF,
-  getdataFParams,
+  movies,
   widthBox,
   heightBox,
 }: {
   title: string;
-  getDataF: Function;
+  movies: IMovie[];
   widthBox: number;
   heightBox: number;
-  getdataFParams: any[];
 }) {
   const EmptyImg = "";
-
-  const [IsFetching, setIsFetching] = useState(false);
-  const [movies, setMovies] = useState<IMovie[]>(
-    Array(10).fill(defaultValueMovie)
-  );
 
   const slideLeft = () => {
     let slider = document.getElementById(`slider-${title}`);
@@ -34,26 +27,6 @@ function Movies({
     let slider = document.getElementById(`slider-${title}`);
     slider!.scrollLeft = slider!.scrollLeft + widthBox + 10;
   };
-
-  const getDataHndler = async (page: number) => {
-    setIsFetching(true);
-    if (getdataFParams != null && getdataFParams.length > 0) {
-      let data = (await getDataF(page, ...getdataFParams)) as IMovie[];
-      if (data.length > 10) data = data.slice(0, 10);
-
-      setMovies(data);
-    } else {
-      let data = await getDataF(page);
-      if (data.length > 10) data = data.slice(0, 10);
-
-      setMovies(data);
-    }
-    setIsFetching(false);
-  };
-
-  useEffect(() => {
-    getDataHndler(1);
-  }, []);
 
   return (
     <div className={styles.container}>

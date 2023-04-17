@@ -21,7 +21,7 @@ async function getData(index: number) {
   }
 }
 
-export async function getTopRatedFilms(page: number) {
+export async function getTopRatedFilms(page: number, length: number) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
@@ -46,6 +46,6 @@ export async function getTopRatedFilms(page: number) {
         : false;
     nextPage++;
   }
-
+  if (validData.length > length) validData = validData.slice(0, length);
   return validData;
 }

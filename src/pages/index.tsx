@@ -7,36 +7,43 @@ import Movies from "@/components/movies/Movies";
 import { getTopRatedSeries } from "./api/series/getTopRatedSeries";
 import { getLatestMovies } from "./api/getLatestMovies";
 import { getGenreMovies } from "./api/getGenreMovies";
-import { Genre } from "@/models/movie";
+import { Genre, IMovie } from "@/models/movie";
 const Banner = dynamic(() => import("@/components/movies/Banner"), {
   suspense: true,
 });
 
-function Home() {
+function Home({
+  bannerMoviesData,
+  topRatedMoviesData,
+  latestMoviesData,
+  genreMoviesData,
+}: {
+  bannerMoviesData: IMovie[];
+  topRatedMoviesData: IMovie[];
+  latestMoviesData: IMovie[];
+  genreMoviesData: IMovie[];
+}) {
   return (
     <section id="home" className={styles["home-container"]}>
       <Suspense fallback={<div>Loading...</div>}>
-        <Banner title="" getDataF={getTopRatedFilms} getdataFParams={[]} />
+        <Banner title="" movies={bannerMoviesData} />
         <Movies
           title="Top rated series"
-          getDataF={getTopRatedSeries}
+          movies={topRatedMoviesData}
           widthBox={300}
           heightBox={250}
-          getdataFParams={[]}
         />
         <Movies
           title="Latest"
-          getDataF={getLatestMovies}
+          movies={latestMoviesData}
           widthBox={300}
           heightBox={250}
-          getdataFParams={[]}
         />
         <Movies
           title="Action"
-          getDataF={getGenreMovies}
+          movies={genreMoviesData}
           widthBox={200}
           heightBox={300}
-          getdataFParams={[Genre.Action]}
         />
       </Suspense>
     </section>
@@ -44,3 +51,18 @@ function Home() {
 }
 
 export default Home;
+
+export async function getStaticProps() {
+  const bannerMoviesData = await getTopRatedFilms(1, 10);
+  const topRatedMoviesData = await getTopRatedSeries(1, 10);
+  const latestMoviesData = await getLatestMovies(1, 10);
+  const genreMoviesData = await getGenreMovies(1, Genre.Action, 10);
+  return {
+    props: {
+      bannerMoviesData,
+      topRatedMoviesData,
+      latestMoviesData,
+      genreMoviesData,
+    },
+  };
+}
