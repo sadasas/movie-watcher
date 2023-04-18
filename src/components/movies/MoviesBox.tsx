@@ -72,42 +72,41 @@ function MoviesBox({
   };
 
   return (
-    <div className={styles.box}>
-      <div style={boxSizeStyle} className={styles["box-container"]}>
-        {movie.primaryImage != null && (
-          <LazyLoadImage
-            threshold={0}
-            effect="blur"
-            placeholderSrc={
-              width > height ? PlaceholderHorizontal : PlaceholderVertical
-            }
-            src={movie.primaryImage.url}
-          />
-        )}
-        {movie.titleText.text != "" && (
-          <div
-            style={boxAbsoluteStyle()}
-            className={styles["box-container-absolute"]}
-          >
-            <h2>{movie.titleText.text}</h2> <h4>{movie.releaseDate.year}</h4>
-            <div style={btnsLayoutStyle()} className={styles.btns}>
-              <Link
-                href={{
-                  pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
-                  query: { movie: JSON.stringify(movie) },
-                }}
-                className={styles["btn-see"]}
-              >
-                See detail
-              </Link>
-              <IoMdAddCircle
-                style={btnsSeeStyle()}
-                className={styles["btn-watchlist"]}
-              />
-            </div>
+    <div style={boxSizeStyle} className={styles["box-container"]}>
+      {movie.primaryImage != null && (
+        <LazyLoadImage
+          threshold={0}
+          alt={movie.titleText.text}
+          effect="blur"
+          placeholderSrc={
+            width > height ? PlaceholderHorizontal : PlaceholderVertical
+          }
+          src={movie.primaryImage.url}
+        />
+      )}
+      {movie.titleText.text != "" && (
+        <div
+          style={boxAbsoluteStyle()}
+          className={styles["box-container-absolute"]}
+        >
+          <h2>{movie.titleText.text}</h2> <h4>{movie.releaseDate.year}</h4>
+          <div style={btnsLayoutStyle()} className={styles.btns}>
+            <Link
+              href={{
+                pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
+                query: { movie: JSON.stringify(movie) },
+              }}
+              className={`${styles.btn} ${styles["btn-see"]} `}
+            >
+              See detail
+            </Link>
+            <IoMdAddCircle
+              style={btnsSeeStyle()}
+              className={`${styles.btn} ${styles["btn-watchlist"]} `}
+            />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

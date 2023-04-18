@@ -10,7 +10,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 80px 40px;
-  color: #5f5e5e;
+  color: $secondary-color;
   transition: all 200ms;
 }
 
@@ -28,10 +28,17 @@
 .list {
   display: flex;
   gap: 10px;
+  text-decoration: none;
   align-items: center;
-
+  color: $secondary-color;
   &:hover {
     cursor: pointer;
+    svg {
+      color: $red-color;
+    }
+    h3 {
+      color: $primary-color;
+    }
   }
 
   .icon {

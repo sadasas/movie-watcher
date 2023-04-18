@@ -34,6 +34,13 @@ function Navbar() {
   };
 
   useEffect(() => {
+    if (router.pathname.includes("/film")) setSelectedMenu(MenuNav.MOVIES);
+    else if (router.pathname.includes("/series"))
+      setSelectedMenu(MenuNav.SERIES);
+    else setSelectedMenu(MenuNav.NONE);
+  }, [router]);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
   }, []);
 

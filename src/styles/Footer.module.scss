@@ -10,7 +10,7 @@
   justify-content: center;
   align-items: center;
   background-color: $secondary-background-color;
-  color: white;
+  color: $primary-color;
 }
 
 .footer-container {
@@ -57,5 +57,5 @@
   justify-self: center;
   width: 2px;
   height: 100%;
-  background-color: white;
+  background-color: $primary-color;
 }

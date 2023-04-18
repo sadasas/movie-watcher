@@ -8,9 +8,9 @@ async function getData(index: number, genre: Genre) {
       params: {
         genre: Genre[genre],
         limit: "50",
-        startYear: "2022",
+        startYear: "2005",
         info: "base_info",
-        endYear: "2023",
+        endYear: "2022",
         sort: "year.decr",
         page: index,
       },
@@ -32,7 +32,7 @@ export async function getGenreMovies(
   let nextPage = index;
   let isNext = true;
 
-  while (validData.length < 10 && isNext) {
+  while (validData.length < length && isNext) {
     const data = await getData(nextPage, genre);
 
     validData = validData.concat(

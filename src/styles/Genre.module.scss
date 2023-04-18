@@ -1,0 +1,35 @@
+@use "variables.module" as *;
+
+.genre-container {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  color: $primary-color;
+}
+
+.genre-grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  grid-gap: 20px;
+}
+.box {
+  background-color: $secondary-background-color;
+  width: 150px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: $primary-color;
+
+  &:hover {
+    cursor: pointer;
+    scale: 1.1;
+    box-shadow: 4px 4px $red-color;
+    transition: 0.3s;
+  }
+}

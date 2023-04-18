@@ -13,6 +13,7 @@ function BannerBox({ movie }: { movie: IMovie }) {
       {movie.primaryImage && (
         <LazyLoadImage
           threshold={0}
+          alt={movie.titleText.text}
           effect="blur"
           placeholderSrc={PlaceholderHorizontal}
           src={movie.primaryImage.url}
@@ -37,11 +38,13 @@ function BannerBox({ movie }: { movie: IMovie }) {
                 pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
                 query: { movie: JSON.stringify(movie) },
               }}
-              className={styles["btn-see"]}
+              className={`${styles.btn} ${styles["btn-see"]} `}
             >
               See detail
             </Link>
-            <IoMdAddCircle className={styles["btn-watchlist"]} />
+            <IoMdAddCircle
+              className={`${styles.btn} ${styles["btn-watchlist"]} `}
+            />
           </div>
         </div>
       )}

@@ -27,7 +27,7 @@
   span {
     width: 100%;
     height: 100%;
-    color: #fff;
+    color: $primary-color;
   }
 }
 
@@ -98,28 +98,48 @@
   align-items: center;
   opacity: 0.8;
   gap: 10px;
+}
 
-  > * {
-    text-align: center;
-    margin: 0;
-    &:hover {
-      cursor: pointer;
-    }
-    font-weight: 600;
+.btn {
+  background-color: $red-color;
+  color: $primary-color;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  margin: 0;
+  &:hover {
+    cursor: pointer;
+  }
+  font-weight: 600;
+}
+.btn-see {
+  border-radius: 15px;
+  padding: 5px 10px;
+  &:before {
+    content: "";
+    position: absolute;
+    height: 150px;
+    width: 50px;
+    background: #fff;
+    right: -40px;
+    top: -40px;
+    transform: rotate(37deg);
+    transition: all 0.3s;
+    opacity: 0.5;
+  }
+
+  &:hover:before {
+    right: 125%;
   }
 }
 
-.btn-see {
-  background-color: red;
-  color: $primary-color;
-  border-radius: 15px;
-  padding: 5px 10px;
-  text-decoration: none;
-}
-
 .btn-watchlist {
-  background-color: red;
   border-radius: 50%;
   width: 35px;
   height: 35px;
+  &:hover {
+    color: rgb(43, 42, 42);
+  }
 }
