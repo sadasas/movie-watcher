@@ -7,7 +7,7 @@ function Box({ genre, index }: { genre: string; index: number }) {
     <Link
       href={{
         pathname: `/genre/params`,
-        query: { genre, index },
+        query: { data: JSON.stringify({ genre, index }) },
       }}
       className={styles.box}
     >

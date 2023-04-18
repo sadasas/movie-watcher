@@ -23,12 +23,12 @@ async function getData(index: number) {
   }
 }
 
-export async function getUpcomingFilms(page: number, length: number) {
+export async function getLatestFilms(page: number, length: number) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
 
-  while (validData.length < 10 && isNext) {
+  while (validData.length < length && isNext) {
     const data = await getData(nextPage);
 
     validData = validData.concat(

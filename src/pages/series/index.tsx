@@ -26,24 +26,38 @@ function Home({
     <section id="series" className={styles["home-container"]}>
       <Suspense fallback={<div>Loading...</div>}>
         <Movies
+          urlBase="/series/trendingSeries"
+          urlBaseParams={null}
           title="Trending series"
           movies={trendingMoviesData}
           widthBox={600}
           heightBox={400}
         />
         <Movies
+          urlBase="/series/latestSeries"
+          urlBaseParams={null}
           title="Lates series"
           movies={latesMoviesData}
           widthBox={200}
           heightBox={300}
         />
         <Movies
+          urlBase="/genre/params"
+          urlBaseParams={{
+            genre: Genre[Genre.Drama],
+            index: Genre["Drama"],
+          }}
           title="Drama series"
           movies={dramaMoviesData}
           widthBox={200}
           heightBox={300}
         />
         <Movies
+          urlBase="/genre/params"
+          urlBaseParams={{
+            genre: Genre[Genre.Family],
+            index: Genre["Family"],
+          }}
           title="Family series"
           movies={familyMoviesData}
           widthBox={200}

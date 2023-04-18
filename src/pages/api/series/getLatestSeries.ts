@@ -28,7 +28,7 @@ export async function getLatestSeries(page: number, length: number) {
   let nextPage = page;
   let isNext = true;
 
-  while (validData.length < 10 && isNext) {
+  while (validData.length < length && isNext) {
     const data = await getData(nextPage);
 
     validData = validData.concat(

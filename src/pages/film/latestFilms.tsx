@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import {
   ScrollPosition,
@@ -7,28 +6,21 @@ import {
 import { useInViewport } from "react-in-viewport";
 import Image from "next/image";
 
-import { Genre as genreType, IMovie } from "@/models/movie";
-import { getGenreMovies } from "@/pages/api/getGenreMovies";
+import { IMovie } from "@/models/movie";
 import styles from "@/styles/GenreMovie.module.scss";
 import MoviesBox from "@/components/movies/MoviesBox";
-import { IParsedUrlQueryGenre, IParsedUrlQueryTypeMovie } from "@/models/route";
+import { getLatestFilms } from "@/pages/api/film/getLatesFilms";
 
-function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
-  const router = useRouter();
+function LatestFilms({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const myRef = useRef<HTMLImageElement>(null);
   const [movies, setMovies] = useState<IMovie[]>();
   const { inViewport } = useInViewport(myRef);
-  const [query, setQuery] = useState<IParsedUrlQueryGenre>();
   const [isFetching, setIsFetching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const getDataMovieHandler = async (
-    index: number,
-    genre: genreType,
-    length: number
-  ) => {
+  const getDataMovieHandler = async (index: number, length: number) => {
     setIsFetching(true);
-    const data = await getGenreMovies(index, genre, length);
+    const data = await getLatestFilms(index, length);
     if (movies) setMovies([...movies!, ...data]);
     else setMovies(data);
 
@@ -36,21 +28,16 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   };
 
   useEffect(() => {
-    if (inViewport && !isFetching && router.isReady && router.isReady) {
+    if (inViewport && !isFetching) {
       setCurrentPage((i) => i + 1);
-      const dataQuery = router.query as IParsedUrlQueryTypeMovie;
-      const genreQuery = JSON.parse(dataQuery.data) as IParsedUrlQueryGenre;
-      const genre = Number(genreQuery.index) as genreType;
-
-      setQuery(genreQuery);
-      getDataMovieHandler(currentPage, genre, 12);
+      getDataMovieHandler(currentPage, 12);
     }
-  }, [inViewport, router.isReady]);
+  }, [inViewport]);
 
   return (
-    <section id="genre" className="container">
+    <section id="latestFilms" className="container">
       <main className={styles["genre-movie-container"]}>
-        <h2>{query?.genre}</h2>
+        <h2>Latest</h2>
         <div className={styles["genre-movie-grid-container"]}>
           {movies &&
             movies.map((movie, index) => (
@@ -76,4 +63,4 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   );
 }
 
-export default trackWindowScroll(GenreMovie);
+export default trackWindowScroll(LatestFilms);

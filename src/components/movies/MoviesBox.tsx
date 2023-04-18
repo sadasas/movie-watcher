@@ -1,5 +1,5 @@
 import { IoMdAddCircle } from "react-icons/io";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { LazyLoadImage, ScrollPosition } from "react-lazy-load-image-component";
 import Link from "next/link";
 
 import styles from "@/styles/list_movies/MoviesBox.module.scss";
@@ -9,7 +9,9 @@ function MoviesBox({
   movie,
   width,
   height,
+  scrollPosition,
 }: {
+  scrollPosition: ScrollPosition;
   movie: IMovie;
   width: number;
   height: number;
@@ -75,6 +77,7 @@ function MoviesBox({
     <div style={boxSizeStyle} className={styles["box-container"]}>
       {movie.primaryImage != null && (
         <LazyLoadImage
+          scrollPosition={scrollPosition}
           threshold={0}
           alt={movie.titleText.text}
           effect="blur"

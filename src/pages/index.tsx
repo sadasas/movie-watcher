@@ -28,18 +28,27 @@ function Home({
       <Suspense fallback={<div>Loading...</div>}>
         <Banner title="" movies={bannerMoviesData} />
         <Movies
+          urlBase="/series/topRatedSeries"
+          urlBaseParams={null}
           title="Top rated series"
           movies={topRatedMoviesData}
           widthBox={300}
           heightBox={250}
         />
         <Movies
+          urlBase="/film/latestFilms"
+          urlBaseParams={null}
           title="Latest"
           movies={latestMoviesData}
           widthBox={300}
           heightBox={250}
         />
         <Movies
+          urlBase="/genre/params"
+          urlBaseParams={{
+            genre: Genre[Genre.Action],
+            index: Genre["Action"],
+          }}
           title="Action"
           movies={genreMoviesData}
           widthBox={200}
