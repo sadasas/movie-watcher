@@ -1,7 +1,23 @@
+@use "@/styles/mixins" as *;
 @use "@/styles/variables.module" as *;
 
 .box {
   color: $primary-color;
+}
+
+.small-box {
+  width: 200px;
+  height: 300px;
+}
+
+.medium-box {
+  width: 350px;
+  height: 250px;
+}
+
+.large-box {
+  width: 600px;
+  height: 350px;
 }
 
 .box-container {
@@ -27,6 +43,52 @@
     width: 100%;
     height: 100%;
     color: $primary-color;
+  }
+}
+
+.small-box-absolute {
+  width: 200px;
+  height: 300px;
+  padding: 15px 10px;
+  .btns {
+    justify-content: space-between;
+  }
+  .btn-watchlist {
+    font-size: 2rem;
+  }
+  .btn-see {
+    padding: 3px 8px;
+  }
+}
+
+.medium-box-absolute {
+  width: 350px;
+  height: 250px;
+  padding: 15px 10px;
+  .btns {
+    justify-content: space-between;
+  }
+  .btn-watchlist {
+    font-size: 2rem;
+  }
+  .btn-see {
+    padding: 3px 8px;
+  }
+}
+
+.large-box-absolute {
+  width: 600px;
+  height: 350px;
+  padding: 15px 10px;
+  .btns {
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .btn-watchlist {
+    font-size: 2rem;
+  }
+  .btn-see {
+    padding: 3px 8px;
   }
 }
 
@@ -111,4 +173,142 @@
   &:hover {
     color: rgb(43, 42, 42);
   }
+}
+
+@include respond(extraSmall) {
+  .small-box {
+    width: 100px;
+    height: 135px;
+  }
+  .medium-box {
+    width: 150px;
+    height: 100px;
+  }
+  .large-box {
+    width: 220px;
+    height: 150px;
+  }
+  .small-box-absolute {
+    font-size: 9px;
+    width: 100px;
+    height: 135px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: space-between;
+    }
+    .btn-watchlist {
+      font-size: 2rem;
+    }
+    .btn-see {
+      padding: 3px 8px;
+    }
+  }
+
+  .medium-box-absolute {
+    font-size: 9px;
+    width: 150px;
+    height: 100px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: space-between;
+    }
+    .btn-watchlist {
+      font-size: 1.5rem;
+    }
+    .btn-see {
+      padding: 1px 4px;
+    }
+  }
+
+  .large-box-absolute {
+    width: 220px;
+    height: 150px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-watchlist {
+      font-size: 2rem;
+    }
+    .btn-see {
+      padding: 3px 8px;
+    }
+  }
+}
+
+@include respond(small) {
+  .small-box {
+    width: 100px;
+    height: 135px;
+  }
+
+  .medium-box {
+    width: 170px;
+    height: 120px;
+  }
+
+  .large-box {
+    width: 220px;
+    height: 150px;
+  }
+
+  .small-box-absolute {
+    font-size: 9px;
+    width: 100px;
+    height: 135px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: space-between;
+    }
+    .btn-watchlist {
+      font-size: 2rem;
+    }
+    .btn-see {
+      padding: 3px 8px;
+    }
+  }
+
+  .medium-box-absolute {
+    font-size: 9px;
+    width: 170px;
+    height: 120px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: space-between;
+    }
+    .btn-watchlist {
+      font-size: 1.5rem;
+    }
+    .btn-see {
+      padding: 1px 4px;
+    }
+  }
+
+  .large-box-absolute {
+    width: 220px;
+    height: 150px;
+    padding: 5px 5px;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+  .large-box {
+    width: 320px;
+    height: 220px;
+  }
+  .large-box-absolute {
+    width: 320px;
+    height: 220px;
+    padding: 10px 10px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

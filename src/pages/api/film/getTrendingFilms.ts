@@ -45,5 +45,5 @@ export async function getTrendingFilms(page: number, length: number) {
     nextPage++;
   }
   if (validData.length > length) validData = validData.slice(0, length);
-  return validData;
+  return { validData, hasNextItems: isNext };
 }

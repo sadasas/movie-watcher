@@ -6,6 +6,7 @@ import { getTrendingFilms } from "@/pages/api/film/getTrendingFilms";
 import { getLatestFilms } from "@/pages/api/film/getLatesFilms";
 import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
 import { Genre, IMovie, MovieType } from "@/models/movie";
+import { BoxType } from "@/models/box";
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
@@ -29,24 +30,21 @@ function Home({
           urlBaseParams={null}
           title="Trending film"
           movies={trendingMoviesData}
-          widthBox={600}
-          heightBox={400}
+          typeBox={BoxType.Large}
         />
         <Movies
           urlBase="/film/latestFilms"
           urlBaseParams={null}
           title="Latest film"
           movies={latesMoviesData}
-          widthBox={200}
-          heightBox={300}
+          typeBox={BoxType.Small}
         />
         <Movies
           urlBase="/genre/params"
           urlBaseParams={{ genre: Genre[Genre.Comedy], index: Genre["Comedy"] }}
           title="Comedy"
           movies={comedyMoviesData}
-          widthBox={200}
-          heightBox={300}
+          typeBox={BoxType.Small}
         />
         <Movies
           urlBase="/genre/params"
@@ -56,8 +54,7 @@ function Home({
           }}
           title="Romance"
           movies={romanceMoviesData}
-          widthBox={200}
-          heightBox={300}
+          typeBox={BoxType.Small}
         />
       </Suspense>
     </section>
@@ -67,10 +64,18 @@ function Home({
 export default Home;
 
 export async function getStaticProps() {
-  const trendingMoviesData = await getTrendingFilms(1, 10);
-  const latesMoviesData = await getLatestFilms(1, 10);
-  const comedyMoviesData = await getGenreFilms(1, Genre.Comedy, 10);
-  const romanceMoviesData = await getGenreFilms(1, Genre.Romance, 10);
+  const { validData: trendingMoviesData } = await getTrendingFilms(1, 10);
+  const { validData: latesMoviesData } = await getLatestFilms(1, 10);
+  const { validData: comedyMoviesData } = await getGenreFilms(
+    1,
+    Genre.Comedy,
+    10
+  );
+  const { validData: romanceMoviesData } = await getGenreFilms(
+    1,
+    Genre.Romance,
+    10
+  );
   return {
     props: {
       trendingMoviesData,

@@ -1,3 +1,4 @@
+@use "mixins" as *;
 @use "variables.module" as *;
 
 .genre-container {
@@ -32,4 +33,62 @@
     box-shadow: 4px 4px $red-color;
     transition: 0.3s;
   }
+}
+
+@include respond(extraSmall) {
+  .genre-grid-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .box {
+    width: 100px;
+    height: 50px;
+  }
+}
+
+@include respond(small) {
+  .genre-grid-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .box {
+    width: 100px;
+    height: 50px;
+  }
+}
+@include respond(medium) {
+  .genre-grid-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .box {
+    width: 120px;
+    height: 70px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+  .genre-grid-container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .box {
+    width: 140px;
+    height: 90px;
+  }
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

@@ -1,3 +1,4 @@
+@use "@/styles/mixins" as *;
 @use "@/styles/variables.module" as *;
 
 .box {
@@ -142,4 +143,127 @@
   &:hover {
     color: rgb(43, 42, 42);
   }
+}
+
+@include respond(extraSmall) {
+  .box-container {
+    height: 200px;
+  }
+
+  .box-container-absolute {
+    font-size: 8px;
+    margin-top: 10px;
+    height: 91%;
+  }
+
+  .title {
+    width: 100%;
+    height: 30px;
+  }
+  .synopsis {
+    width: 100%;
+  }
+
+  .info-container {
+    width: 100%;
+    height: 30px;
+  }
+
+  .btn-see {
+    border-radius: 15px;
+    padding: 1px 4px;
+    &:before {
+      content: "";
+      position: absolute;
+      height: 150px;
+      width: 50px;
+      background: #fff;
+      right: -40px;
+      top: -40px;
+      transform: rotate(37deg);
+      transition: all 0.3s;
+      opacity: 0.5;
+    }
+
+    &:hover:before {
+      right: 125%;
+    }
+  }
+
+  .btn-watchlist {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    &:hover {
+      color: rgb(43, 42, 42);
+    }
+  }
+}
+
+@include respond(small) {
+  .box-container {
+    height: 250px;
+  }
+
+  .box-container-absolute {
+    font-size: 8px;
+    margin-top: 10px;
+    height: 92%;
+  }
+
+  .title {
+    width: 100%;
+    height: 30px;
+  }
+  .synopsis {
+    width: 100%;
+  }
+
+  .info-container {
+    width: 100%;
+    height: 30px;
+  }
+
+  .btn-see {
+    border-radius: 15px;
+    padding: 1px 4px;
+    &:before {
+      content: "";
+      position: absolute;
+      height: 150px;
+      width: 50px;
+      background: #fff;
+      right: -40px;
+      top: -40px;
+      transform: rotate(37deg);
+      transition: all 0.3s;
+      opacity: 0.5;
+    }
+
+    &:hover:before {
+      right: 125%;
+    }
+  }
+
+  .btn-watchlist {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    &:hover {
+      color: rgb(43, 42, 42);
+    }
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

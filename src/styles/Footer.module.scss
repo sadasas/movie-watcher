@@ -1,3 +1,4 @@
+@use "mixins" as *;
 @use "variables.module" as *;
 
 .container {
@@ -58,4 +59,38 @@
   width: 2px;
   height: 100%;
   background-color: $primary-color;
+}
+
+@include respond(extraSmall) {
+  .footer-container {
+    margin: 0 auto;
+    width: $container-width;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+  .line {
+    width: 100%;
+    height: 2px;
+  }
+}
+
+@include respond(small) {
+  .footer-container {
+    font-size: 9px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

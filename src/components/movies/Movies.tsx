@@ -8,6 +8,7 @@ import MoviesBox from "@/components/movies/MoviesBox";
 import { IMovie, MovieType, defaultValueMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
 import Link from "next/link";
+import { BoxType } from "@/models/box";
 
 function Movies({
   scrollPosition,
@@ -15,27 +16,27 @@ function Movies({
   movies,
   urlBase,
   urlBaseParams,
-  widthBox,
-  heightBox,
+  typeBox,
 }: {
+  typeBox: BoxType;
   scrollPosition: ScrollPosition;
   title: string;
   urlBase: string;
   urlBaseParams: object | null;
   movies: IMovie[];
-  widthBox: number;
-  heightBox: number;
 }) {
   const EmptyImg = "";
 
+  const width =
+    typeBox == BoxType.Small ? 200 : typeBox == BoxType.Medium ? 350 : 600;
   const slideLeft = () => {
     let slider = document.getElementById(`slider-${title}`);
-    slider!.scrollLeft = slider!.scrollLeft - widthBox - 10;
+    slider!.scrollLeft = slider!.scrollLeft - width - 10;
   };
 
   const slideRight = () => {
     let slider = document.getElementById(`slider-${title}`);
-    slider!.scrollLeft = slider!.scrollLeft + widthBox + 10;
+    slider!.scrollLeft = slider!.scrollLeft + width + 10;
   };
 
   return (
@@ -75,11 +76,10 @@ function Movies({
             {movies.length > 0 &&
               movies.map((movie, index) => (
                 <MoviesBox
+                  boxType={typeBox}
                   scrollPosition={scrollPosition}
                   key={index}
                   movie={movie}
-                  width={widthBox}
-                  height={heightBox}
                 ></MoviesBox>
               ))}
           </div>

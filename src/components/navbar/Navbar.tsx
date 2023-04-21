@@ -72,9 +72,9 @@ function Navbar() {
               onClick={() => {
                 setSelectedMenu(MenuNav.MOVIES);
               }}
-              className={
-                selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : ""
-              }
+              className={`${styles["menu-list"]} ${
+                selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : null
+              }`}
               href="/film"
             >
               <h3>Movies</h3>
@@ -84,9 +84,9 @@ function Navbar() {
               onClick={() => {
                 setSelectedMenu(MenuNav.SERIES);
               }}
-              className={
-                selectedMenu == MenuNav.SERIES ? styles["menu-selected"] : ""
-              }
+              className={`${styles["menu-list"]} ${
+                selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : null
+              }`}
               href="/series"
             >
               <h3>Series</h3>

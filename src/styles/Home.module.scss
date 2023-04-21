@@ -1,4 +1,5 @@
 @use "variables.module" as *;
+@use "mixins" as *;
 
 .home-container {
   display: flex;

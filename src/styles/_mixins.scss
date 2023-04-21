@@ -1,1 +1,32 @@
-$background-color: #ffffff;
+@mixin respond($breakpoint) {
+  @if ($breakpoint == wide) {
+    @media only screen and (min-width: 1200px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == extraLarge) {
+    @media only screen and (min-width: 992px) and (max-width: 1200px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == large) {
+    @media only screen and (max-width: 992px) and (min-width: 768px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == medium) {
+    @media only screen and (max-width: 768px) and (min-width: 600px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == small) {
+    @media only screen and (max-width: 600px) and (min-width: 420px) {
+      @content;
+    }
+  }
+  @if ($breakpoint == extraSmall) {
+    @media only screen and (max-width: 420px) {
+      @content;
+    }
+  }
+}

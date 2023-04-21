@@ -1,3 +1,4 @@
+@use "mixins" as *;
 @use "variables.module" as *;
 
 .genre-movie-container {
@@ -19,4 +20,34 @@
 .loader {
   width: 100%;
   margin-top: 10px;
+}
+
+@include respond(extraSmall) {
+  .genre-movie-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include respond(small) {
+  .genre-movie-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+  .genre-movie-grid-container {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

@@ -1,26 +1,42 @@
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
-import { useInViewport } from "react-in-viewport";
 import Image from "next/image";
 
-import { Genre as genreType, IMovie } from "@/models/movie";
+import { Genre, Genre as genreType, IMovie } from "@/models/movie";
 import { getGenreMovies } from "@/pages/api/getGenreMovies";
 import styles from "@/styles/GenreMovie.module.scss";
 import MoviesBox from "@/components/movies/MoviesBox";
 import { IParsedUrlQueryGenre, IParsedUrlQueryTypeMovie } from "@/models/route";
+import { BoxType } from "@/models/box";
 
 function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const router = useRouter();
-  const myRef = useRef<HTMLImageElement>(null);
+  const observer = useRef<IntersectionObserver>();
   const [movies, setMovies] = useState<IMovie[]>();
-  const { inViewport } = useInViewport(myRef);
-  const [query, setQuery] = useState<IParsedUrlQueryGenre>();
+
   const [isFetching, setIsFetching] = useState(false);
+  const [genre, setGenre] = useState<Genre>();
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextItems, setHasNextItems] = useState(true);
+
+  const lastItemElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetching) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextItems) {
+          setCurrentPage((i) => i + 1);
+          getDataMovieHandler(currentPage, genre!, 12);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isFetching, hasNextItems]
+  );
 
   const getDataMovieHandler = async (
     index: number,
@@ -28,49 +44,66 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
     length: number
   ) => {
     setIsFetching(true);
-    const data = await getGenreMovies(index, genre, length);
-    if (movies) setMovies([...movies!, ...data]);
-    else setMovies(data);
-
+    const { validData, hasNextItems } = await getGenreMovies(
+      index,
+      genre,
+      length
+    );
+    if (movies) setMovies([...movies!, ...validData]);
+    else setMovies(validData);
+    setHasNextItems(hasNextItems);
     setIsFetching(false);
   };
 
   useEffect(() => {
-    if (inViewport && !isFetching && router.isReady && router.isReady) {
+    if (router.isReady && hasNextItems) {
       setCurrentPage((i) => i + 1);
       const dataQuery = router.query as IParsedUrlQueryTypeMovie;
       const genreQuery = JSON.parse(dataQuery.data) as IParsedUrlQueryGenre;
-      const genre = Number(genreQuery.index) as genreType;
-
-      setQuery(genreQuery);
-      getDataMovieHandler(currentPage, genre, 12);
+      setGenre(Number(genreQuery.index) as genreType);
+      getDataMovieHandler(currentPage, genre!, 12);
     }
-  }, [inViewport, router.isReady]);
+  }, [router.isReady]);
 
   return (
     <section id="genre" className="container">
       <main className={styles["genre-movie-container"]}>
-        <h2>{query?.genre}</h2>
+        <h2>{Genre[genre!]}</h2>
         <div className={styles["genre-movie-grid-container"]}>
           {movies &&
-            movies.map((movie, index) => (
-              <MoviesBox
-                scrollPosition={scrollPosition}
-                movie={movie}
-                key={index}
-                width={180}
-                height={270}
-              />
-            ))}
+            movies.map((movie, index) => {
+              if (movies.length === index + 1) {
+                return (
+                  <div key={index} ref={lastItemElementRef}>
+                    <MoviesBox
+                      scrollPosition={scrollPosition}
+                      movie={movie}
+                      boxType={BoxType.Small}
+                    />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={index}>
+                    <MoviesBox
+                      boxType={BoxType.Small}
+                      scrollPosition={scrollPosition}
+                      movie={movie}
+                    />
+                  </div>
+                );
+              }
+            })}
         </div>
-        <Image
-          className={styles.loader}
-          width={800}
-          height={100}
-          ref={myRef}
-          alt=""
-          src="/placeholderList2.svg"
-        ></Image>
+        {isFetching && (
+          <Image
+            className={styles.loader}
+            width={800}
+            height={100}
+            alt=""
+            src="/placeholderList2.svg"
+          ></Image>
+        )}
       </main>
     </section>
   );

@@ -1,3 +1,4 @@
+@use "mixins" as *;
 @use "variables.module" as *;
 
 :root {
@@ -38,4 +39,32 @@ body {
     color: #213547;
     background-color: #ffffff;
   }
+}
+
+@include respond(extraSmall) {
+  html {
+    font-size: 11px;
+  }
+}
+
+@include respond(small) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+  html {
+    font-size: 13px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }
