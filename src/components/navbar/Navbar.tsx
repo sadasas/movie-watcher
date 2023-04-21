@@ -38,6 +38,7 @@ function Navbar() {
     else if (router.pathname.includes("/series"))
       setSelectedMenu(MenuNav.SERIES);
     else setSelectedMenu(MenuNav.NONE);
+    console.log(selectedMenu);
   }, [router]);
 
   useEffect(() => {
@@ -85,7 +86,7 @@ function Navbar() {
                 setSelectedMenu(MenuNav.SERIES);
               }}
               className={`${styles["menu-list"]} ${
-                selectedMenu == MenuNav.MOVIES ? styles["menu-selected"] : null
+                selectedMenu == MenuNav.SERIES ? styles["menu-selected"] : null
               }`}
               href="/series"
             >

@@ -1,3 +1,4 @@
+@use "@/styles/mixins" as *;
 @use "@/styles/variables.module" as *;
 
 .movie-container {
@@ -57,6 +58,7 @@
   row-gap: 40px;
   width: 100%;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .cast-content-container {
@@ -90,4 +92,65 @@
 .creator-content-container {
   display: flex;
   gap: 20px;
+}
+
+@include respond(extraSmall) {
+  .box-container {
+    gap: 5px;
+    > * {
+      width: 150px;
+      height: 70px;
+    }
+  }
+  .content-container {
+    gap: 5px;
+  }
+  .cast-content-container {
+    width: 80px;
+  }
+  .cast-img-container {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@include respond(small) {
+  .box-container {
+    > * {
+      width: 150px;
+      height: 70px;
+    }
+  }
+
+  .content-container {
+    gap: 5px;
+  }
+  .cast-content-container {
+    width: 100px;
+  }
+  .cast-img-container {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+  .cast-content-container {
+    width: 150px;
+  }
+  .cast-img-container {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }

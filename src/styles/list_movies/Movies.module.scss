@@ -55,6 +55,7 @@
   gap: 10px;
   overflow-y: hidden;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   position: relative;
   padding: 1rem 0.6rem;
