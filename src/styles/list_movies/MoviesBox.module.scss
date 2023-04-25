@@ -6,8 +6,8 @@
 }
 
 .small-box {
-  width: 200px;
-  height: 300px;
+  width: 150px;
+  height: 195px;
 }
 
 .medium-box {
@@ -47,17 +47,18 @@
 }
 
 .small-box-absolute {
-  width: 200px;
-  height: 300px;
-  padding: 15px 10px;
+  font-size: 11px;
+  width: 150px;
+  height: 195px;
+  padding: 5px 5px;
   .btns {
     justify-content: space-between;
   }
   .btn-watchlist {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .btn-see {
-    padding: 3px 8px;
+    padding: 1px 4px;
   }
 }
 
@@ -117,9 +118,9 @@
   }
   > * {
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
-    display: inherit;
+    text-overflow: ellipsis;
+
     width: 70%;
     z-index: 10;
   }
@@ -262,10 +263,10 @@
       justify-content: space-between;
     }
     .btn-watchlist {
-      font-size: 2rem;
+      font-size: 1.5rem;
     }
     .btn-see {
-      padding: 3px 8px;
+      padding: 2px 4px;
     }
   }
 
@@ -293,6 +294,25 @@
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @include respond(medium) {
+  .small-box {
+    width: 150px;
+    height: 195px;
+  }
+  .small-box-absolute {
+    font-size: 9px;
+    width: 150px;
+    height: 195px;
+    padding: 5px 5px;
+    .btns {
+      justify-content: space-between;
+    }
+    .btn-watchlist {
+      font-size: 1.5rem;
+    }
+    .btn-see {
+      padding: 1px 4px;
+    }
+  }
   .large-box {
     width: 320px;
     height: 220px;

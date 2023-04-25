@@ -7,6 +7,7 @@ import { getLatestFilms } from "@/pages/api/film/getLatesFilms";
 import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
 import { Genre, IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
+import Loader from "@/components/Loader";
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
@@ -24,7 +25,7 @@ function Home({
 }) {
   return (
     <section id="films" className={styles["home-container"]}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Movies
           urlBase="/film/trendingFilms"
           urlBaseParams={null}

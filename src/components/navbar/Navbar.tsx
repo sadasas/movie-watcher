@@ -94,7 +94,11 @@ function Navbar() {
             </Link>
           </div>
           <div className={styles["categories-container"]}>
-            <FiSearch className={styles.btn} />
+            <div className={`${styles.btn} ${styles["search-box"]}`}>
+              <input type="text" />
+              <span></span>
+            </div>
+
             <CgMenuGridR
               className={styles.btn}
               onClick={() => setIsMenuActive(true)}

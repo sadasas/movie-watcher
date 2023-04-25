@@ -3,13 +3,16 @@ import dynamic from "next/dynamic";
 
 import styles from "@/styles/Home.module.scss";
 import { getTopRatedFilms } from "./api/film/getTopRatedFilms";
-import Movies from "@/components/movies/Movies";
-import { getTopRatedSeries } from "./api/series/getTopRatedSeries";
-import { getLatestMovies } from "./api/getLatestMovies";
-import { getGenreMovies } from "./api/getGenreMovies";
+import { getTopRatedSeries } from "@/pages/api/series/getTopRatedSeries";
+import { getLatestMovies } from "@/pages/api/getLatestMovies";
+import { getGenreMovies } from "@/pages/api/getGenreMovies";
 import { Genre, IMovie } from "@/models/movie";
 import { BoxType } from "@/models/box";
+import Loader from "@/components/Loader";
 const Banner = dynamic(() => import("@/components/movies/Banner"), {
+  suspense: true,
+});
+const Movies = dynamic(() => import("@/components/movies/Movies"), {
   suspense: true,
 });
 
@@ -26,7 +29,7 @@ function Home({
 }) {
   return (
     <section id="home" className={styles["home-container"]}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Banner title="" movies={bannerMoviesData} />
         <Movies
           urlBase="/series/topRatedSeries"

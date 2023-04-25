@@ -11,10 +11,11 @@
 }
 
 .genre-movie-grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
-  grid-gap: 20px;
+  gap: 10px;
 }
 
 .loader {
@@ -23,23 +24,12 @@
 }
 
 @include respond(extraSmall) {
-  .genre-movie-grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @include respond(small) {
-  .genre-movie-grid-container {
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-  }
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @include respond(medium) {
-  .genre-movie-grid-container {
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */

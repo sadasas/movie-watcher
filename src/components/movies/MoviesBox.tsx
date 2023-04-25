@@ -49,7 +49,8 @@ function MoviesBox({
               : styles["large-box-absolute"]
           }`}
         >
-          <h2>{movie.titleText.text}</h2> <h4>{movie.releaseDate.year}</h4>
+          <h2>{movie.titleText.text}</h2>
+          <h4>{movie.releaseDate.year}</h4>
           <div className={styles.btns}>
             <Link
               href={{

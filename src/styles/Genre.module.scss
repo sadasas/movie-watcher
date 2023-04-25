@@ -11,10 +11,11 @@
 }
 
 .genre-grid-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  grid-gap: 20px;
+  gap: 20px;
+  justify-content: center;
 }
 .box {
   background-color: $secondary-background-color;
@@ -37,9 +38,7 @@
 
 @include respond(extraSmall) {
   .genre-grid-container {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   .box {
@@ -50,9 +49,7 @@
 
 @include respond(small) {
   .genre-grid-container {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   .box {
@@ -62,9 +59,7 @@
 }
 @include respond(medium) {
   .genre-grid-container {
-    display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
   }
 
   .box {
@@ -76,9 +71,7 @@
 /* Large devices (laptops/desktops, 992px and up) */
 @include respond(large) {
   .genre-grid-container {
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
 
   .box {
