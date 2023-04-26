@@ -24,9 +24,17 @@
 }
 
 @include respond(extraSmall) {
+  .loader {
+    margin-top: 0;
+    height: 50px;
+  }
 }
 
 @include respond(small) {
+  .loader {
+    margin-top: 0;
+    height: 50px;
+  }
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @include respond(medium) {

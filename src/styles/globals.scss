@@ -46,11 +46,19 @@ body {
   html {
     font-size: 11px;
   }
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 
 @include respond(small) {
   html {
     font-size: 12px;
+  }
+  .container {
+    width: 90%;
+    margin: 0 auto;
   }
 }
 

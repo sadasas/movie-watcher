@@ -6,8 +6,9 @@ import { useRouter } from "next/router";
 
 import styles from "@/styles/navbar/Navbar.module.scss";
 import Menu from "./Menu";
+import MobileMenu from "../MobileMenu";
 
-enum MenuNav {
+export enum MenuNav {
   MOVIES = 1,
   SERIES,
   NONE,
@@ -38,7 +39,6 @@ function Navbar() {
     else if (router.pathname.includes("/series"))
       setSelectedMenu(MenuNav.SERIES);
     else setSelectedMenu(MenuNav.NONE);
-    console.log(selectedMenu);
   }, [router]);
 
   useEffect(() => {
@@ -107,6 +107,10 @@ function Navbar() {
         </div>
       </section>
       <Menu isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
+      <MobileMenu
+        selectedMenu={selectedMenu}
+        setSelectedMenu={setSelectedMenu}
+      />
     </>
   );
 }

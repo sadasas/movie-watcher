@@ -49,20 +49,6 @@ function Menu({
         <MdClose />
       </div>
       <h4>Menu</h4>
-      <div className={styles["menu-movies"]}>
-        <List
-          setIsMenuActive={setIsMenuActive}
-          Icon={BiCategoryAlt}
-          title="Movies"
-          url="/film"
-        />
-        <List
-          setIsMenuActive={setIsMenuActive}
-          Icon={BiCategoryAlt}
-          title="Series"
-          url="/series"
-        />
-      </div>
 
       <List
         setIsMenuActive={setIsMenuActive}

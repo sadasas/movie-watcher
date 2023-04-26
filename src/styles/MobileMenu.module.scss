@@ -1,0 +1,60 @@
+@use "mixins" as *;
+@use "variables.module" as *;
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  background-color: $secondary-background-color;
+  opacity: 1;
+  width: 100%;
+
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 8px;
+  z-index: 10;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: $secondary-color;
+}
+
+.menu-selected {
+  color: $primary-color;
+}
+
+.menu-icon {
+  font-size: 2.3rem;
+}
+
+@include respond(extraSmall) {
+  .mobile-menu {
+    display: flex;
+  }
+}
+
+@include respond(small) {
+  .mobile-menu {
+    display: flex;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
+}

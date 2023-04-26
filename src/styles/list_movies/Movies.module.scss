@@ -1,3 +1,4 @@
+@use "@/styles/mixins" as *;
 @use "@/styles/variables.module" as *;
 
 .container {
@@ -66,4 +67,30 @@
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@include respond(extraSmall) {
+  .btns-scroll {
+    display: none;
+  }
+}
+
+@include respond(small) {
+  .btns-scroll {
+    display: none;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
 }
