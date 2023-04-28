@@ -208,6 +208,13 @@
       color: rgb(43, 42, 42);
     }
   }
+  .btn-remove-bookmark {
+    width: 20px;
+    height: 20px;
+    &:hover {
+      color: rgb(43, 42, 42);
+    }
+  }
 }
 
 @include respond(small) {
@@ -257,6 +264,13 @@
 
   .btn-add-bookmark {
     border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    &:hover {
+      color: rgb(43, 42, 42);
+    }
+  }
+  .btn-remove-bookmark {
     width: 20px;
     height: 20px;
     &:hover {
