@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "@/styles/list_movies/MoviesBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
+import { useRouter } from "next/router";
 
 function MoviesBox({
   boxType,
@@ -16,7 +17,7 @@ function MoviesBox({
   movie: IMovie;
 }) {
   const PlaceholderVertical = "/placeholderVertical.svg";
-
+  const router = useRouter();
   const type = movie.episodes ? MovieType.Series : MovieType.Film;
 
   return (
@@ -41,6 +42,12 @@ function MoviesBox({
       )}
       {movie.titleText.text != "" && (
         <div
+          onClick={() =>
+            router.push({
+              pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
+              query: { movie: JSON.stringify(movie) },
+            })
+          }
           className={`${styles["box-container-absolute"]} ${
             boxType == BoxType.Small
               ? styles["small-box-absolute"]

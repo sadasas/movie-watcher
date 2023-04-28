@@ -77,6 +77,12 @@
 }
 
 @include respond(small) {
+  .menu-container {
+    width: 100%;
+  }
+  .menu-container-inactive {
+    transform: translateX(-600px);
+  }
   .menu-movies {
     display: flex;
     flex-direction: column;

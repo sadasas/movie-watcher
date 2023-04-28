@@ -47,12 +47,14 @@
 }
 
 .small-box-absolute {
+  pointer-events: none;
   font-size: 11px;
   width: 150px;
   height: 195px;
   padding: 5px 5px;
   .btns {
     justify-content: space-between;
+    pointer-events: all;
   }
   .btn-watchlist {
     font-size: 1.5rem;
@@ -63,11 +65,13 @@
 }
 
 .medium-box-absolute {
+  pointer-events: none;
   width: 350px;
   height: 250px;
   padding: 15px 10px;
   .btns {
     justify-content: space-between;
+    pointer-events: all;
   }
   .btn-watchlist {
     font-size: 2rem;
@@ -78,12 +82,14 @@
 }
 
 .large-box-absolute {
+  pointer-events: none;
   width: 600px;
   height: 350px;
   padding: 15px 10px;
   .btns {
     justify-content: flex-end;
     gap: 10px;
+    pointer-events: all;
   }
   .btn-watchlist {
     font-size: 2rem;
@@ -190,12 +196,13 @@
     height: 150px;
   }
   .small-box-absolute {
+    pointer-events: all;
     font-size: 9px;
     width: 100px;
     height: 135px;
     padding: 5px 5px;
     .btns {
-      justify-content: space-between;
+      display: none;
     }
     .btn-watchlist {
       font-size: 2rem;
@@ -203,15 +210,19 @@
     .btn-see {
       padding: 3px 8px;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .medium-box-absolute {
+    pointer-events: all;
     font-size: 9px;
     width: 150px;
     height: 100px;
     padding: 5px 5px;
     .btns {
-      justify-content: space-between;
+      display: none;
     }
     .btn-watchlist {
       font-size: 1.5rem;
@@ -219,9 +230,13 @@
     .btn-see {
       padding: 1px 4px;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .large-box-absolute {
+    pointer-events: all;
     width: 220px;
     height: 150px;
     padding: 5px 5px;
@@ -255,12 +270,13 @@
   }
 
   .small-box-absolute {
+    pointer-events: all;
     font-size: 9px;
     width: 100px;
     height: 135px;
     padding: 5px 5px;
     .btns {
-      justify-content: space-between;
+      display: none;
     }
     .btn-watchlist {
       font-size: 1.5rem;
@@ -268,15 +284,19 @@
     .btn-see {
       padding: 2px 4px;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .medium-box-absolute {
+    pointer-events: all;
     font-size: 9px;
     width: 170px;
     height: 120px;
     padding: 5px 5px;
     .btns {
-      justify-content: space-between;
+      display: none;
     }
     .btn-watchlist {
       font-size: 1.5rem;
@@ -284,9 +304,13 @@
     .btn-see {
       padding: 1px 4px;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .large-box-absolute {
+    pointer-events: all;
     width: 220px;
     height: 150px;
     padding: 5px 5px;
