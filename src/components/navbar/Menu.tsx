@@ -1,10 +1,10 @@
 import { BiCategoryAlt, BiBookBookmark, BiTime } from "react-icons/bi";
 import { GoClock } from "react-icons/go";
 import { MdLanguage, MdClose } from "react-icons/md";
+import { IconType } from "react-icons/lib";
+import Link from "next/link";
 
 import styles from "@/styles/navbar/Menu.module.scss";
-import Link from "next/link";
-import { IconType } from "react-icons/lib";
 
 function List({
   Icon,
@@ -65,12 +65,15 @@ function Menu({
       />
       <div className={styles.line}></div>
       <h4>Library</h4>
-      <List
-        setIsMenuActive={setIsMenuActive}
-        Icon={BiBookBookmark}
-        title="Bookmark"
-        url=""
-      />
+      <div className={styles.bookmark}>
+        <List
+          setIsMenuActive={setIsMenuActive}
+          Icon={BiBookBookmark}
+          title="Bookmark"
+          url="/bookmark"
+        />
+      </div>
+
       <List
         setIsMenuActive={setIsMenuActive}
         Icon={BiTime}

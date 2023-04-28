@@ -74,6 +74,9 @@
     flex-direction: column;
     gap: 10px;
   }
+  .bookmark {
+    display: none;
+  }
 }
 
 @include respond(small) {
@@ -87,6 +90,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+  .bookmark {
+    display: none;
   }
 }
 

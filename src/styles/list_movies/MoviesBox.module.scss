@@ -47,7 +47,6 @@
 }
 
 .small-box-absolute {
-  pointer-events: none;
   font-size: 11px;
   width: 150px;
   height: 195px;
@@ -56,7 +55,8 @@
     justify-content: space-between;
     pointer-events: all;
   }
-  .btn-watchlist {
+  .btn-remove-bookmark,
+  .btn-add-bookmark {
     font-size: 1.5rem;
   }
   .btn-see {
@@ -65,7 +65,6 @@
 }
 
 .medium-box-absolute {
-  pointer-events: none;
   width: 350px;
   height: 250px;
   padding: 15px 10px;
@@ -73,7 +72,8 @@
     justify-content: space-between;
     pointer-events: all;
   }
-  .btn-watchlist {
+  .btn-remove-bookmark,
+  .btn-add-bookmark {
     font-size: 2rem;
   }
   .btn-see {
@@ -82,7 +82,6 @@
 }
 
 .large-box-absolute {
-  pointer-events: none;
   width: 600px;
   height: 350px;
   padding: 15px 10px;
@@ -91,7 +90,8 @@
     gap: 10px;
     pointer-events: all;
   }
-  .btn-watchlist {
+  .btn-remove-bookmark,
+  .btn-add-bookmark {
     font-size: 2rem;
   }
   .btn-see {
@@ -100,6 +100,7 @@
 }
 
 .box-container-absolute {
+  pointer-events: none;
   display: flex;
   position: absolute;
   flex-direction: column;
@@ -175,8 +176,13 @@
   }
 }
 
-.btn-watchlist {
+.btn-add-bookmark {
   border-radius: 50%;
+  &:hover {
+    color: rgb(43, 42, 42);
+  }
+}
+.btn-remove-bookmark {
   &:hover {
     color: rgb(43, 42, 42);
   }
@@ -195,8 +201,10 @@
     width: 220px;
     height: 150px;
   }
-  .small-box-absolute {
+  .box-container-absolute {
     pointer-events: all;
+  }
+  .small-box-absolute {
     font-size: 9px;
     width: 100px;
     height: 135px;
@@ -204,7 +212,8 @@
     .btns {
       display: none;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 2rem;
     }
     .btn-see {
@@ -216,7 +225,6 @@
   }
 
   .medium-box-absolute {
-    pointer-events: all;
     font-size: 9px;
     width: 150px;
     height: 100px;
@@ -224,7 +232,8 @@
     .btns {
       display: none;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 1.5rem;
     }
     .btn-see {
@@ -236,7 +245,6 @@
   }
 
   .large-box-absolute {
-    pointer-events: all;
     width: 220px;
     height: 150px;
     padding: 5px 5px;
@@ -244,7 +252,8 @@
       justify-content: flex-end;
       gap: 10px;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 2rem;
     }
     .btn-see {
@@ -268,9 +277,10 @@
     width: 220px;
     height: 150px;
   }
-
-  .small-box-absolute {
+  .box-container-absolute {
     pointer-events: all;
+  }
+  .small-box-absolute {
     font-size: 9px;
     width: 100px;
     height: 135px;
@@ -278,7 +288,8 @@
     .btns {
       display: none;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 1.5rem;
     }
     .btn-see {
@@ -290,7 +301,6 @@
   }
 
   .medium-box-absolute {
-    pointer-events: all;
     font-size: 9px;
     width: 170px;
     height: 120px;
@@ -298,7 +308,8 @@
     .btns {
       display: none;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 1.5rem;
     }
     .btn-see {
@@ -310,7 +321,6 @@
   }
 
   .large-box-absolute {
-    pointer-events: all;
     width: 220px;
     height: 150px;
     padding: 5px 5px;
@@ -330,7 +340,8 @@
     .btns {
       justify-content: space-between;
     }
-    .btn-watchlist {
+    .btn-remove-bookmark,
+    .btn-add-bookmark {
       font-size: 1.5rem;
     }
     .btn-see {

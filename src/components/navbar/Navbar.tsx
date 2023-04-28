@@ -12,6 +12,7 @@ export enum MenuNav {
   MOVIES = 1,
   SERIES,
   NONE,
+  BOOKMARK,
 }
 function Navbar() {
   const router = useRouter();
@@ -38,6 +39,8 @@ function Navbar() {
     if (router.pathname.includes("/film")) setSelectedMenu(MenuNav.MOVIES);
     else if (router.pathname.includes("/series"))
       setSelectedMenu(MenuNav.SERIES);
+    else if (router.pathname.includes("/bookmark"))
+      setSelectedMenu(MenuNav.BOOKMARK);
     else setSelectedMenu(MenuNav.NONE);
   }, [router]);
 

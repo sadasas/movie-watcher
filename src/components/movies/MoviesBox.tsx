@@ -1,11 +1,15 @@
 import { IoMdAddCircle } from "react-icons/io";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { LazyLoadImage, ScrollPosition } from "react-lazy-load-image-component";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import styles from "@/styles/list_movies/MoviesBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
-import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
+import { useEffect, useState } from "react";
 
 function MoviesBox({
   boxType,
@@ -16,9 +20,37 @@ function MoviesBox({
   scrollPosition: ScrollPosition;
   movie: IMovie;
 }) {
+  const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
+  const movies = useAppSelector((state) => state.reducer.value);
   const PlaceholderVertical = "/placeholderVertical.svg";
+
+  useEffect(() => {
+    if (movies.length < 1) {
+      setIsMovieBookmarked(false);
+      return;
+    }
+    let isSame = false;
+    movies.forEach((m) => {
+      if (m.id === movie.id) {
+        isSame = true;
+      }
+    });
+    if (!isSame) setIsMovieBookmarked(false);
+    else setIsMovieBookmarked(true);
+  }, [movies]);
+
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const type = movie.episodes ? MovieType.Series : MovieType.Film;
+
+  const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(addBookmark(movie));
+  };
+  const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(removeBookmark(movie.id));
+  };
 
   return (
     <div
@@ -42,12 +74,12 @@ function MoviesBox({
       )}
       {movie.titleText.text != "" && (
         <div
-          onClick={() =>
+          onClick={() => {
             router.push({
               pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
               query: { movie: JSON.stringify(movie) },
-            })
-          }
+            });
+          }}
           className={`${styles["box-container-absolute"]} ${
             boxType == BoxType.Small
               ? styles["small-box-absolute"]
@@ -68,9 +100,17 @@ function MoviesBox({
             >
               See detail
             </Link>
-            <IoMdAddCircle
-              className={`${styles.btn} ${styles["btn-watchlist"]} `}
-            />
+            {isMovieBookmarked ? (
+              <BsFillBookmarkCheckFill
+                onClick={removeBookmarkHandler}
+                className={`${styles.btn} ${styles["btn-remove-bookmark"]} `}
+              />
+            ) : (
+              <IoMdAddCircle
+                onClick={addBookmarkHandler}
+                className={`${styles.btn} ${styles["btn-add-bookmark"]} `}
+              />
+            )}
           </div>
         </div>
       )}
