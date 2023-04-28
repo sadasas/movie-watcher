@@ -1,13 +1,45 @@
 import { IoMdAddCircle } from "react-icons/io";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
 
 import styles from "@/styles/list_movies/BannerBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
 
 function BannerBox({ movie }: { movie: IMovie }) {
+  const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
+  const dispatch = useAppDispatch();
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
   const type = movie.episodes ? MovieType.Series : MovieType.Film;
+  const movies = useAppSelector((state) => state.reducer.value);
+
+  const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(addBookmark(movie));
+  };
+  const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(removeBookmark(movie.id));
+  };
+
+  useEffect(() => {
+    if (movies.length < 1) {
+      setIsMovieBookmarked(false);
+      return;
+    }
+    let isSame = false;
+    movies.forEach((m) => {
+      if (m.id === movie.id) {
+        isSame = true;
+      }
+    });
+    if (!isSame) setIsMovieBookmarked(false);
+    else setIsMovieBookmarked(true);
+  }, [movies]);
+
   return (
     <div className={styles["box-container"]}>
       {movie.primaryImage && (
@@ -42,9 +74,17 @@ function BannerBox({ movie }: { movie: IMovie }) {
             >
               See detail
             </Link>
-            <IoMdAddCircle
-              className={`${styles.btn} ${styles["btn-watchlist"]} `}
-            />
+            {isMovieBookmarked ? (
+              <BsFillBookmarkCheckFill
+                onClick={removeBookmarkHandler}
+                className={`${styles.btn} ${styles["btn-remove-bookmark"]} `}
+              />
+            ) : (
+              <IoMdAddCircle
+                onClick={addBookmarkHandler}
+                className={`${styles.btn} ${styles["btn-add-bookmark"]} `}
+              />
+            )}
           </div>
         </div>
       )}

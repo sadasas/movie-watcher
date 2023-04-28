@@ -24,6 +24,18 @@ function MoviesBox({
   const movies = useAppSelector((state) => state.reducer.value);
   const PlaceholderVertical = "/placeholderVertical.svg";
 
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const type = movie.episodes ? MovieType.Series : MovieType.Film;
+
+  const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(addBookmark(movie));
+  };
+  const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
+    e.stopPropagation();
+    dispatch(removeBookmark(movie.id));
+  };
   useEffect(() => {
     if (movies.length < 1) {
       setIsMovieBookmarked(false);
@@ -38,19 +50,6 @@ function MoviesBox({
     if (!isSame) setIsMovieBookmarked(false);
     else setIsMovieBookmarked(true);
   }, [movies]);
-
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const type = movie.episodes ? MovieType.Series : MovieType.Film;
-
-  const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
-    e.stopPropagation();
-    dispatch(addBookmark(movie));
-  };
-  const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
-    e.stopPropagation();
-    dispatch(removeBookmark(movie.id));
-  };
 
   return (
     <div

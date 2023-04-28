@@ -134,9 +134,20 @@
     right: 125%;
   }
 }
-
-.btn-watchlist {
+.btn-remove-bookmark,
+.btn-add-bookmark {
+  font-size: 1.5rem;
+}
+.btn-add-bookmark {
   border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  &:hover {
+    color: rgb(43, 42, 42);
+  }
+}
+
+.btn-remove-bookmark {
   width: 35px;
   height: 35px;
   &:hover {
@@ -189,7 +200,7 @@
     }
   }
 
-  .btn-watchlist {
+  .btn-add-bookmark {
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -244,7 +255,7 @@
     }
   }
 
-  .btn-watchlist {
+  .btn-add-bookmark {
     border-radius: 50%;
     width: 20px;
     height: 20px;
