@@ -2,30 +2,45 @@ import { useRouter } from "next/router";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { IoMdAddCircle } from "react-icons/io";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
 
 import styles from "@/styles/Movie.module.scss";
 import { IParsedUrlQueryMovie } from "@/models/route";
 import { ICast, ICreator, IMovie, defaultValueMovie } from "@/models/movie";
 import { getMainActors } from "@/pages/api/getMainActor";
 import { getCreators } from "@/pages/api/getCreator";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
 
 function Film() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [movie, setMovie] = useState<IMovie>(defaultValueMovie);
-
   const [cast, setCast] = useState<ICast[]>();
   const [creators, setCreator] = useState<ICreator[]>();
+  const movies = useAppSelector((state) => state.bookmark.value);
+  const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
 
   const placeholderList = "/placeholderList.svg";
+  const placeholderProfile = "/placeholderProfile.svg";
+
   const dataCastHandler = async (m: IMovie) => {
     const data = await getMainActors(m.id);
     setCast(data!);
   };
-
   const dataCreatorHandler = async (id: string) => {
     const data = await getCreators(id);
-
     setCreator(data!);
+  };
+
+  const addBookmarkHandler = () => {
+    setIsMovieBookmarked(true);
+    dispatch(addBookmark(movie));
+  };
+  const removeBookmarkHandler = () => {
+    setIsMovieBookmarked(false);
+    dispatch(removeBookmark(movie.id));
   };
 
   useEffect(() => {
@@ -39,8 +54,23 @@ function Film() {
     }
   }, [router.isReady]);
 
+  useEffect(() => {
+    if (movies.length < 1) {
+      setIsMovieBookmarked(false);
+      return;
+    }
+    let isSame = false;
+    movies.forEach((m) => {
+      if (m.id === movie.id) {
+        isSame = true;
+      }
+    });
+    if (!isSame) setIsMovieBookmarked(false);
+    else setIsMovieBookmarked(true);
+  }, [movie]);
+
   return (
-    <section id="movie" className="container">
+    <section id="film" className="container">
       {movie.primaryImage && (
         <div className={styles["movie-image"]}>
           <LazyLoadImage src={movie.primaryImage.url} />
@@ -49,10 +79,14 @@ function Film() {
       <div className={styles["movie-container"]}>
         <h1>{movie.titleText.text}</h1>
         <div className={styles["box-container"]}>
-          <div className={styles["content-container"]}>
+          <div
+            className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+          >
             <h5 className={styles.title}>TRAILER</h5>
           </div>
-          <div className={styles["content-container"]}>
+          <div
+            className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+          >
             <h5 className={styles.title}>RATING</h5>
             <h2>
               {movie.ratingsSummary
@@ -60,7 +94,9 @@ function Film() {
                 : "PG"}
             </h2>
           </div>
-          <div className={styles["content-container"]}>
+          <div
+            className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+          >
             <h5 className={styles.title}>RELEASE</h5>
             <h2>
               {movie.releaseDate
@@ -68,6 +104,17 @@ function Film() {
                 : "PG"}
             </h2>
           </div>
+          {isMovieBookmarked ? (
+            <BsFillBookmarkCheckFill
+              onClick={removeBookmarkHandler}
+              className={styles["box-icon"]}
+            />
+          ) : (
+            <IoMdAddCircle
+              onClick={addBookmarkHandler}
+              className={styles["box-icon"]}
+            />
+          )}
         </div>
 
         <div className={styles["content-container"]}>
@@ -130,12 +177,14 @@ function Film() {
                 <div className={styles["cast-content-container"]} key={i}>
                   <p>{cast.node.name.nameText.text}</p>
                   <div className={styles["cast-img-container"]}>
-                    {cast.node.name.primaryImage && (
-                      <LazyLoadImage
-                        placeholderSrc="/placeholderVertical.svg"
-                        src={cast.node.name.primaryImage.url}
-                      />
-                    )}
+                    <LazyLoadImage
+                      placeholderSrc={placeholderProfile}
+                      src={
+                        cast.node.name.primaryImage
+                          ? cast.node.name.primaryImage.url
+                          : placeholderProfile
+                      }
+                    />
                   </div>
                 </div>
               ))

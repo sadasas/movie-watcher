@@ -14,7 +14,7 @@ function BannerBox({ movie }: { movie: IMovie }) {
   const dispatch = useAppDispatch();
   const PlaceholderHorizontal = "/placeholderHorizontal.svg";
   const type = movie.episodes ? MovieType.Series : MovieType.Film;
-  const movies = useAppSelector((state) => state.reducer.value);
+  const movies = useAppSelector((state) => state.bookmark.value);
 
   const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.stopPropagation();

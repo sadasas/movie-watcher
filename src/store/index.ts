@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import sessionStorage from "redux-persist/es/storage/session";
+
 import {
   persistReducer,
   persistStore,
@@ -23,7 +23,7 @@ const persistedReducer = persistReducer(persistConfig, bookmarkReducer);
 
 export const store = configureStore({
   reducer: {
-    reducer: persistedReducer,
+    bookmark: persistedReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

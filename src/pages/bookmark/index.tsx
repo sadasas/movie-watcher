@@ -14,7 +14,7 @@ const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
 });
 
 function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
-  const movies = useAppSelector((state) => state.reducer.value);
+  const movies = useAppSelector((state) => state.bookmark.value);
 
   return (
     <section id="bookmark" className="container">

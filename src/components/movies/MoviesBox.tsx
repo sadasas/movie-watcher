@@ -21,7 +21,7 @@ function MoviesBox({
   movie: IMovie;
 }) {
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
-  const movies = useAppSelector((state) => state.reducer.value);
+  const movies = useAppSelector((state) => state.bookmark.value);
   const PlaceholderVertical = "/placeholderVertical.svg";
 
   const router = useRouter();
