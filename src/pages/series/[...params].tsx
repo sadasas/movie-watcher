@@ -11,7 +11,8 @@ import { ICast, ICreator, IMovie, defaultValueMovie } from "@/models/movie";
 import { getMainActors } from "@/pages/api/getMainActor";
 import { getCreators } from "@/pages/api/getCreator";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
+import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
+import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 
 function Film() {
   const router = useRouter();
@@ -19,7 +20,7 @@ function Film() {
   const [movie, setMovie] = useState<IMovie>(defaultValueMovie);
   const [cast, setCast] = useState<ICast[]>();
   const [creators, setCreator] = useState<ICreator[]>();
-  const movies = useAppSelector((state) => state.bookmark.value);
+  const movies = useAppSelector((state) => state.reducer.bookmark.value);
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
 
   const placeholderList = "/placeholderList.svg";
@@ -37,6 +38,7 @@ function Film() {
   const addBookmarkHandler = () => {
     setIsMovieBookmarked(true);
     dispatch(addBookmark(movie));
+    dispatch(setNotificationBookmark(true));
   };
   const removeBookmarkHandler = () => {
     setIsMovieBookmarked(false);

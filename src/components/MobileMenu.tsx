@@ -4,6 +4,8 @@ import { MdMonitor } from "react-icons/md";
 
 import { MenuNav } from "./navbar/Navbar";
 import styles from "@/styles/MobileMenu.module.scss";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 
 function MobileMenu({
   selectedMenu,
@@ -12,6 +14,11 @@ function MobileMenu({
   selectedMenu: MenuNav;
   setSelectedMenu: Function;
 }) {
+  const dispatch = useAppDispatch();
+
+  const notifBookmark = useAppSelector(
+    (state) => state.reducer.bookmarkNotification.value
+  );
   return (
     <section className={styles["mobile-menu"]}>
       <Link
@@ -44,14 +51,19 @@ function MobileMenu({
         <h4>Series</h4>
       </Link>
       <Link
-        onClick={() => setSelectedMenu(MenuNav.BOOKMARK)}
+        onClick={() => {
+          dispatch(setNotificationBookmark(false));
+          setSelectedMenu(MenuNav.BOOKMARK);
+        }}
         className={`${styles["menu"]} ${
           selectedMenu == MenuNav.BOOKMARK ? styles["menu-selected"] : null
-        }`}
+        } `}
         href="/bookmark"
       >
         <BiBookBookmark className={styles["menu-icon"]} />
-        <h4>Bookmark</h4>
+        <h4 className={notifBookmark ? styles["bookmark-notif"] : ""}>
+          Bookmark
+        </h4>
       </Link>
     </section>
   );

@@ -5,6 +5,8 @@ import { IconType } from "react-icons/lib";
 import Link from "next/link";
 
 import styles from "@/styles/navbar/Menu.module.scss";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 
 function List({
   Icon,
@@ -36,6 +38,11 @@ function Menu({
   isMenuActive: boolean;
   setIsMenuActive: Function;
 }) {
+  const notifBookmark = useAppSelector(
+    (state) => state.reducer.bookmarkNotification.value
+  );
+
+  const dispatch = useAppDispatch();
   return (
     <div
       className={`${styles["menu-container"]} ${
@@ -66,12 +73,17 @@ function Menu({
       <div className={styles.line}></div>
       <h4>Library</h4>
       <div className={styles.bookmark}>
-        <List
-          setIsMenuActive={setIsMenuActive}
-          Icon={BiBookBookmark}
-          title="Bookmark"
-          url="/bookmark"
-        />
+        <div
+          onClick={() => dispatch(setNotificationBookmark(false))}
+          className={notifBookmark ? styles["bookmark-notif"] : ""}
+        >
+          <List
+            setIsMenuActive={setIsMenuActive}
+            Icon={BiBookBookmark}
+            title="Bookmark"
+            url="/bookmark"
+          />
+        </div>
       </div>
 
       <List

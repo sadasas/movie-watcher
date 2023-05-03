@@ -7,17 +7,20 @@ import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import styles from "@/styles/list_movies/BannerBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
+import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
+import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 
 function BannerBox({ movie }: { movie: IMovie }) {
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
   const dispatch = useAppDispatch();
-  const PlaceholderHorizontal = "/placeholderHorizontal.svg";
+  const PlaceholderHorizontal =
+    "/img/placeholder/placeholderMovieHorizontal.svg";
   const type = movie.episodes ? MovieType.Series : MovieType.Film;
-  const movies = useAppSelector((state) => state.bookmark.value);
+  const movies = useAppSelector((state) => state.reducer.bookmark.value);
 
   const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.stopPropagation();
+    dispatch(setNotificationBookmark(true));
     dispatch(addBookmark(movie));
   };
   const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {

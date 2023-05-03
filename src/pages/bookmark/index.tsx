@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import {
   ScrollPosition,
@@ -6,7 +5,6 @@ import {
 } from "react-lazy-load-image-component";
 
 import styles from "@/styles/GenreMovie.module.scss";
-import Loader from "@/components/Loader";
 import { useAppSelector } from "@/store/hooks";
 import { BoxType } from "@/models/box";
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
@@ -14,7 +12,7 @@ const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
 });
 
 function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
-  const movies = useAppSelector((state) => state.bookmark.value);
+  const movies = useAppSelector((state) => state.reducer.bookmark.value);
 
   return (
     <section id="bookmark" className="container">

@@ -7,9 +7,9 @@ import { getLatestFilms } from "@/pages/api/film/getLatesFilms";
 import { getGenreFilms } from "@/pages/api/film/getGenreFilms";
 import { Genre, IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
-import Loader from "@/components/Loader";
+import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
-  suspense: true,
+  loading: () => <ListMoviesLoader row={1} column={5} width={900} />,
 });
 
 function Home({
@@ -25,39 +25,37 @@ function Home({
 }) {
   return (
     <section id="films" className={styles["home-container"]}>
-      <Suspense fallback={<Loader />}>
-        <Movies
-          urlBase="/film/trendingFilms"
-          urlBaseParams={null}
-          title="Trending film"
-          movies={trendingMoviesData}
-          typeBox={BoxType.Large}
-        />
-        <Movies
-          urlBase="/film/latestFilms"
-          urlBaseParams={null}
-          title="Latest film"
-          movies={latesMoviesData}
-          typeBox={BoxType.Small}
-        />
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{ genre: Genre[Genre.Comedy], index: Genre["Comedy"] }}
-          title="Comedy"
-          movies={comedyMoviesData}
-          typeBox={BoxType.Small}
-        />
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Romance],
-            index: Genre["Romance"],
-          }}
-          title="Romance"
-          movies={romanceMoviesData}
-          typeBox={BoxType.Small}
-        />
-      </Suspense>
+      <Movies
+        urlBase="/film/trendingFilms"
+        urlBaseParams={null}
+        title="Trending film"
+        movies={trendingMoviesData}
+        typeBox={BoxType.Large}
+      />
+      <Movies
+        urlBase="/film/latestFilms"
+        urlBaseParams={null}
+        title="Latest film"
+        movies={latesMoviesData}
+        typeBox={BoxType.Small}
+      />
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{ genre: Genre[Genre.Comedy], index: Genre["Comedy"] }}
+        title="Comedy"
+        movies={comedyMoviesData}
+        typeBox={BoxType.Small}
+      />
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Romance],
+          index: Genre["Romance"],
+        }}
+        title="Romance"
+        movies={romanceMoviesData}
+        typeBox={BoxType.Small}
+      />
     </section>
   );
 }

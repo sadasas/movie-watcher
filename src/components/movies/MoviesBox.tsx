@@ -8,8 +8,9 @@ import styles from "@/styles/list_movies/MoviesBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBookmark, removeBookmark } from "@/store/bookmarkSlice";
+import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
 import { useEffect, useState } from "react";
+import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 
 function MoviesBox({
   boxType,
@@ -21,8 +22,11 @@ function MoviesBox({
   movie: IMovie;
 }) {
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
-  const movies = useAppSelector((state) => state.bookmark.value);
-  const PlaceholderVertical = "/placeholderVertical.svg";
+  const movies = useAppSelector((state) => state.reducer.bookmark.value);
+
+  const PlaceholderVertical = "/img/placeholder/placeholderMovieVertical.svg";
+  const PlaceholderHorizontal =
+    "/img/placeholder/placeholderMovieHorizontal.svg";
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -31,6 +35,7 @@ function MoviesBox({
   const addBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.stopPropagation();
     dispatch(addBookmark(movie));
+    dispatch(setNotificationBookmark(true));
   };
   const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.stopPropagation();
@@ -67,7 +72,11 @@ function MoviesBox({
           threshold={0}
           alt={movie.titleText.text}
           effect="blur"
-          placeholderSrc={PlaceholderVertical}
+          placeholderSrc={
+            boxType == BoxType.Small
+              ? PlaceholderVertical
+              : PlaceholderHorizontal
+          }
           src={movie.primaryImage.url}
         />
       )}

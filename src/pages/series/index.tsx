@@ -7,10 +7,10 @@ import { getLatestSeries } from "../api/series/getLatestSeries";
 import { getGenreSeries } from "../api/series/getGenreSeries";
 import { Genre, IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
-import Loader from "@/components/Loader";
+import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
 
 const Movies = dynamic(() => import("@/components/movies/Movies"), {
-  suspense: true,
+  loading: () => <ListMoviesLoader row={1} column={5} width={900} />,
 });
 
 function Home({
@@ -26,42 +26,40 @@ function Home({
 }) {
   return (
     <section id="series" className={styles["home-container"]}>
-      <Suspense fallback={<Loader />}>
-        <Movies
-          urlBase="/series/trendingSeries"
-          urlBaseParams={null}
-          title="Trending series"
-          movies={trendingMoviesData}
-          typeBox={BoxType.Large}
-        />
-        <Movies
-          urlBase="/series/latestSeries"
-          urlBaseParams={null}
-          title="Lates series"
-          movies={latesMoviesData}
-          typeBox={BoxType.Small}
-        />
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Drama],
-            index: Genre["Drama"],
-          }}
-          title="Drama series"
-          movies={dramaMoviesData}
-          typeBox={BoxType.Small}
-        />
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Family],
-            index: Genre["Family"],
-          }}
-          title="Family series"
-          movies={familyMoviesData}
-          typeBox={BoxType.Small}
-        />
-      </Suspense>
+      <Movies
+        urlBase="/series/trendingSeries"
+        urlBaseParams={null}
+        title="Trending series"
+        movies={trendingMoviesData}
+        typeBox={BoxType.Large}
+      />
+      <Movies
+        urlBase="/series/latestSeries"
+        urlBaseParams={null}
+        title="Lates series"
+        movies={latesMoviesData}
+        typeBox={BoxType.Small}
+      />
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Drama],
+          index: Genre["Drama"],
+        }}
+        title="Drama series"
+        movies={dramaMoviesData}
+        typeBox={BoxType.Small}
+      />
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Family],
+          index: Genre["Family"],
+        }}
+        title="Family series"
+        movies={familyMoviesData}
+        typeBox={BoxType.Small}
+      />
     </section>
   );
 }

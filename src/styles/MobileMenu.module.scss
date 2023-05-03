@@ -23,6 +23,7 @@
   justify-content: center;
   text-decoration: none;
   color: $secondary-color;
+  position: relative;
 }
 
 .menu-selected {
@@ -33,6 +34,18 @@
   font-size: 2.3rem;
 }
 
+.bookmark-notif {
+  &::before {
+    content: "";
+    width: 10px;
+    top: 0;
+    right: 0;
+    height: 10px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+  }
+}
 @include respond(extraSmall) {
   .mobile-menu {
     display: flex;

@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-import { IMovie, defaultValueMovie } from "@/models/movie";
+import { IMovie } from "@/models/movie";
 import styles from "@/styles/list_movies/Movies.module.scss";
 import BannerBox from "@/components/movies/BannerBox";
 
@@ -23,10 +22,15 @@ function Banner({ title, movies }: { title: string; movies: IMovie[] }) {
       <div className={styles["list-movies-container"]}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles["slider-container"]}>
-          <div className={styles["btns-scroll"]}>
-            <IoIosArrowBack onClick={slideLeft} />
-            <IoIosArrowForward onClick={slideRight} />
-          </div>
+          <IoIosArrowBack
+            className={`${styles["navigation"]} ${styles.left}`}
+            onClick={slideLeft}
+          />
+          <IoIosArrowForward
+            className={`${styles["navigation"]} ${styles.right}`}
+            onClick={slideRight}
+          />
+
           <div
             className={styles["slider-content-container"]}
             id={`slider-${title}`}

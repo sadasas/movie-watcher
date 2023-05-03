@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { CgMenuGridR } from "react-icons/cg";
-import { FiSearch } from "react-icons/fi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import styles from "@/styles/navbar/Navbar.module.scss";
 import Menu from "./Menu";
 import MobileMenu from "../MobileMenu";
+import { useAppSelector } from "@/store/hooks";
 
 export enum MenuNav {
   MOVIES = 1,
@@ -19,7 +19,9 @@ function Navbar() {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<MenuNav>(MenuNav.NONE);
-
+  const notifBookmark = useAppSelector(
+    (state) => state.reducer.bookmarkNotification.value
+  );
   const checkIsMoviePage = () => {
     let isMoviePage = false;
     if (router.pathname.includes("/film/[...params")) isMoviePage = true;
@@ -97,18 +99,28 @@ function Navbar() {
             </Link>
           </div>
           <div className={styles["categories-container"]}>
-            <div className={`${styles.btn} ${styles["search-box"]}`}>
+            <div className={styles["search-box"]}>
               <input type="text" />
               <span></span>
             </div>
-
-            <CgMenuGridR
-              className={styles.btn}
-              onClick={() => setIsMenuActive(true)}
-            />
+            <div
+              className={`${styles["menu-btn"]}  ${
+                notifBookmark ? styles["bookmark-notif"] : null
+              }`}
+            >
+              <CgMenuGridR onClick={() => setIsMenuActive(true)} />
+            </div>
           </div>
         </div>
       </section>
+
+      {isMenuActive && (
+        <div
+          onClick={() => setIsMenuActive(false)}
+          className={styles.overlay}
+        ></div>
+      )}
+
       <Menu isMenuActive={isMenuActive} setIsMenuActive={setIsMenuActive} />
       <MobileMenu
         selectedMenu={selectedMenu}

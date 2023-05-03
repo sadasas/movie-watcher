@@ -1,4 +1,8 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 
 import {
@@ -12,18 +16,24 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import bookmarkReducer from "@/store/bookmarkSlice";
+import bookmarkReducer from "@/store/bookmark/bookmarkSlice";
+import bookmarkNotificationReducer from "./bookmark/bookmarkNotificationSlice";
 
 const persistConfig = {
   key: "root",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, bookmarkReducer);
+const rootReducer = combineReducers({
+  bookmark: bookmarkReducer,
+  bookmarkNotification: bookmarkNotificationReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: {
-    bookmark: persistedReducer,
+    reducer: persistedReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

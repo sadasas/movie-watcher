@@ -1,4 +1,4 @@
-import { defaultValueMovie, IMovie } from "@/models/movie";
+import { IMovie } from "@/models/movie";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: IMovie[] = [];

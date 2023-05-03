@@ -61,6 +61,21 @@
     cursor: pointer;
   }
 }
+.bookmark {
+  position: relative;
+  width: 100%;
+}
+.bookmark-notif {
+  &::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    margin-left: 8rem;
+    position: absolute;
+    border-radius: 50%;
+    background-color: red;
+  }
+}
 
 @include respond(extraSmall) {
   .menu-container {

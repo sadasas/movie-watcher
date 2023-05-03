@@ -65,10 +65,14 @@ function Movies({
         </div>
 
         <div className={styles["slider-container"]}>
-          <div className={styles["btns-scroll"]}>
-            <IoIosArrowBack onClick={slideLeft} />
-            <IoIosArrowForward onClick={slideRight} />
-          </div>
+          <IoIosArrowBack
+            className={`${styles["navigation"]} ${styles.left}`}
+            onClick={slideLeft}
+          />
+          <IoIosArrowForward
+            className={`${styles["navigation"]} ${styles.right}`}
+            onClick={slideRight}
+          />
           <div
             className={styles["slider-content-container"]}
             id={`slider-${title}`}
