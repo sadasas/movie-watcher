@@ -1,8 +1,7 @@
 import ContentLoader from "react-content-loader";
 import styles from "@/styles/ContentLoader.module.scss";
 
-const ListMoviesLoader = ({
-  heading = { width: 140, height: 15 },
+const MovieBoxLoader = ({
   row = 2,
   column = 5,
   width = 1366,
@@ -23,13 +22,8 @@ const ListMoviesLoader = ({
 
     const height3 = 10;
 
-    const headingWidth = heading.width;
-
-    const headingHeight = heading.height;
-
     const space =
       padding +
-      headingHeight +
       (padding + height1) +
       (padding / 2 + height2) +
       height3 +
@@ -37,22 +31,10 @@ const ListMoviesLoader = ({
 
     const yHeading = padding + space * (i - 1);
 
-    list.push(
-      <rect
-        key={index}
-        x={padding}
-        y={yHeading}
-        rx={0}
-        ry={0}
-        width={headingWidth}
-        height={headingHeight}
-      />
-    );
-
     for (let j = 0; j < column; j++) {
       const x = padding + j * (itemWidth + padding);
 
-      const y1 = yHeading + headingHeight + (padding * 3) / 2;
+      const y1 = yHeading + (padding * 3) / 2;
 
       const y2 = y1 + padding + height1;
 
@@ -113,4 +95,4 @@ const ListMoviesLoader = ({
   );
 };
 
-export default ListMoviesLoader;
+export default MovieBoxLoader;

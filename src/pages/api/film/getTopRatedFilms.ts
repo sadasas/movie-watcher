@@ -10,7 +10,7 @@ async function getData(index: number) {
         info: "base_info",
         sort: "year.decr",
         page: index,
-        list: "top_rated_250",
+        list: "top_boxoffice_200",
       },
     });
 

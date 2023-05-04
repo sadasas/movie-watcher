@@ -2,11 +2,11 @@
 @use "@/styles/variables.module" as *;
 
 .movie-container {
+  margin-top: 100px;
   display: flex;
   position: relative;
   flex-direction: column;
   gap: 50px;
-  padding-top: 400px;
   color: white;
   z-index: 10;
   h1 {
@@ -14,8 +14,10 @@
   }
 }
 
-.movie-image {
-  position: absolute;
+.movie-image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 590px;
   top: 0;
@@ -29,13 +31,66 @@
   }
 }
 
+.img-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    $primary-background-color
+  );
+}
+.movie-image-content {
+  top: 0;
+  margin-top: 50px;
+  font-size: 1.5rem;
+  position: absolute;
+  gap: 20px;
+  height: 100%;
+  display: flex;
+  color: $primary-color;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+}
+.genre-container {
+  display: flex;
+  gap: 20px;
+
+  color: $secondary-color;
+  & > * {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: $primary-color;
+  }
+}
 .title {
   color: $secondary-color;
+}
+
+.box-icon {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  color: $secondary-color;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: $primary-color;
 }
 
 .box-container {
   display: flex;
   gap: 10px;
+  font-size: 1rem;
 }
 .box-content-container {
   width: 200px;
@@ -44,14 +99,6 @@
   border-radius: 10px;
   padding: 10px 20px;
   background-color: rgb(48, 47, 47);
-}
-
-.box-icon {
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  align-self: center;
-  margin-left: auto;
 }
 
 .content-container {
@@ -70,7 +117,7 @@
 }
 
 .cast-content-container {
-  width: 200px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -78,8 +125,8 @@
   align-items: center;
 }
 .cast-img-container {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 
   span {
     width: 100%;
@@ -106,6 +153,17 @@
 }
 
 @include respond(extraSmall) {
+  .movie-image-container {
+    height: fit-content;
+    img {
+      height: 400px;
+    }
+  }
+
+  .genre-container {
+    gap: 5px;
+  }
+
   .box-container {
     gap: 5px;
     > * {
@@ -113,23 +171,30 @@
       height: 70px;
     }
   }
-  .box-icon {
-    width: 75px;
-    height: 75px;
-  }
+
   .content-container {
     gap: 5px;
   }
   .cast-content-container {
-    width: 80px;
+    width: 60px;
   }
   .cast-img-container {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
   }
 }
 
 @include respond(small) {
+  .movie-image-container {
+    height: fit-content;
+    img {
+      height: 400px;
+    }
+  }
+  .genre-container {
+    gap: 5px;
+  }
+
   .box-container {
     > * {
       width: 150px;
@@ -144,7 +209,7 @@
     gap: 5px;
   }
   .cast-content-container {
-    width: 100px;
+    width: 80px;
   }
   .cast-img-container {
     width: 70px;
@@ -154,16 +219,19 @@
 
 /* Medium devices (landscape tablets, 768px and up) */
 @include respond(medium) {
-  .box-icon {
-    width: 75px;
-    height: 75px;
-  }
   .cast-content-container {
-    width: 150px;
+    width: 100px;
   }
   .cast-img-container {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .box-container {
+    > * {
+      width: 150px;
+      height: 100px;
+    }
   }
 }
 

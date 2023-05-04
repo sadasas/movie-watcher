@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, lazy } from "react";
 import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
-import Image from "next/image";
 
 import { IMovie } from "@/models/movie";
 import styles from "@/styles/GenreMovie.module.scss";
-import MoviesBox from "@/components/movies/MoviesBox";
 import { getLatestSeries } from "../api/series/getLatestSeries";
 import { BoxType } from "@/models/box";
+import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
+const MoviesBox = lazy(() => import("@/components/movies/MoviesBox"));
 
 function LatestSeries({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const observer = useRef<IntersectionObserver>();
@@ -80,15 +80,7 @@ function LatestSeries({ scrollPosition }: { scrollPosition: ScrollPosition }) {
               }
             })}
         </div>
-        {isFetching && (
-          <Image
-            className={styles.loader}
-            width={800}
-            height={100}
-            alt=""
-            src="/placeholderList2.svg"
-          ></Image>
-        )}
+        {isFetching && <MovieBoxLoader row={1} column={5} width={900} />}
       </main>
     </section>
   );

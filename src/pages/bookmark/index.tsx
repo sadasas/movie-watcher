@@ -7,8 +7,9 @@ import {
 import styles from "@/styles/GenreMovie.module.scss";
 import { useAppSelector } from "@/store/hooks";
 import { BoxType } from "@/models/box";
+import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
-  suspense: true,
+  loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
 });
 
 function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {

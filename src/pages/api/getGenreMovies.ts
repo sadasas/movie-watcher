@@ -2,12 +2,12 @@ import { IResponseDataMovie } from "@/models/server";
 import { Genre, IMovie } from "@/models/movie";
 import { movieApi } from "@/pages/api/movieApi";
 
-async function getData(index: number, genre: Genre) {
+async function getData(index: number, genre: Genre, length: number) {
   try {
     const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
       params: {
         genre: Genre[genre],
-        limit: "50",
+        limit: length,
         startYear: "2005",
         info: "base_info",
         endYear: "2022",
@@ -33,7 +33,7 @@ export async function getGenreMovies(
   let isNext = true;
 
   while (validData.length < length && isNext) {
-    const data = await getData(nextPage, genre);
+    const data = await getData(nextPage, genre, length);
 
     validData = validData.concat(
       data!.results.filter(

@@ -3,20 +3,15 @@ import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
-import Image from "next/image";
 
 import { IMovie } from "@/models/movie";
 import styles from "@/styles/GenreMovie.module.scss";
-import { getTrendingSeries } from "../api/series/getTrendingSeries";
+import { getTrendingFilms } from "../api/film/getTrendingFilms";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 const MoviesBox = lazy(() => import("@/components/movies/MoviesBox"));
 
-function TrendingSeries({
-  scrollPosition,
-}: {
-  scrollPosition: ScrollPosition;
-}) {
+function TopRatedFilms({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const observer = useRef<IntersectionObserver>();
   const [movies, setMovies] = useState<IMovie[]>();
 
@@ -41,7 +36,7 @@ function TrendingSeries({
 
   const getDataMovieHandler = async (index: number, length: number) => {
     setIsFetching(true);
-    const { validData, hasNextItems } = await getTrendingSeries(index, length);
+    const { validData, hasNextItems } = await getTrendingFilms(index, length);
     if (movies) setMovies([...movies!, ...validData]);
     else setMovies(validData);
     setHasNextItems(hasNextItems);
@@ -56,7 +51,7 @@ function TrendingSeries({
   }, []);
 
   return (
-    <section id="trending-series" className="container">
+    <section id="top-rated-films" className="container">
       <main className={styles["genre-movie-container"]}>
         <h2>Trending</h2>
         <div className={styles["genre-movie-grid-container"]}>
@@ -91,4 +86,4 @@ function TrendingSeries({
   );
 }
 
-export default trackWindowScroll(TrendingSeries);
+export default trackWindowScroll(TopRatedFilms);
