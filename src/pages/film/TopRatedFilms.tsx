@@ -53,7 +53,7 @@ function TopRatedFilms({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   return (
     <section id="top-rated-films" className="container">
       <main className={styles["genre-movie-container"]}>
-        <h2>Trending</h2>
+        <h2>Top Rated</h2>
         <div className={styles["genre-movie-grid-container"]}>
           {movies &&
             movies.map((movie, index) => {

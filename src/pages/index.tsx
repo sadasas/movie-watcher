@@ -34,7 +34,7 @@ function Home({
       </Suspense>
       <Suspense fallback={<ListMoviesLoader row={1} column={3} width={900} />}>
         <Movies
-          urlBase="/series/TopRatedSeries"
+          urlBase="/series/topRatedSeries"
           urlBaseParams={null}
           title="Top rated series"
           movies={topRatedMoviesData}

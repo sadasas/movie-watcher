@@ -28,7 +28,7 @@ function Series({
     <section id="series" className={styles["home-container"]}>
       <Suspense fallback={<ListMoviesLoader row={1} column={2} width={900} />}>
         <Movies
-          urlBase="/series/TrendingSeries"
+          urlBase="/series/trendingSeries"
           urlBaseParams={null}
           title="Trending series"
           movies={trendingMoviesData}
@@ -62,7 +62,7 @@ function Series({
       </Suspense>
       <Suspense fallback={<ListMoviesLoader row={1} column={5} width={900} />}>
         <Movies
-          urlBase="/series/LatestSeries"
+          urlBase="/series/latestSeries"
           urlBaseParams={null}
           title="Lates series"
           movies={latesMoviesData}

@@ -31,7 +31,7 @@ function Home({
     <section id="films" className={styles["home-container"]}>
       <Suspense fallback={<ListMoviesLoader row={1} column={2} width={900} />}>
         <Movies
-          urlBase="/film/TrendingFilms"
+          urlBase="/film/trendingFilms"
           urlBaseParams={null}
           title="Trending film"
           movies={trendingMoviesData}
@@ -40,7 +40,7 @@ function Home({
       </Suspense>
       <Suspense fallback={<ListMoviesLoader row={1} column={5} width={900} />}>
         <Movies
-          urlBase="/film/LatestFilms"
+          urlBase="/film/latestFilms"
           urlBaseParams={null}
           title="Latest film"
           movies={latesMoviesData}
@@ -70,7 +70,7 @@ function Home({
       </Suspense>
       <Suspense fallback={<ListMoviesLoader row={1} column={3} width={900} />}>
         <Movies
-          urlBase="/film/TopRatedFilms"
+          urlBase="/film/topRatedFilms"
           urlBaseParams={null}
           title="Top Rated"
           movies={topRatedMoviesData}
