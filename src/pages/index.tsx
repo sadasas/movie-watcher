@@ -1,4 +1,9 @@
 import { Suspense, lazy } from "react";
+import {
+  LazyLoadComponent,
+  ScrollPosition,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
 
 import styles from "@/styles/Home.module.scss";
 import { getTopRatedFilms } from "./api/film/getTopRatedFilms";
@@ -19,6 +24,7 @@ function Home({
   actionMoviesData,
   adventureMoviesData,
   comedyMoviesData,
+  scrollPosition,
 }: {
   bannerMoviesData: IMovie[];
   topRatedMoviesData: IMovie[];
@@ -26,72 +32,111 @@ function Home({
   actionMoviesData: IMovie[];
   adventureMoviesData: IMovie[];
   comedyMoviesData: IMovie[];
+  scrollPosition: ScrollPosition;
 }) {
   return (
     <section id="home" className={styles["home-container"]}>
-      <Suspense fallback={<BannerLoader width={900} height={400} />}>
+      <LazyLoadComponent
+        placeholder={<BannerLoader width={900} height={400} />}
+        scrollPosition={scrollPosition}
+      >
         <Banner title="" movies={bannerMoviesData} />
-      </Suspense>
-      <Suspense fallback={<ListMoviesLoader row={1} column={3} width={900} />}>
-        <Movies
-          urlBase="/series/topRatedSeries"
-          urlBaseParams={null}
-          title="Top rated series"
-          movies={topRatedMoviesData}
-          typeBox={BoxType.Medium}
-        />
-      </Suspense>
+      </LazyLoadComponent>
 
-      <Suspense fallback={<ListMoviesLoader row={1} column={5} width={900} />}>
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Action],
-            index: Genre["Action"],
-          }}
-          title="Action"
-          movies={actionMoviesData}
-          typeBox={BoxType.Small}
-        />
-      </Suspense>
-      <Suspense fallback={<ListMoviesLoader row={1} column={5} width={900} />}>
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Adventure],
-            index: Genre["Adventure"],
-          }}
-          title="Adventure"
-          movies={adventureMoviesData}
-          typeBox={BoxType.Small}
-        />
-      </Suspense>
-      <Suspense fallback={<ListMoviesLoader row={1} column={3} width={900} />}>
-        <Movies
-          urlBase="/film/latestFilms"
-          urlBaseParams={null}
-          title="Latest"
-          movies={latestMoviesData}
-          typeBox={BoxType.Medium}
-        />
-      </Suspense>
-      <Suspense fallback={<ListMoviesLoader row={1} column={5} width={900} />}>
-        <Movies
-          urlBase="/genre/params"
-          urlBaseParams={{
-            genre: Genre[Genre.Comedy],
-            index: Genre["Comedy"],
-          }}
-          title="Comedy"
-          movies={comedyMoviesData}
-          typeBox={BoxType.Small}
-        />
-      </Suspense>
+      <LazyLoadComponent
+        placeholder={<ListMoviesLoader row={1} column={3} width={900} />}
+        scrollPosition={scrollPosition}
+      >
+        <Suspense
+          fallback={<ListMoviesLoader row={1} column={3} width={900} />}
+        >
+          <Movies
+            urlBase="/series/topRatedSeries"
+            urlBaseParams={null}
+            title="Top rated series"
+            movies={topRatedMoviesData}
+            typeBox={BoxType.Medium}
+          />
+        </Suspense>
+      </LazyLoadComponent>
+      <LazyLoadComponent
+        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
+        scrollPosition={scrollPosition}
+      >
+        <Suspense
+          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
+        >
+          <Movies
+            urlBase="/genre/params"
+            urlBaseParams={{
+              genre: Genre[Genre.Action],
+              index: Genre["Action"],
+            }}
+            title="Action"
+            movies={actionMoviesData}
+            typeBox={BoxType.Small}
+          />
+        </Suspense>
+      </LazyLoadComponent>
+      <LazyLoadComponent
+        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
+        scrollPosition={scrollPosition}
+      >
+        <Suspense
+          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
+        >
+          <Movies
+            urlBase="/genre/params"
+            urlBaseParams={{
+              genre: Genre[Genre.Adventure],
+              index: Genre["Adventure"],
+            }}
+            title="Adventure"
+            movies={adventureMoviesData}
+            typeBox={BoxType.Small}
+          />
+        </Suspense>
+      </LazyLoadComponent>
+      <LazyLoadComponent
+        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
+        scrollPosition={scrollPosition}
+      >
+        <Suspense
+          fallback={<ListMoviesLoader row={1} column={3} width={900} />}
+        >
+          <Movies
+            urlBase="/film/latestFilms"
+            urlBaseParams={null}
+            title="Latest"
+            movies={latestMoviesData}
+            typeBox={BoxType.Medium}
+          />
+        </Suspense>
+      </LazyLoadComponent>
+      <LazyLoadComponent
+        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
+        scrollPosition={scrollPosition}
+      >
+        <Suspense
+          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
+        >
+          <Movies
+            urlBase="/genre/params"
+            urlBaseParams={{
+              genre: Genre[Genre.Comedy],
+              index: Genre["Comedy"],
+            }}
+            title="Comedy"
+            movies={comedyMoviesData}
+            typeBox={BoxType.Small}
+          />
+        </Suspense>
+      </LazyLoadComponent>
     </section>
   );
 }
 
-export default Home;
+export default trackWindowScroll(Home);
 
 export async function getStaticProps() {
   const { validData: bannerMoviesData } = await getTopRatedFilms(1, 10);

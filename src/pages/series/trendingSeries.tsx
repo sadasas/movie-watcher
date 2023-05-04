@@ -3,14 +3,17 @@ import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { IMovie } from "@/models/movie";
 import styles from "@/styles/GenreMovie.module.scss";
 import { getTrendingSeries } from "../api/series/getTrendingSeries";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
-const MoviesBox = lazy(() => import("@/components/movies/MoviesBox"));
+import CircleLoader from "@/components/loader/CircleLoader";
+const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
+  loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
+});
 
 function TrendingSeries({
   scrollPosition,
@@ -85,7 +88,7 @@ function TrendingSeries({
               }
             })}
         </div>
-        {isFetching && <MovieBoxLoader row={1} column={5} width={900} />}
+        {isFetching && <CircleLoader />}
       </main>
     </section>
   );

@@ -6,6 +6,8 @@ const BannerLoader = ({ width, height }: { width: number; height: number }) => (
     className={styles.container}
     viewBox={`0 0 ${width} ${height}`}
     height={height}
+    backgroundColor="#ffffff"
+    foregroundColor="#B7B7B7"
     width={width}
   >
     <rect

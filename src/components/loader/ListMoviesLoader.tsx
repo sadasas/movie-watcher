@@ -106,6 +106,8 @@ const ListMoviesLoader = ({
       viewBox={`0 0 ${width} ${height}`}
       width={width}
       height={height}
+      backgroundColor="#ffffff"
+      foregroundColor="#B7B7B7"
       {...props}
     >
       {list}

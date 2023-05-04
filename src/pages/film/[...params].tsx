@@ -13,7 +13,7 @@ import { getCreators } from "@/pages/api/getCreator";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
 import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
-import CastLoader from "@/components/loader/CastLoader";
+import CircleLoader from "@/components/loader/CircleLoader";
 
 function Film() {
   const router = useRouter();
@@ -206,7 +206,7 @@ function Film() {
                 </div>
               ))
             ) : (
-              <CastLoader />
+              <CircleLoader />
             )}
           </div>
         </div>

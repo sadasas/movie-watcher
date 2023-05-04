@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
 import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
 import CastLoader from "@/components/loader/CastLoader";
+import CircleLoader from "@/components/loader/CircleLoader";
 
 function Series() {
   const router = useRouter();
@@ -206,7 +207,7 @@ function Series() {
                 </div>
               ))
             ) : (
-              <CastLoader />
+              <CircleLoader />
             )}
           </div>
         </div>

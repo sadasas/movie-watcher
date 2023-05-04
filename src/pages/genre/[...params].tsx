@@ -1,17 +1,21 @@
 import { useRouter } from "next/router";
-import { lazy, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
+import dynamic from "next/dynamic";
 
 import { Genre, Genre as genreType, IMovie } from "@/models/movie";
 import { getGenreMovies } from "@/pages/api/getGenreMovies";
 import styles from "@/styles/GenreMovie.module.scss";
 import { IParsedUrlQueryGenre, IParsedUrlQueryTypeMovie } from "@/models/route";
 import { BoxType } from "@/models/box";
+import CircleLoader from "@/components/loader/CircleLoader";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
-const MoviesBox = lazy(() => import("@/components/movies/MoviesBox"));
+const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
+  loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
+});
 
 function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const router = useRouter();
@@ -99,7 +103,7 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
               }
             })}
         </div>
-        {isFetching && <MovieBoxLoader row={1} column={5} width={900} />}
+        {isFetching && <CircleLoader />}
       </main>
     </section>
   );

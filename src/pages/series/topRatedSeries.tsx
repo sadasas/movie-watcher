@@ -3,13 +3,17 @@ import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
+import dynamic from "next/dynamic";
 
 import { IMovie } from "@/models/movie";
 import styles from "@/styles/GenreMovie.module.scss";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 import { getTopRatedSeries } from "../api/series/getTopRatedSeries";
-const MoviesBox = lazy(() => import("@/components/movies/MoviesBox"));
+import CircleLoader from "@/components/loader/CircleLoader";
+const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
+  loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
+});
 
 function TopRatedSeries({
   scrollPosition,
@@ -84,7 +88,7 @@ function TopRatedSeries({
               }
             })}
         </div>
-        {isFetching && <MovieBoxLoader row={1} column={5} width={900} />}
+        {isFetching && <CircleLoader />}
       </main>
     </section>
   );

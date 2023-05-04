@@ -5,8 +5,8 @@ const CastLoader = () => (
     width={500}
     height={100}
     viewBox="0 0 500 100"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb"
+    backgroundColor="#ffffff"
+    foregroundColor="#B7B7B7"
   >
     <circle cx="46" cy="38" r="38" />
     <rect x="34" y="83" rx="5" ry="5" width="25" height="10" />

@@ -3,8 +3,9 @@ import {
   ScrollPosition,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
+import { RiMovie2Line } from "react-icons/ri";
 
-import styles from "@/styles/GenreMovie.module.scss";
+import styles from "@/styles/Bookmark.module.scss";
 import { useAppSelector } from "@/store/hooks";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
@@ -17,10 +18,10 @@ function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
 
   return (
     <section id="bookmark" className="container">
-      <main className={styles["genre-movie-container"]}>
+      <main className={styles["bookmark-movie-container"]}>
         <h2>Bookmark</h2>
-        <div className={styles["genre-movie-grid-container"]}>
-          {movies &&
+        <div className={styles["bookmark-movie-grid-container"]}>
+          {movies && movies.length > 0 ? (
             movies.map((movie, index) => (
               <div key={index}>
                 <MoviesBox
@@ -29,7 +30,13 @@ function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
                   boxType={BoxType.Small}
                 />
               </div>
-            ))}
+            ))
+          ) : (
+            <div className={styles["empty-bookmark"]}>
+              <RiMovie2Line />
+              <h3>Empty</h3>
+            </div>
+          )}
         </div>
       </main>
     </section>

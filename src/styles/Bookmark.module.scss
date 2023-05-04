@@ -1,0 +1,60 @@
+@use "mixins" as *;
+@use "variables.module" as *;
+
+.bookmark-movie-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 100px;
+  color: $primary-color;
+}
+
+.bookmark-movie-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.loader {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.empty-bookmark {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  svg {
+    font-size: 7rem;
+  }
+}
+@include respond(extraSmall) {
+  .loader {
+    margin-top: 0;
+    height: 50px;
+  }
+}
+
+@include respond(small) {
+  .loader {
+    margin-top: 0;
+    height: 50px;
+  }
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@include respond(medium) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@include respond(large) {
+}
+
+@include respond(extraLarge) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@include respond(wide) {
+}
