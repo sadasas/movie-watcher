@@ -8,19 +8,37 @@
   gap: 20px;
   padding-top: 100px;
   color: $primary-color;
+  width: 100%;
 }
 
 .genre-movie-grid-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+}
+
+.genre-movie-grid-container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 
 .loader {
   width: 100%;
   margin-top: 10px;
+}
+
+.box {
+  width: 100%;
 }
 
 @include respond(extraSmall) {
