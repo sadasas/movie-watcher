@@ -17,8 +17,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Head>
-            <title>JustSee|Enjoy your movie</title>
-            <meta name="author" content="John Doe" />
+            <title>JustSee | Enjoy your movie</title>
+            <meta name="description" content="enjoy your movie" key="desc" />
           </Head>
           <Navbar />
           <Component {...pageProps} />
