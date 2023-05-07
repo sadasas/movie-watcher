@@ -78,7 +78,7 @@ const Cell = ({
 
 function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const router = useRouter();
-  const [genre, setGenre] = useState<Genre>();
+  const [genre, setGenre] = useState<Genre | null>(null);
   const { data, error, fetchNextPage, status } = useInfiniteQuery({
     queryKey: ["genreMovies"],
     queryFn: ({ pageParam = 1 }) =>
@@ -133,7 +133,7 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   }, [router.isReady]);
 
   useEffect(() => {
-    if (genre) loadMoreItems(0, 0);
+    if (genre != null) loadMoreItems(0, 0);
   }, [genre]);
 
   return (
