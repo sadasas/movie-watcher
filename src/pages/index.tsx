@@ -6,14 +6,13 @@ import {
 } from "react-lazy-load-image-component";
 
 import styles from "@/styles/Home.module.scss";
-import { getTopRatedFilms } from "./api/film/getTopRatedFilms";
-import { getTopRatedSeries } from "@/pages/api/series/getTopRatedSeries";
-import { getLatestMovies } from "@/pages/api/getLatestMovies";
 import { getGenreMovies } from "@/pages/api/getGenreMovies";
 import { Genre, IMovie } from "@/models/movie";
 import { BoxType } from "@/models/box";
 import BannerLoader from "@/components/loader/BannerLoader";
 import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
+import { getTypeMovies } from "./api/getTypeMovies";
+import { getLatestMovies } from "./api/getLatestMovies";
 const Banner = lazy(() => import("@/components/movies/Banner"));
 const Movies = lazy(() => import("@/components/movies/Movies"));
 
@@ -139,23 +138,43 @@ function Home({
 export default trackWindowScroll(Home);
 
 export async function getStaticProps() {
-  const { validData: bannerMoviesData } = await getTopRatedFilms(1, 10);
-  const { validData: topRatedMoviesData } = await getTopRatedSeries(1, 10);
+  const { validData: bannerMoviesData } = await getTypeMovies(
+    1,
+    "top_boxoffice_200",
+    10,
+    2005,
+    2022,
+    "movie"
+  );
+  const { validData: topRatedMoviesData } = await getTypeMovies(
+    1,
+    "top_rated_series_250",
+    10,
+    2005,
+    2022,
+    "tvSeries"
+  );
   const { validData: latestMoviesData } = await getLatestMovies(1, 10);
   const { validData: actionMoviesData } = await getGenreMovies(
     1,
     Genre.Action,
-    10
+    10,
+    2005,
+    2022
   );
   const { validData: adventureMoviesData } = await getGenreMovies(
     1,
     Genre.Adventure,
-    10
+    10,
+    2005,
+    2022
   );
   const { validData: comedyMoviesData } = await getGenreMovies(
     1,
     Genre.Comedy,
-    10
+    10,
+    2005,
+    2022
   );
   return {
     props: {

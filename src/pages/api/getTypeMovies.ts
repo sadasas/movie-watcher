@@ -2,15 +2,25 @@ import { IResponseDataMovie } from "@/models/server";
 import { IMovie } from "@/models/movie";
 import { movieApi } from "@/pages/api/movieApi";
 
-async function getData(index: number) {
+async function getData(
+  index: number,
+  list: string,
+  limit: number,
+  startYear: number,
+  endYear: number,
+  titleType: string
+) {
   try {
     const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
       params: {
-        limit: "50",
+        limit: limit,
+        startYear: startYear,
         info: "base_info",
+        endYear: endYear,
         sort: "year.decr",
         page: index,
-        list: "top_boxoffice_200",
+        list: list,
+        titleType: titleType,
       },
     });
 
@@ -21,13 +31,27 @@ async function getData(index: number) {
   }
 }
 
-export async function getTopRatedFilms(page: number, length: number) {
+export async function getTypeMovies(
+  page: number,
+  list: string,
+  length: number,
+  startYear: number,
+  endYear: number,
+  titleType: string
+) {
   let validData: IMovie[] = [];
   let nextPage = page;
   let isNext = true;
 
-  while (validData.length < 10 && isNext) {
-    const data = await getData(nextPage);
+  while (validData.length < length && isNext) {
+    const data = await getData(
+      nextPage,
+      list,
+      length,
+      startYear,
+      endYear,
+      titleType
+    );
 
     validData = validData.concat(
       data!.results.filter(

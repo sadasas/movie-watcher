@@ -2,7 +2,7 @@ import { IResponseDataMovie } from "@/models/server";
 import { IMovie } from "@/models/movie";
 import { movieApi } from "@/pages/api/movieApi";
 
-async function getData(index: number) {
+async function getData(index: number, limit: number) {
   try {
     const { data } = await movieApi.get<IResponseDataMovie>("/titles", {
       params: {
@@ -10,7 +10,7 @@ async function getData(index: number) {
         page: index,
         info: "base_info",
         endYear: "2023",
-        limit: "50",
+        limit: limit,
         sort: "year.decr",
         titleType: "tvSeries",
       },
@@ -29,7 +29,7 @@ export async function getLatestSeries(page: number, length: number) {
   let isNext = true;
 
   while (validData.length < length && isNext) {
-    const data = await getData(nextPage);
+    const data = await getData(nextPage, length);
 
     validData = validData.concat(
       data!.results.filter(

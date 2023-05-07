@@ -16,6 +16,7 @@ import { IParsedUrlQueryGenre, IParsedUrlQueryTypeMovie } from "@/models/route";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 import CircleLoader from "@/components/loader/CircleLoader";
+import { useInfiniteQuery } from "react-query";
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
   loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
 });
@@ -57,10 +58,7 @@ const Cell = ({
           columnIndex * cellGap +
           Math.floor(widthBorder / 2)
         : Number(style.left) + columnIndex * cellGap,
-    right:
-      columnIndex === columnCount
-        ? style.right
-        : Number(style.right) + columnIndex * cellGap,
+    right: columnIndex === columnCount ? style.right : columnIndex * cellGap,
     top: rowIndex === 0 ? style.top : Number(style.top) + rowIndex * cellGap,
   };
   return (
@@ -80,140 +78,146 @@ const Cell = ({
 
 function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const router = useRouter();
-  const [movies, setMovies] = useState<IMovie[]>();
   const [genre, setGenre] = useState<Genre>();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasNextItems, setHasNextItems] = useState(true);
+  const { data, error, fetchNextPage, status } = useInfiniteQuery({
+    queryKey: ["genreMovies"],
+    queryFn: ({ pageParam = 1 }) =>
+      getGenreMovies(pageParam, genre!, 20, 2005, 2022),
+    enabled: false,
+    structuralSharing: false,
+    cacheTime: 0,
+  });
 
   const isItemLoaded = (index: number) => !!itemStatusMap[index];
   const loadMoreItems = (startIndex: number, stopIndex: number) => {
+    const page: number = data?.pages.length! > 0 ? data?.pages.length! + 1 : 1;
+    if (
+      data &&
+      data.pages.length > 0 &&
+      !data.pages[data.pages.length - 1].hasNextItems
+    )
+      return;
     for (let index = startIndex; index <= stopIndex; index++) {
       itemStatusMap[index] = LOADING;
     }
-    return getDataMovieHandler(currentPage, genre!, 12, startIndex, stopIndex);
+    return getDataMovieHandler(startIndex, stopIndex, page);
   };
 
   const getDataMovieHandler = async (
-    index: number,
-    genre: genreType,
-    length: number,
     startIndex: number,
-    stopIndex: number
+    stopIndex: number,
+    index: number
   ) => {
-    const { validData, hasNextItems } = await getGenreMovies(
-      index,
-      genre,
-      length
-    );
-    if (movies) setMovies([...movies!, ...validData]);
-    else setMovies(validData);
-    setHasNextItems(hasNextItems);
+    await fetchNextPage({ pageParam: index });
 
-    setCurrentPage((i) => i + 1);
     for (let index = startIndex; index <= stopIndex; index++) {
       itemStatusMap[index] = LOADED;
     }
   };
 
+  const mergeAlldata = () => {
+    let movies: IMovie[] = [];
+    data?.pages.forEach((page) => {
+      movies.push(...page.validData);
+    });
+
+    return movies;
+  };
+
   useEffect(() => {
-    if (router.isReady && hasNextItems) {
-      setCurrentPage((i) => i + 1);
+    if (router.isReady) {
       const dataQuery = router.query as IParsedUrlQueryTypeMovie;
       const genreQuery = JSON.parse(dataQuery.data) as IParsedUrlQueryGenre;
       setGenre(Number(genreQuery.index) as genreType);
-      getDataMovieHandler(
-        currentPage,
-        Number(genreQuery.index) as genreType,
-        12,
-        0,
-        0
-      );
     }
   }, [router.isReady]);
+
+  useEffect(() => {
+    if (genre) loadMoreItems(0, 0);
+  }, [genre]);
 
   return (
     <section id="genre" className="container">
       <main className={styles["genre-movie-container"]}>
         <h2>{Genre[genre!]}</h2>
-        {movies && movies.length > 0 ? (
-          <InfiniteLoader
-            isItemLoaded={isItemLoaded}
-            itemCount={movies.length}
-            loadMoreItems={loadMoreItems}
-          >
-            {({ onItemsRendered, ref }: any) => {
-              const newItemsRendered = (gridData: any) => {
-                const useOverscanForLoading = true;
-                const {
-                  visibleRowStartIndex,
-                  visibleRowStopIndex,
-                  visibleColumnStopIndex,
-                  overscanRowStartIndex,
-                  overscanRowStopIndex,
-                  overscanColumnStopIndex,
-                } = gridData;
+        {data?.pages && data.pages.length > 0 ? (
+          <AutoSizer>
+            {({ height, width }) => {
+              let columnCount = 2;
+              let rowCount: number;
+              let itemHeigth = 135;
+              let itemWidth = 100;
+              const cellGap = 10;
+              let widthBorder: number;
+              let movies = mergeAlldata();
+              if (width! > 378 && width! <= 430) {
+                itemHeigth = 135;
+                itemWidth = 100;
+              } else if (width! > 430 && width! <= 480) {
+                itemHeigth = 135;
+                itemWidth = 100;
+              } else if (width! > 480 && width! <= 630) {
+                itemHeigth = 195;
+                itemWidth = 150;
+              } else if (width! > 630 && width! <= 790) {
+                itemHeigth = 195;
+                itemWidth = 150;
+              } else if (width! > 790 && width! <= 961) {
+                itemHeigth = 195;
+                itemWidth = 150;
+                columnCount = 5;
+              } else if (width! > 961) {
+                itemHeigth = 195;
+                itemWidth = 150;
+              }
+              const count = Math.floor(width! / (itemWidth + cellGap));
+              columnCount = count > movies.length ? movies.length : count;
 
-                const endCol =
-                  (useOverscanForLoading || true
-                    ? overscanColumnStopIndex
-                    : visibleColumnStopIndex) + 1;
-
-                const startRow =
-                  useOverscanForLoading || true
-                    ? overscanRowStartIndex
-                    : visibleRowStartIndex;
-                const endRow =
-                  useOverscanForLoading || true
-                    ? overscanRowStopIndex
-                    : visibleRowStopIndex;
-
-                const visibleStartIndex = startRow * endCol;
-                const visibleStopIndex = endRow * endCol;
-
-                onItemsRendered({
-                  //call onItemsRendered from InfiniteLoader so it can load more if needed
-                  visibleStartIndex,
-                  visibleStopIndex,
-                });
-              };
+              rowCount = movies.length / columnCount;
+              widthBorder = Math.floor(
+                width! - (columnCount * itemWidth + (columnCount - 1) * cellGap)
+              );
               return (
-                <AutoSizer>
-                  {({ height, width }) => {
-                    let columnCount = 2;
-                    let rowCount: number;
-                    let itemHeigth = 135;
-                    let itemWidth = 100;
-                    const cellGap = 10;
-                    let widthBorder: number;
+                <InfiniteLoader
+                  isItemLoaded={isItemLoaded}
+                  itemCount={movies.length}
+                  loadMoreItems={loadMoreItems}
+                >
+                  {({ onItemsRendered, ref }: any) => {
+                    const newItemsRendered = (gridData: any) => {
+                      const useOverscanForLoading = true;
+                      const {
+                        visibleRowStartIndex,
+                        visibleRowStopIndex,
+                        visibleColumnStopIndex,
+                        overscanRowStartIndex,
+                        overscanRowStopIndex,
+                        overscanColumnStopIndex,
+                      } = gridData;
 
-                    if (width! > 378 && width! <= 430) {
-                      itemHeigth = 135;
-                      itemWidth = 100;
-                    } else if (width! > 430 && width! <= 480) {
-                      itemHeigth = 135;
-                      itemWidth = 100;
-                    } else if (width! > 480 && width! <= 630) {
-                      itemHeigth = 195;
-                      itemWidth = 150;
-                    } else if (width! > 630 && width! <= 790) {
-                      itemHeigth = 195;
-                      itemWidth = 150;
-                    } else if (width! > 790 && width! <= 961) {
-                      itemHeigth = 195;
-                      itemWidth = 150;
-                      columnCount = 5;
-                    } else if (width! > 961) {
-                      itemHeigth = 195;
-                      itemWidth = 150;
-                    }
-                    const count = Math.floor(width! / (itemWidth + cellGap));
-                    columnCount = count > movies.length ? movies.length : count;
+                      const endCol =
+                        (useOverscanForLoading || true
+                          ? overscanColumnStopIndex
+                          : visibleColumnStopIndex) + 1;
 
-                    rowCount = movies.length / columnCount;
-                    widthBorder = Math.floor(
-                      width! -
-                        (columnCount * itemWidth + (columnCount - 1) * cellGap)
-                    );
+                      const startRow =
+                        useOverscanForLoading || true
+                          ? overscanRowStartIndex
+                          : visibleRowStartIndex;
+                      const endRow =
+                        useOverscanForLoading || true
+                          ? overscanRowStopIndex
+                          : visibleRowStopIndex;
+
+                      const visibleStartIndex = startRow * endCol;
+                      const visibleStopIndex = endRow * endCol;
+
+                      onItemsRendered({
+                        //call onItemsRendered from InfiniteLoader so it can load more if needed
+                        visibleStartIndex,
+                        visibleStopIndex,
+                      });
+                    };
 
                     return (
                       <Grid
@@ -227,6 +231,7 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
                         onItemsRendered={newItemsRendered}
                         ref={ref}
                         itemData={{
+                          scrollPosition: scrollPosition,
                           widthBorder: widthBorder,
                           movies: movies,
                           columnCount: columnCount,
@@ -237,10 +242,10 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
                       </Grid>
                     );
                   }}
-                </AutoSizer>
+                </InfiniteLoader>
               );
             }}
-          </InfiniteLoader>
+          </AutoSizer>
         ) : (
           <CircleLoader />
         )}
