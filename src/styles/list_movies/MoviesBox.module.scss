@@ -99,9 +99,14 @@
     padding: 3px 8px;
   }
 }
-
+.mobile-box-overlay-absolute {
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+  color: $primary-color;
+  top: 0;
+}
 .box-container-absolute {
-  pointer-events: none;
   display: flex;
   position: absolute;
   flex-direction: column;
@@ -109,6 +114,7 @@
   color: $primary-color;
   top: 0;
   justify-content: flex-end;
+  cursor: pointer;
 
   &::before {
     content: "";
@@ -203,7 +209,11 @@
     height: 150px;
   }
   .box-container-absolute {
-    pointer-events: all;
+    pointer-events: none;
+  }
+  .mobile-box-overlay-absolute {
+    z-index: 10;
+    visibility: visible;
   }
   .small-box-absolute {
     font-size: 9px;
@@ -278,8 +288,12 @@
     width: 220px;
     height: 150px;
   }
+  .mobile-box-overlay-absolute {
+    z-index: 10;
+    visibility: visible;
+  }
   .box-container-absolute {
-    pointer-events: all;
+    pointer-events: none;
   }
   .small-box-absolute {
     font-size: 9px;

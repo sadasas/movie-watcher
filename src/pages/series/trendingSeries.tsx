@@ -15,6 +15,8 @@ import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 import CircleLoader from "@/components/loader/CircleLoader";
 import { getTypeMovies } from "../api/getTypeMovies";
+import { useAppSelector } from "@/store/hooks";
+import PopupTrailer from "@/components/movies/PopupTrailer";
 
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
   loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
@@ -90,6 +92,7 @@ function TrendingSeries({
     keepPreviousData: true,
     cacheTime: Infinity,
   });
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   const isItemLoaded = (index: number) => !!itemStatusMap[index];
 
@@ -248,6 +251,7 @@ function TrendingSeries({
           <CircleLoader />
         )}
       </main>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

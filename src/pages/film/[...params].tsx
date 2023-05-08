@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IoMdAddCircle } from "react-icons/io";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { useQuery } from "react-query";
+import { BsFillPlayFill } from "react-icons/bs";
 
 import styles from "@/styles/Movie.module.scss";
 import { IParsedUrlQueryMovie } from "@/models/route";
@@ -12,9 +13,12 @@ import { IMovie } from "@/models/movie";
 import { getMainActors } from "@/pages/api/getMainActor";
 import { getCreators } from "@/pages/api/getCreator";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
-import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
+import { addBookmark, removeBookmark } from "@/features/bookmark/bookmarkSlice";
+import { setNotificationBookmark } from "@/features/bookmark/bookmarkNotificationSlice";
 import CircleLoader from "@/components/loader/CircleLoader";
+import { getTrailer } from "../api/getTrailer";
+import { togglePopup } from "@/features/popup/popupTrailerSlice";
+import PopupTrailer from "@/components/movies/PopupTrailer";
 
 function Film() {
   const router = useRouter();
@@ -22,6 +26,18 @@ function Film() {
   const [movie, setMovie] = useState<IMovie | null>(null);
   const movies = useAppSelector((state) => state.reducer.bookmark.value);
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
+
+  const {
+    data: trailer,
+    status: trailerStatus,
+    isLoading: trailerLoading,
+  } = useQuery({
+    queryKey: ["trailer"],
+    queryFn: () => getTrailer(movie!.id),
+    enabled: movie !== null,
+    structuralSharing: false,
+    cacheTime: 0,
+  });
 
   const {
     data: cast,
@@ -46,6 +62,7 @@ function Film() {
     structuralSharing: false,
     cacheTime: 0,
   });
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   const placeholderList = "/img/placeholder/placeholderList.svg";
   const emptyCastProfile = "/img/placeholder/placeholderProfile.svg";
@@ -62,6 +79,10 @@ function Film() {
     dispatch(removeBookmark(movie!.id));
   };
 
+  const toggleTrailerHandler = () => {
+    if (trailer === null || trailer === undefined) return;
+    dispatch(togglePopup(trailer!));
+  };
   useEffect(() => {
     if (router.isReady) {
       const movieParsed = JSON.parse(
@@ -120,9 +141,17 @@ function Film() {
 
             <div className={styles["box-container"]}>
               <div
+                onClick={toggleTrailerHandler}
                 className={`${styles["content-container"]} ${styles["box-content-container"]}`}
               >
                 <h5 className={styles.title}>TRAILER</h5>
+                {trailerLoading || trailerStatus === "idle" ? (
+                  <div className={styles["trailer-icon"]}>
+                    <CircleLoader />
+                  </div>
+                ) : (
+                  <BsFillPlayFill className={styles["trailer-icon"]} />
+                )}
               </div>
               <div
                 className={`${styles["content-container"]} ${styles["box-content-container"]}`}
@@ -228,6 +257,7 @@ function Film() {
           </div>
         </div>
       </div>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

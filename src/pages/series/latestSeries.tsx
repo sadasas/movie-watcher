@@ -15,6 +15,8 @@ import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 import CircleLoader from "@/components/loader/CircleLoader";
 import { getLatestSeries } from "../api/series/getLatestSeries";
+import PopupTrailer from "@/components/movies/PopupTrailer";
+import { useAppSelector } from "@/store/hooks";
 
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
   loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
@@ -85,6 +87,8 @@ function LatestSeries({ scrollPosition }: { scrollPosition: ScrollPosition }) {
     keepPreviousData: true,
     cacheTime: Infinity,
   });
+
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   const isItemLoaded = (index: number) => !!itemStatusMap[index];
 
@@ -244,6 +248,7 @@ function LatestSeries({ scrollPosition }: { scrollPosition: ScrollPosition }) {
           <CircleLoader />
         )}
       </main>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

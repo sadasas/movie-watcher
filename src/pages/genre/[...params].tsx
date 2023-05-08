@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 import InfiniteLoader from "react-window-infinite-loader";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { useInfiniteQuery } from "react-query";
 
 import { Genre, Genre as genreType, IMovie } from "@/models/movie";
 import { getGenreMovies } from "@/pages/api/getGenreMovies";
@@ -16,7 +17,8 @@ import { IParsedUrlQueryGenre, IParsedUrlQueryTypeMovie } from "@/models/route";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
 import CircleLoader from "@/components/loader/CircleLoader";
-import { useInfiniteQuery } from "react-query";
+import PopupTrailer from "@/components/movies/PopupTrailer";
+import { useAppSelector } from "@/store/hooks";
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
   loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
 });
@@ -80,13 +82,16 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const router = useRouter();
   const [genre, setGenre] = useState<Genre | null>(null);
   const { data, error, fetchNextPage, status } = useInfiniteQuery({
-    queryKey: ["genreMovies"],
+    queryKey: [genre],
     queryFn: ({ pageParam = 1 }) =>
       getGenreMovies(pageParam, genre!, 20, 2005, 2022),
     enabled: false,
-    structuralSharing: false,
-    cacheTime: 0,
+    staleTime: Infinity,
+    keepPreviousData: true,
+    cacheTime: Infinity,
   });
+
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   const isItemLoaded = (index: number) => !!itemStatusMap[index];
   const loadMoreItems = (startIndex: number, stopIndex: number) => {
@@ -250,6 +255,7 @@ function GenreMovie({ scrollPosition }: { scrollPosition: ScrollPosition }) {
           <CircleLoader />
         )}
       </main>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

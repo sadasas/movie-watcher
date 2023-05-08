@@ -1,4 +1,4 @@
-import { ICast, ICreator, IMovie, IRating } from "./movie";
+import { ICast, ICreator, IMovie, IRating, ITrailer } from "./movie";
 
 export interface IResponseDataMovie {
   entries: number;
@@ -14,4 +14,8 @@ export interface IResponseDataCast {
 export interface IResponseDataCreator {
   entries: number;
   results: ICreator[];
+}
+
+export interface IResponseDataTrailer {
+  results: ITrailer;
 }

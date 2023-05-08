@@ -1,16 +1,19 @@
 import { IoMdAddCircle } from "react-icons/io";
+import React, { useEffect, useState } from "react";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { LazyLoadImage, ScrollPosition } from "react-lazy-load-image-component";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
 import styles from "@/styles/list_movies/MoviesBox.module.scss";
 import { IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBookmark, removeBookmark } from "@/store/bookmark/bookmarkSlice";
-import { useEffect, useState } from "react";
-import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
+import { addBookmark, removeBookmark } from "@/features/bookmark/bookmarkSlice";
+import { setNotificationBookmark } from "@/features/bookmark/bookmarkNotificationSlice";
+import { getTrailer } from "@/pages/api/getTrailer";
+import { togglePopup } from "@/features/popup/popupTrailerSlice";
 
 function MoviesBox({
   boxType,
@@ -23,6 +26,20 @@ function MoviesBox({
 }) {
   const [isMovieBookmarked, setIsMovieBookmarked] = useState(false);
   const movies = useAppSelector((state) => state.reducer.bookmark.value);
+  const {
+    data: trailer,
+    status: trailerStatus,
+    isLoading: trailerLoading,
+  } = useQuery({
+    queryKey: [movie.id],
+    queryFn: () => getTrailer(movie!.id),
+    enabled: movie !== null,
+    structuralSharing: false,
+    cacheTime: Infinity,
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const PlaceholderVertical = "/img/placeholder/placeholderMovieVertical.svg";
   const PlaceholderHorizontal =
@@ -40,6 +57,10 @@ function MoviesBox({
   const removeBookmarkHandler = (e: React.MouseEvent<SVGAElement>) => {
     e.stopPropagation();
     dispatch(removeBookmark(movie.id));
+  };
+  const toggleTrailerHandler = () => {
+    if (trailer === null || trailer === undefined) return;
+    dispatch(togglePopup(trailer!));
   };
   useEffect(() => {
     if (movies.length < 1) {
@@ -81,46 +102,60 @@ function MoviesBox({
         />
       )}
       {movie.titleText.text != "" && (
-        <div
-          onClick={() => {
-            router.push({
-              pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
-              query: { movie: JSON.stringify(movie) },
-            });
-          }}
-          className={`${styles["box-container-absolute"]} ${
-            boxType == BoxType.Small
-              ? styles["small-box-absolute"]
-              : boxType == BoxType.Medium
-              ? styles["medium-box-absolute"]
-              : styles["large-box-absolute"]
-          }`}
-        >
-          <h2>{movie.titleText.text}</h2>
-          <h4>{movie.releaseDate.year}</h4>
-          <div className={styles.btns}>
-            <Link
-              href={{
+        <>
+          {/* mobile device overlay */}
+          <div
+            onClick={() => {
+              router.push({
                 pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
                 query: { movie: JSON.stringify(movie) },
-              }}
-              className={`${styles.btn} ${styles["btn-see"]} `}
-            >
-              See detail
-            </Link>
-            {isMovieBookmarked ? (
-              <BsFillBookmarkCheckFill
-                onClick={removeBookmarkHandler}
-                className={`${styles.btn} ${styles["btn-remove-bookmark"]} `}
-              />
-            ) : (
-              <IoMdAddCircle
-                onClick={addBookmarkHandler}
-                className={`${styles.btn} ${styles["btn-add-bookmark"]} `}
-              />
-            )}
+              });
+            }}
+            className={`${styles["mobile-box-overlay-absolute"]} ${
+              boxType == BoxType.Small
+                ? styles["small-box-absolute"]
+                : boxType == BoxType.Medium
+                ? styles["medium-box-absolute"]
+                : styles["large-box-absolute"]
+            }`}
+          />
+          <div
+            onClick={toggleTrailerHandler}
+            className={`${styles["box-container-absolute"]} ${
+              boxType == BoxType.Small
+                ? styles["small-box-absolute"]
+                : boxType == BoxType.Medium
+                ? styles["medium-box-absolute"]
+                : styles["large-box-absolute"]
+            }`}
+          >
+            <h2>{movie.titleText.text}</h2>
+            <h4>{movie.releaseDate.year}</h4>
+            <div className={styles.btns}>
+              <Link
+                onClick={(event: React.MouseEvent) => event.stopPropagation()}
+                href={{
+                  pathname: `/${MovieType[type].toLocaleLowerCase()}/params`,
+                  query: { movie: JSON.stringify(movie) },
+                }}
+                className={`${styles.btn} ${styles["btn-see"]} `}
+              >
+                See detail
+              </Link>
+              {isMovieBookmarked ? (
+                <BsFillBookmarkCheckFill
+                  onClick={removeBookmarkHandler}
+                  className={`${styles.btn} ${styles["btn-remove-bookmark"]} `}
+                />
+              ) : (
+                <IoMdAddCircle
+                  onClick={addBookmarkHandler}
+                  className={`${styles.btn} ${styles["btn-add-bookmark"]} `}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

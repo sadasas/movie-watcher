@@ -99,7 +99,12 @@
   text-align: center;
   border-radius: 10px;
   padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
   background-color: rgb(48, 47, 47);
+  &:first-child {
+    cursor: pointer;
+  }
 }
 
 .content-container {
@@ -153,6 +158,17 @@
   gap: 20px;
 }
 
+.trailer-icon {
+  width: 50%;
+  height: 50%;
+  font-size: 4rem;
+
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
+  }
+}
 @include respond(extraSmall) {
   .movie-image-container {
     height: fit-content;

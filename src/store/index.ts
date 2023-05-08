@@ -16,8 +16,9 @@ import {
   REGISTER,
 } from "redux-persist";
 
-import bookmarkReducer from "@/store/bookmark/bookmarkSlice";
-import bookmarkNotificationReducer from "./bookmark/bookmarkNotificationSlice";
+import bookmarkReducer from "@/features/bookmark/bookmarkSlice";
+import bookmarkNotificationReducer from "@/features/bookmark/bookmarkNotificationSlice";
+import popupTrailerReducer from "@/features/popup/popupTrailerSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   bookmark: bookmarkReducer,
   bookmarkNotification: bookmarkNotificationReducer,
+  popupTrailer: popupTrailerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

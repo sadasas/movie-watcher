@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import {
   LazyLoadComponent,
   ScrollPosition,
@@ -13,6 +13,9 @@ import BannerLoader from "@/components/loader/BannerLoader";
 import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
 import { getTypeMovies } from "./api/getTypeMovies";
 import { getLatestMovies } from "./api/getLatestMovies";
+import PopupTrailer from "@/components/movies/PopupTrailer";
+import { useAppSelector } from "@/store/hooks";
+import popupTrailerSlice from "@/features/popup/popupTrailerSlice";
 const Banner = lazy(() => import("@/components/movies/Banner"));
 const Movies = lazy(() => import("@/components/movies/Movies"));
 
@@ -33,6 +36,8 @@ function Home({
   comedyMoviesData: IMovie[];
   scrollPosition: ScrollPosition;
 }) {
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
+
   return (
     <section id="home" className={styles["home-container"]}>
       <LazyLoadComponent
@@ -41,7 +46,6 @@ function Home({
       >
         <Banner title="" movies={bannerMoviesData} />
       </LazyLoadComponent>
-
       <LazyLoadComponent
         placeholder={<ListMoviesLoader row={1} column={3} width={900} />}
         scrollPosition={scrollPosition}
@@ -131,6 +135,7 @@ function Home({
           />
         </Suspense>
       </LazyLoadComponent>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

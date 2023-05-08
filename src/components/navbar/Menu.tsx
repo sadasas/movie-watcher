@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import styles from "@/styles/navbar/Menu.module.scss";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
+import { setNotificationBookmark } from "@/features/bookmark/bookmarkNotificationSlice";
 
 function List({
   Icon,

@@ -9,12 +9,14 @@ import styles from "@/styles/Bookmark.module.scss";
 import { useAppSelector } from "@/store/hooks";
 import { BoxType } from "@/models/box";
 import MovieBoxLoader from "@/components/loader/MovieBoxLoader";
+import PopupTrailer from "@/components/movies/PopupTrailer";
 const MoviesBox = dynamic(() => import("@/components/movies/MoviesBox"), {
   loading: () => <MovieBoxLoader row={1} column={1} width={150} />,
 });
 
 function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
   const movies = useAppSelector((state) => state.reducer.bookmark.value);
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   return (
     <section id="bookmark" className="container">
@@ -39,6 +41,7 @@ function Bookmark({ scrollPosition }: { scrollPosition: ScrollPosition }) {
           )}
         </div>
       </main>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }

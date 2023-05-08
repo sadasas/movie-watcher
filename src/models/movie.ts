@@ -156,6 +156,11 @@ export interface ICreator {
   }>;
 }
 
+export interface ITrailer {
+  id: string;
+  trailer: string;
+}
+
 export enum Genre {
   Action = 0,
   Adult,

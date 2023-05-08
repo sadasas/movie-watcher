@@ -5,7 +5,7 @@ import { MdMonitor } from "react-icons/md";
 import { MenuNav } from "./navbar/Navbar";
 import styles from "@/styles/MobileMenu.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setNotificationBookmark } from "@/store/bookmark/bookmarkNotificationSlice";
+import { setNotificationBookmark } from "@/features/bookmark/bookmarkNotificationSlice";
 
 function MobileMenu({
   selectedMenu,

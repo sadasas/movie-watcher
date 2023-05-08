@@ -12,6 +12,8 @@ import { Genre, IMovie, MovieType } from "@/models/movie";
 import { BoxType } from "@/models/box";
 import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
 import { getTypeMovies } from "../api/getTypeMovies";
+import PopupTrailer from "@/components/movies/PopupTrailer";
+import { useAppSelector } from "@/store/hooks";
 const Movies = lazy(() => import("@/components/movies/Movies"));
 
 function Home({
@@ -33,6 +35,8 @@ function Home({
   fantasyMoviesData: IMovie[];
   scrollPosition: ScrollPosition;
 }) {
+  const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
+
   return (
     <section id="films" className={styles["home-container"]}>
       <LazyLoadComponent
@@ -159,6 +163,7 @@ function Home({
           />
         </Suspense>
       </LazyLoadComponent>
+      {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
 }
