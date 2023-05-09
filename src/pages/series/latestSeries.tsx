@@ -34,9 +34,7 @@ function LatestSeries() {
       !data.pages[data.pages.length - 1].hasNextItems
     )
       return;
-    for (let index = startIndex; index <= stopIndex; index++) {
-      itemStatusMap[index] = ScrollableItemProccess.LOADING;
-    }
+
     return getDataMovieHandler(startIndex, stopIndex, page);
   };
 
@@ -45,10 +43,14 @@ function LatestSeries() {
     stopIndex: number,
     index: number
   ) => {
-    await fetchNextPage({ pageParam: index });
-
     for (let index = startIndex; index <= stopIndex; index++) {
-      itemStatusMap[index] = ScrollableItemProccess.LOADED;
+      itemStatusMap[index] = ScrollableItemProccess.LOADING;
+    }
+    await fetchNextPage({ pageParam: index });
+    if (status === "success") {
+      for (let index = startIndex; index <= stopIndex; index++) {
+        itemStatusMap[index] = ScrollableItemProccess.LOADED;
+      }
     }
   };
 
@@ -78,6 +80,7 @@ function LatestSeries() {
             loadMoreItems={loadMoreItems}
             isItemLoaded={isItemLoaded}
             itemStatusMap={itemStatusMap}
+            hasNextItems={data.pages[data.pages.length - 1].hasNextItems}
           />
         ) : (
           <CircleLoader />

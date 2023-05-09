@@ -79,6 +79,7 @@ function TrendingFilm() {
             loadMoreItems={loadMoreItems}
             isItemLoaded={isItemLoaded}
             itemStatusMap={itemStatusMap}
+            hasNextItems={data.pages[data.pages.length - 1].hasNextItems}
           />
         ) : (
           <CircleLoader />

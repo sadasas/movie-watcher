@@ -34,7 +34,11 @@ const Cell = ({
     cellGap,
     widthBorder,
     itemStatusMap,
+    hasNextItems,
+    rowCount,
   }: {
+    rowCount: number;
+    hasNextItems: boolean;
     movies: IMovie[];
     scrollPosition: ScrollPosition;
     columnCount: number;
@@ -60,9 +64,10 @@ const Cell = ({
     right: columnIndex === columnCount ? style.right : columnIndex * cellGap,
     top: rowIndex === 0 ? style.top : Number(style.top) + rowIndex * cellGap,
   };
+
   return (
     <div className={styles["box"]} style={gapStyle}>
-      {itemStatusMap[currentIndex] === ScrollableItemProccess.LOADING ? (
+      {rowIndex == rowCount - 1 && hasNextItems ? (
         <MovieBoxLoader row={1} column={1} width={150} />
       ) : (
         <MoviesBox
@@ -77,11 +82,13 @@ const Cell = ({
 
 function ScrollableListMovies({
   dataF,
+  hasNextItems,
   isItemLoaded,
   loadMoreItems,
   scrollPosition,
   itemStatusMap,
 }: {
+  hasNextItems: boolean;
   dataF: () => IMovie[];
   isItemLoaded: (index: number) => boolean;
   loadMoreItems: (
@@ -95,7 +102,7 @@ function ScrollableListMovies({
     <AutoSizer>
       {({ height, width }) => {
         let columnCount = 2;
-        let rowCount: number;
+        let rowCount: number = 0;
         let itemHeigth = 135;
         let itemWidth = 100;
         const cellGap = 10;
@@ -180,15 +187,18 @@ function ScrollableListMovies({
                   rowCount={rowCount}
                   rowHeight={itemHeigth}
                   width={width!}
+                  overscanRowCount={1}
                   onItemsRendered={newItemsRendered}
                   ref={ref}
                   itemData={{
+                    hasNextItems: hasNextItems,
                     scrollPosition: scrollPosition,
                     widthBorder: widthBorder,
                     movies: movies,
                     columnCount: columnCount,
                     cellGap: cellGap,
                     itemStatusMap: itemStatusMap,
+                    rowCount: rowCount,
                   }}
                 >
                   {Cell}
