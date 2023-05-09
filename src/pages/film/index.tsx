@@ -14,7 +14,7 @@ import ListMoviesLoader from "@/components/loader/ListMoviesLoader";
 import { getTypeMovies } from "../api/getTypeMovies";
 import PopupTrailer from "@/components/movies/PopupTrailer";
 import { useAppSelector } from "@/store/hooks";
-const Movies = lazy(() => import("@/components/movies/Movies"));
+import Movies from "@/components/movies/Movies";
 
 function Home({
   trendingMoviesData,
@@ -39,130 +39,74 @@ function Home({
 
   return (
     <section id="films" className={styles["home-container"]}>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={2} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={2} width={900} />}
-        >
-          <Movies
-            urlBase="/film/trendingFilms"
-            urlBaseParams={null}
-            title="Trending film"
-            movies={trendingMoviesData}
-            typeBox={BoxType.Large}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
-        >
-          <Movies
-            urlBase="/film/latestFilms"
-            urlBaseParams={null}
-            title="Latest film"
-            movies={latesMoviesData}
-            typeBox={BoxType.Small}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
-        >
-          <Movies
-            urlBase="/genre/params"
-            urlBaseParams={{
-              genre: Genre[Genre.Comedy],
-              index: Genre["Comedy"],
-            }}
-            title="Comedy"
-            movies={comedyMoviesData}
-            typeBox={BoxType.Small}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
-        >
-          <Movies
-            urlBase="/genre/params"
-            urlBaseParams={{
-              genre: Genre[Genre.Romance],
-              index: Genre["Romance"],
-            }}
-            title="Romance"
-            movies={romanceMoviesData}
-            typeBox={BoxType.Small}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={3} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={3} width={900} />}
-        >
-          <Movies
-            urlBase="/film/topRatedFilms"
-            urlBaseParams={null}
-            title="Top Rated"
-            movies={topRatedMoviesData}
-            typeBox={BoxType.Medium}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
-        >
-          <Movies
-            urlBase="/genre/params"
-            urlBaseParams={{
-              genre: Genre[Genre.Horror],
-              index: Genre["Horror"],
-            }}
-            title="Horror"
-            movies={hororMoviesData}
-            typeBox={BoxType.Small}
-          />
-        </Suspense>
-      </LazyLoadComponent>
-      <LazyLoadComponent
-        scrollPosition={scrollPosition}
-        placeholder={<ListMoviesLoader row={1} column={5} width={900} />}
-      >
-        <Suspense
-          fallback={<ListMoviesLoader row={1} column={5} width={900} />}
-        >
-          <Movies
-            urlBase="/genre/params"
-            urlBaseParams={{
-              genre: Genre[Genre.Fantasy],
-              index: Genre["Fantasy"],
-            }}
-            title="Fantasy"
-            movies={fantasyMoviesData}
-            typeBox={BoxType.Small}
-          />
-        </Suspense>
-      </LazyLoadComponent>
+      <Movies
+        urlBase="/film/trendingFilms"
+        urlBaseParams={null}
+        title="Trending film"
+        movies={trendingMoviesData}
+        typeBox={BoxType.Large}
+      />
+
+      <Movies
+        urlBase="/film/latestFilms"
+        urlBaseParams={null}
+        title="Latest film"
+        movies={latesMoviesData}
+        typeBox={BoxType.Small}
+      />
+
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Comedy],
+          index: Genre["Comedy"],
+        }}
+        title="Comedy"
+        movies={comedyMoviesData}
+        typeBox={BoxType.Small}
+      />
+
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Romance],
+          index: Genre["Romance"],
+        }}
+        title="Romance"
+        movies={romanceMoviesData}
+        typeBox={BoxType.Small}
+      />
+
+      <Movies
+        urlBase="/film/topRatedFilms"
+        urlBaseParams={null}
+        title="Top Rated"
+        movies={topRatedMoviesData}
+        typeBox={BoxType.Medium}
+      />
+
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Horror],
+          index: Genre["Horror"],
+        }}
+        title="Horror"
+        movies={hororMoviesData}
+        typeBox={BoxType.Small}
+      />
+
+      <Movies
+        urlBase="/genre/params"
+        urlBaseParams={{
+          genre: Genre[Genre.Fantasy],
+          index: Genre["Fantasy"],
+        }}
+        title="Fantasy"
+        movies={fantasyMoviesData}
+        typeBox={BoxType.Small}
+      />
+
       {popupToggle.isActive && <PopupTrailer />}
     </section>
   );
