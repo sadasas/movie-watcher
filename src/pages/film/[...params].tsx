@@ -62,6 +62,7 @@ function Film() {
     structuralSharing: false,
     cacheTime: 0,
   });
+
   const popupToggle = useAppSelector((state) => state.reducer.popupTrailer);
 
   const placeholderList = "/img/placeholder/placeholderList.svg";
