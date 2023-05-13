@@ -112,74 +112,71 @@ function Film() {
 
   return (
     <section id="film">
-      {movie && movie!.primaryImage && (
-        <div className={styles["movie-image-container"]}>
-          <LazyLoadImage src={movie!.primaryImage.url} />
-          <div className={styles["img-overlay"]} />
-          <div className={`container ${styles["movie-image-content"]}`}>
-            <h1>{movie!.titleText.text}</h1>
-            <div className={styles["title-container"]}>
-              <div className={styles["genre-container"]}>
-                {movie!.genres.genres.map((item, index) => (
-                  <div key={index}>
-                    <p>{item.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              {isMovieBookmarked ? (
-                <BsFillBookmarkCheckFill
-                  onClick={removeBookmarkHandler}
-                  className={styles["box-icon"]}
-                />
-              ) : (
-                <IoMdAddCircle
-                  onClick={addBookmarkHandler}
-                  className={styles["box-icon"]}
-                />
-              )}
+      <div className={styles["movie-image-container"]}>
+        <LazyLoadImage src={movie?.primaryImage?.url} />
+        <div className={styles["img-overlay"]} />
+        <div className={`container ${styles["movie-image-content"]}`}>
+          <h1>{movie?.titleText?.text}</h1>
+          <div className={styles["title-container"]}>
+            <div className={styles["genre-container"]}>
+              {movie?.genres?.genres?.map((item, index) => (
+                <div key={index}>
+                  <p>{item.text}</p>
+                </div>
+              ))}
             </div>
 
-            <div className={styles["box-container"]}>
-              <div
-                onClick={toggleTrailerHandler}
-                className={`${styles["content-container"]} ${styles["box-content-container"]}`}
-              >
-                <h5 className={styles.title}>TRAILER</h5>
-                {trailerLoading || trailerStatus === "idle" ? (
-                  <div className={styles["trailer-icon"]}>
-                    <CircleLoader />
-                  </div>
-                ) : (
-                  <BsFillPlayFill className={styles["trailer-icon"]} />
-                )}
-              </div>
-              <div
-                className={`${styles["content-container"]} ${styles["box-content-container"]}`}
-              >
-                <h5 className={styles.title}>RATING</h5>
-                <h2>
-                  {movie!.ratingsSummary
-                    ? movie!.ratingsSummary.aggregateRating
-                    : "PG"}
-                </h2>
-              </div>
-              <div
-                className={`${styles["content-container"]} ${styles["box-content-container"]}`}
-              >
-                <h5 className={styles.title}>RELEASE</h5>
-                <h2>
-                  {movie!.releaseDate
-                    ? `${movie!.releaseDate.day}/${movie!.releaseDate.month}/${
-                        movie!.releaseDate.year
-                      }`
-                    : "PG"}
-                </h2>
-              </div>
+            {isMovieBookmarked ? (
+              <BsFillBookmarkCheckFill
+                onClick={removeBookmarkHandler}
+                className={styles["box-icon"]}
+              />
+            ) : (
+              <IoMdAddCircle
+                onClick={addBookmarkHandler}
+                className={styles["box-icon"]}
+              />
+            )}
+          </div>
+
+          <div className={styles["box-container"]}>
+            <div
+              onClick={toggleTrailerHandler}
+              className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+            >
+              <h5 className={styles.title}>TRAILER</h5>
+              {trailerLoading || trailerStatus === "idle" ? (
+                <div className={styles["trailer-icon"]}>
+                  <CircleLoader />
+                </div>
+              ) : (
+                <BsFillPlayFill className={styles["trailer-icon"]} />
+              )}
+            </div>
+            <div
+              className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+            >
+              <h5 className={styles.title}>RATING</h5>
+              <h2>
+                {movie?.ratingsSummary
+                  ? movie?.ratingsSummary.aggregateRating
+                  : "PG"}
+              </h2>
+            </div>
+            <div
+              className={`${styles["content-container"]} ${styles["box-content-container"]}`}
+            >
+              <h5 className={styles.title}>RELEASE</h5>
+              <h2>
+                {movie?.releaseDate
+                  ? `${movie?.releaseDate.day}/${movie?.releaseDate.month}/${movie?.releaseDate.year}`
+                  : "PG"}
+              </h2>
             </div>
           </div>
         </div>
-      )}
+      </div>
+
       <div className={`container ${styles["movie-container"]}`}>
         <div className={styles["content-container"]}>
           <h3 className={styles.title}>Synopsis</h3>
